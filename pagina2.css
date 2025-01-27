@@ -1,22 +1,27 @@
-/* Estilos generales */
-body {
-  font-family: 'Exo', sans-serif;
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  color: #333;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-}
-/*Barra Navegación */
+.titulo-container {
+    padding-top: 23%; 
+    margin-left: 2%;
+  }
+  
+  .Titulo {
+    color: #000000; 
+    font-size: 80px;
+  }
+  
 
-/*Fondo Titulo*/
-*{
-    margin: 0px;
-    padding: 0px;
-}
+  /* Menú */
+  .nav-link {
+    color: #000000;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 110%;
+  }
+    
+  .nav-link:hover {
+    font-weight: 700; /* Aumenta ligeramente el tamaño al pasar el mouse */
+  }
+
+  /*Fondo Titulo*/
 
 .context {
     width: 100%;
@@ -151,30 +156,4 @@ body {
     }
 }
 
-/* Pie de página */
-footer {
-  background-color: #333;
-  color: #fff;
-  padding: .5rem;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer-left { padding: 0 15px; }
-.footer-right { padding: 0 30px; }
-.footer-center {
-  flex-grow: 1;
-  text-align: center;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .product-container { grid-template-columns: 1fr; }
-  footer {
-      flex-direction: column;
-      text-align: center;
-  }
-  .footer-left, .footer-right, .footer-center { padding: 5px 0; }
-}
+  
