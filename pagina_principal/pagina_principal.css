@@ -50,7 +50,7 @@ body {
 .nav-links {
     display: flex;
     justify-content: space-around;
-    width: 50%;
+    width: 60%;
 }
 .nav-links li {
     list-style: none;
@@ -62,6 +62,7 @@ body {
     font-weight: bold;
     font-size: 15px;
 }
+
 
 /*En caso de hacer mucho zoom se hace un deplegable*/
 .burger {
