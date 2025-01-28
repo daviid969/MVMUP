@@ -10,8 +10,21 @@
   
 
   /* Menú */
+  .navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 8vh;
+    background-color: #333;
+    font-family: 'Exo', sans-serif;
+    position: fixed; /* Hace que la barra sea fija en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Se asegura de estar por encima de los demás elementos */
+}
   .nav-link {
-    color: #000000;
+    color: #a11a1a;
     text-decoration: none;
     font-weight: 500;
     font-size: 110%;
@@ -20,8 +33,33 @@
   .nav-link:hover {
     font-weight: 700; /* Aumenta ligeramente el tamaño al pasar el mouse */
   }
+/*Logo*/
+  .logo {
+    width: 50px;  /* Tamaño del logo */
+    height: 50px;
+    border-radius: 50%;  /* Hace el logo completamente circular */
+    overflow: hidden;    /* Recorta la imagen para que sea circular */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
 
-  /*Fondo Titulo*/
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* Ajusta la imagen manteniendo su proporción */
+}
+
+/* Efecto hover */
+.logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 8px rgba(0,0,0,0.3);
+}
+
+/*Fondo Titulo*/
+  *{
+    margin: 0px;
+    padding: 0px;
+}
 
 .context {
     width: 100%;
@@ -33,7 +71,7 @@
 .context h1{
     text-align: center;
     color: #fff;
-    font-size: 70px;
+    font-size: 100px;
     font-family: 'Exo', sans-serif;
 }
 
@@ -155,5 +193,29 @@
         border-radius: 50%;
     }
 }
-
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: .5rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   
+  .footer-left { padding: 0 15px; }
+  .footer-right { padding: 0 30px; }
+  .footer-center {
+    flex-grow: 1;
+    text-align: center;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .product-container { grid-template-columns: 1fr; }
+    footer {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-left, .footer-right, .footer-center { padding: 5px 0; }
+  }
