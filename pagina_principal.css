@@ -1,3 +1,4 @@
+
 /* Estilos generales */
 body {
   font-family: 'Exo', sans-serif;
@@ -44,7 +45,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; /* Se asegura de estar por encima de los demás elementos */
+    z-index: 1000; /* Se asegura de estar por encima */
 }
 .nav-links {
     display: flex;
@@ -257,4 +258,14 @@ footer {
 .footer-center {
   flex-grow: 1;
   text-align: center;
+}
+
+.footer-right a {
+    background-color: #333;
+    color: #fff;
+    padding: .5rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
