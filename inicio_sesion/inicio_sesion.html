@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="/pagina_principal/pagina_principal.css">
     <link rel="stylesheet" href="/inicio_sesion/inicio_sesion.css"> <!-- Enlaza el nuevo CSS -->
 </head>
+
 <body>
 <!--Barra navegacion logo-->
 <nav class="navbar">
     <div class="logo">
         <img src="/img/logo.png" alt="Logo MVMUP">
     </div>
+
     <!--Barra navegacion-->
     <ul class="nav-links">
         <li><a href="/pagina_principal/pagina_principal.html">Inicio</a></li>
@@ -22,6 +24,7 @@
         <li><a href="/forum/forum_principal.html">Forum</a></li>
         <li><a href="/inicio_sesion/inicio_sesion.html">Inicar sesion/Registrarse</a></li>
     </ul>
+
     <!--En caso de hacer mucho zoom se hace un deplegable-->
     <div class="burger">
         <div class="line1"></div>
@@ -46,12 +49,14 @@
             
             <button type="submit">Iniciar Sesión</button>
         </form>
+        <!--Cambio de formulario de inicar sesion a registrarse-->
         <p>¿No tienes una cuenta? <button id="switch-to-register">Registrarse</button></p>
     </div>
 
     <div class="register-section" id="register-section" style="display: none;">
         <h2>Registrarse</h2>
         <form id="register-form">
+            <!--Parte registro usuario general(Osea para tanto profes como alumnos les saldra)-->
             <label for="new-username">Nombre de usuario:</label>
             <input type="text" id="new-username" name="new-username" required>
             
@@ -66,24 +71,19 @@
                 <option value="alumno">Alumno</option>
                 <option value="profesor">Profesor</option>
             </select>
-            
+        <!--Parte registro usuario alumno-->
             <div id="alumno-fields">
                 <label for="curso">Curso:</label>
-                <input type="text" id="curso" name="curso">
+                <input type="text" id="curso" name="curso" required>
                 
                 <label for="clase">Clase:</label>
-                <input type="text" id="clase" name="clase">
+                <input type="text" id="clase" name="clase" required>
                 
                 <label for="alumno-email">Correo electrónico (@institutmvm.cat):</label>
                 <input type="email" id="alumno-email" name="alumno-email" pattern=".+@institutmvm\.cat" required>
-                
-                <label for="idioma">Idioma predeterminado:</label>
-                <select id="idioma" name="idioma">
-                    <option value="es">Español</option>
-                    <option value="ca">Catalán</option>
-                </select>
             </div>
 
+<!--Parte registro usuario profesor-->
             <div id="profesor-fields" style="display: none;">
                 <label for="tutor">Tutor/No Tutor:</label>
                 <select id="tutor" name="tutor">
@@ -92,41 +92,103 @@
                 </select>
                 
                 <div id="curso-tutor">
-                    <label for="curso-tutor">Curso y Clase Tutora:</label>
-                    <input type="text" id="curso-tutor" name="curso-tutor">
-                </div>
-                
-                <div id="cursos-ensenados-container">
-                    <div class="curso-ensenado">
-                        <label for="cursos-ensenados">Curso donde enseña:</label>
-                        <select name="cursos-ensenados">
-                            <option value="1ESO">1ESO</option>
-                            <option value="2ESO">2ESO</option>
-                            <option value="3ESO">3ESO</option>
-                            <option value="4ESO">4ESO</option>
-                            <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA">BATXILLERATO DE CIENCIAS I TECNOLOGIA</option>
-                            <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES">BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES</option>
-                            <option value="DAW">DAW</option>
-                            <option value="ASIX">ASIX</option>
-                            <option value="SMIX">SMIX</option>
+                    <div class="curso-tutor">
+                        <label for="curso-tutor">Curso i clase del tutor/a</label>
+                        <select name="curso-tutor">
+                            <option value="1ESO">1ESO A</option>
+                            <option value="1ESO">1ESO B</option>
+                            <option value="1ESO">1ESO C</option>
+    
+                            <option value="2ESO">2ESO A</option>
+                            <option value="2ESO">2ESO B</option>
+                            <option value="2ESO">2ESO C</option>
+                            
+                            <option value="3ESO">3ESO A</option>
+                            <option value="3ESO">3ESO B</option>
+                            <option value="3ESO">3ESO C</option>
+                            <option value="3ESO">3ESO D</option>
+    
+                            <option value="4ESO">4ESO A</option>
+                            <option value="4ESO">4ESO B</option>
+                            <option value="4ESO">4ESO C</option>
+                            <option value="4ESO">4ESO D</option>
+    
+                            <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA">BATXILLERATO DE CIENCIAS I TECNOLOGIA 1r</option>
+                            <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA">BATXILLERATO DE CIENCIAS I TECNOLOGIA 2n</option>
+    
+                            <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES">BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 1r</option>
+                            <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES">BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 2n</option>
+    
+                            <option value="DAW">DAW 1r</option>
+                            <option value="DAW">DAW 2n</option>
+    
+                            <option value="ASIX">ASIX 1r</option>
+                            <option value="ASIX">ASIX 2n</option>
+    
+                            <option value="SMIX">SMIX 1r</option>
+                            <option value="SMIX">SMIX 2n</option>
                         </select>
-                        
-                        <label for="clases-ensenadas">Clases donde enseña (máximo 4):</label>
-                        <input type="text" name="clases-ensenadas">
-                        
-                        <label for="asignaturas">Asignaturas que enseña:</label>
-                        <input type="text" name="asignaturas">
                     </div>
+                    <!--Era una cosa que habi hecho de prueba i no se porque ahora si lo quitas se buggea el inicio de sesion i el registro-->
+                    <div id="clase-tutor">
+                        <div class="clase-tutor">    
+                    </div>
+
+                </div> 
+                </div> 
+                <!--Aqui empieza los cursos donde enseñan los profes-->
+            <div id="cursos-ensenados-container">
+                <div class="curso-ensenado">
+                    <label for="cursos-ensenados">Curso i clase donde enseña:</label>
+                    <select name="cursos-ensenados">
+                        <option value="1ESO">1ESO A</option>
+                        <option value="1ESO">1ESO B</option>
+                        <option value="1ESO">1ESO C</option>
+
+                        <option value="2ESO">2ESO A</option>
+                        <option value="2ESO">2ESO B</option>
+                        <option value="2ESO">2ESO C</option>
+                        
+                        <option value="3ESO">3ESO A</option>
+                        <option value="3ESO">3ESO B</option>
+                        <option value="3ESO">3ESO C</option>
+                        <option value="3ESO">3ESO D</option>
+
+                        <option value="4ESO">4ESO A</option>
+                        <option value="4ESO">4ESO B</option>
+                        <option value="4ESO">4ESO C</option>
+                        <option value="4ESO">4ESO D</option>
+
+                        <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA">BATXILLERATO DE CIENCIAS I TECNOLOGIA 1r</option>
+                        <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA">BATXILLERATO DE CIENCIAS I TECNOLOGIA 2n</option>
+
+                        <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES">BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 1r</option>
+                        <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES">BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 2n</option>
+
+                        <option value="DAW">DAW 1r</option>
+                        <option value="DAW">DAW 2n</option>
+
+                        <option value="ASIX">ASIX 1r</option>
+                        <option value="ASIX">ASIX 2n</option>
+
+                        <option value="SMIX">SMIX 1r</option>
+                        <option value="SMIX">SMIX 2n</option>
+                    </select>
+                    <!--Hay que poner manualmente las asignaturas-->
+                    <label for="asignaturas">Asignaturas que enseña:</label>
+                    <input type="text" name="asignaturas">
                 </div>
-                
-                <button type="button" id="add-curso">Añadir otro curso</button>
-                
-                <label for="profesor-email">Correo electrónico (@institutmvm.cat):</label>
-                <input type="email" id="profesor-email" name="profesor-email" pattern=".+@institutmvm\.cat" required>
+            </div>
+            <!--Si el profesor enseña mas de un curso/clase-->
+            <button type="button" id="add-curso">Añadir otro curso</button>
+            <!--Pide el correo i solo acepta el correo del dominio del isnti-->
+            <label for="profesor-email">Correo electrónico (@institutmvm.cat):</label>
+            <input type="email" id="profesor-email" name="profesor-email" pattern=".+@institutmvm\.cat" required>
             </div>
             
             <button type="submit">Registrarse</button>
         </form>
+        <!--Camvia del formulario de registro al de iniciar sesion-->
         <p>¿Ya tienes una cuenta? <button id="switch-to-login">Iniciar Sesión</button></p>
     </div>
 </div>
