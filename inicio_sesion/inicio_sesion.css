@@ -10,7 +10,8 @@ body {
     justify-content: center;
     align-items: center;
     overflow-x: hidden;
-    margin-top: 7rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
 }
 
 /* Contenedor principal */
@@ -30,8 +31,7 @@ body {
 /* Secciones de inicio de sesión y registro */
 .login-section, .register-section {
     width: 100%;
-    margin-bottom: 1.5rem;
-    border-top: 5rem; 
+    margin-bottom: 2.5rem;
 }
 
 .login-section h2, .register-section h2 {
@@ -78,7 +78,7 @@ button {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 1.rem;
+    margin-top: 1rem;
 }
 
 button:hover {

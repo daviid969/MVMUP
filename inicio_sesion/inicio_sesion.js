@@ -1,6 +1,5 @@
 document.getElementById('tutor').addEventListener('change', function() {
-    const cursoTutorField = document.getElementById('curso-tutor');
-    
+    const cursoTutorField = document.getElementById('curso-tutor'); 
     if (this.value === 'no-tutor') {
         cursoTutorField.style.display = 'none';
     } else {
@@ -74,9 +73,13 @@ document.getElementById('role').addEventListener('change', function() {
 document.getElementById('switch-to-register').addEventListener('click', function() {
     document.getElementById('login-section').style.display = 'none'; //El formulario login desepareze cambiado su valor de display a none
     document.getElementById('register-section').style.display = 'block'; //El formulario de registro apareze cambiado su valor de display al que estoy usando
+    document.body.style.marginTop = '11rem';
+    document.body.style.marginBottom = '10rem';
 });
 //Lo mismo pero viceversa
 document.getElementById('switch-to-login').addEventListener('click', function() {
     document.getElementById('register-section').style.display = 'none';
     document.getElementById('login-section').style.display = 'block';
+    document.body.style.marginTop = '0rem';
+    document.body.style.marginBottom = '0rem';
 });

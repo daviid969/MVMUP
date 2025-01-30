@@ -65,7 +65,10 @@
             
             <label for="surname">Apellidos:</label>
             <input type="text" id="surname" name="surname" required>
-            
+
+            <label for="alumno-email">Correo electrónico (@institutmvm.cat):</label>
+            <input type="email" id="email" name="email" pattern=".+@institutmvm\.cat" required>
+
             <label for="role">Rol:</label>
             <select id="role" name="role" required>
                 <option value="alumno">Alumno</option>
@@ -73,14 +76,42 @@
             </select>
         <!--Parte registro usuario alumno-->
             <div id="alumno-fields">
-                <label for="curso">Curso:</label>
-                <input type="text" id="curso" name="curso" required>
-                
-                <label for="clase">Clase:</label>
-                <input type="text" id="clase" name="clase" required>
-                
-                <label for="alumno-email">Correo electrónico (@institutmvm.cat):</label>
-                <input type="email" id="alumno-email" name="alumno-email" pattern=".+@institutmvm\.cat" required>
+                <label for="curso">Curso i clase:</label>
+                    <select name="curso">
+                        <option value="1ESO-A">1ESO A</option>
+                        <option value="1ESO-B">1ESO B</option>
+                        <option value="1ESO-C">1ESO C</option>
+                        <label>--------------------------------------------------------------------:</label>
+                        <option value="2ESO-A">2ESO A</option>
+                        <option value="2ESO-B">2ESO B</option>
+                        <option value="2ESO-C">2ESO C</option>
+                        
+                        <option value="3ESO-A">3ESO A</option>
+                        <option value="3ESO-B">3ESO B</option>
+                        <option value="3ESO-C">3ESO C</option>
+                        <option value="3ESO-D">3ESO D</option>
+
+                        <option value="4ESO-A">4ESO A</option>
+                        <option value="4ESO-B">4ESO B</option>
+                        <option value="4ESO-C">4ESO C</option>
+                        <option value="4ESO-D">4ESO D</option>
+
+                        <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA-1">BATXILLERATO DE CIENCIAS I TECNOLOGIA 1r</option>
+                        <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA-2">BATXILLERATO DE CIENCIAS I TECNOLOGIA 2n</option>
+
+                        <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES-1">BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 1r</option>
+                        <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES"-2>BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 2n</option>
+
+                        <option value="DAW-1">DAW 1r</option>
+                        <option value="DAW-2">DAW 2n</option>
+
+                        <option value="ASIX-1">ASIX 1r</option>
+                        <option value="ASIX-2">ASIX 2n</option>
+
+                        <option value="SMIX-1">SMIX 1r</option>
+                        <option value="SMIX-2">SMIX 2n</option>
+                    </select>
+
             </div>
 
 <!--Parte registro usuario profesor-->
@@ -92,87 +123,80 @@
                 </select>
                 
                 <div id="curso-tutor">
-                    <div class="curso-tutor">
-                        <label for="curso-tutor">Curso i clase del tutor/a</label>
+                    <label for="curso-tutor">Curso i clase del tutor/a</label>
                         <select name="curso-tutor">
-                            <option value="1ESO">1ESO A</option>
-                            <option value="1ESO">1ESO B</option>
-                            <option value="1ESO">1ESO C</option>
+                            <option value="1ESO-A">1ESO A</option>
+                            <option value="1ESO-B">1ESO B</option>
+                            <option value="1ESO-C">1ESO C</option>
     
-                            <option value="2ESO">2ESO A</option>
-                            <option value="2ESO">2ESO B</option>
-                            <option value="2ESO">2ESO C</option>
+                            <option value="2ESO-A">2ESO A</option>
+                            <option value="2ESO-B">2ESO B</option>
+                            <option value="2ESO-C">2ESO C</option>
                             
-                            <option value="3ESO">3ESO A</option>
-                            <option value="3ESO">3ESO B</option>
-                            <option value="3ESO">3ESO C</option>
-                            <option value="3ESO">3ESO D</option>
+                            <option value="3ESO-A">3ESO A</option>
+                            <option value="3ESO-B">3ESO B</option>
+                            <option value="3ESO-C">3ESO C</option>
+                            <option value="3ESO-D">3ESO D</option>
     
-                            <option value="4ESO">4ESO A</option>
-                            <option value="4ESO">4ESO B</option>
-                            <option value="4ESO">4ESO C</option>
-                            <option value="4ESO">4ESO D</option>
+                            <option value="4ESO-A">4ESO A</option>
+                            <option value="4ESO-B">4ESO B</option>
+                            <option value="4ESO-C">4ESO C</option>
+                            <option value="4ESO-D">4ESO D</option>
     
-                            <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA">BATXILLERATO DE CIENCIAS I TECNOLOGIA 1r</option>
-                            <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA">BATXILLERATO DE CIENCIAS I TECNOLOGIA 2n</option>
+                            <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA-1">BATXILLERATO DE CIENCIAS I TECNOLOGIA 1r</option>
+                            <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA-2">BATXILLERATO DE CIENCIAS I TECNOLOGIA 2n</option>
     
-                            <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES">BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 1r</option>
-                            <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES">BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 2n</option>
+                            <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES-1">BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 1r</option>
+                            <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES"-2>BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 2n</option>
     
-                            <option value="DAW">DAW 1r</option>
-                            <option value="DAW">DAW 2n</option>
+                            <option value="DAW-1">DAW 1r</option>
+                            <option value="DAW-2">DAW 2n</option>
     
-                            <option value="ASIX">ASIX 1r</option>
-                            <option value="ASIX">ASIX 2n</option>
+                            <option value="ASIX-1">ASIX 1r</option>
+                            <option value="ASIX-2">ASIX 2n</option>
     
-                            <option value="SMIX">SMIX 1r</option>
-                            <option value="SMIX">SMIX 2n</option>
+                            <option value="SMIX-1">SMIX 1r</option>
+                            <option value="SMIX-2">SMIX 2n</option>
                         </select>
                     </div>
-                    <!--Era una cosa que habi hecho de prueba i no se porque ahora si lo quitas se buggea el inicio de sesion i el registro-->
-                    <div id="clase-tutor">
-                        <div class="clase-tutor">    
-                    </div>
-
-                </div> 
-                </div> 
+            
                 <!--Aqui empieza los cursos donde enseñan los profes-->
             <div id="cursos-ensenados-container">
                 <div class="curso-ensenado">
                     <label for="cursos-ensenados">Curso i clase donde enseña:</label>
                     <select name="cursos-ensenados">
-                        <option value="1ESO">1ESO A</option>
-                        <option value="1ESO">1ESO B</option>
-                        <option value="1ESO">1ESO C</option>
+                        <option value="1ESO-A">1ESO A</option>
+                        <option value="1ESO-B">1ESO B</option>
+                        <option value="1ESO-C">1ESO C</option>
 
-                        <option value="2ESO">2ESO A</option>
-                        <option value="2ESO">2ESO B</option>
-                        <option value="2ESO">2ESO C</option>
+                        <option value="2ESO-A">2ESO A</option>
+                        <option value="2ESO-B">2ESO B</option>
+                        <option value="2ESO-C">2ESO C</option>
                         
-                        <option value="3ESO">3ESO A</option>
-                        <option value="3ESO">3ESO B</option>
-                        <option value="3ESO">3ESO C</option>
-                        <option value="3ESO">3ESO D</option>
+                        <option value="3ESO-A">3ESO A</option>
+                        <option value="3ESO-B">3ESO B</option>
+                        <option value="3ESO-C">3ESO C</option>
+                        <option value="3ESO-D">3ESO D</option>
 
-                        <option value="4ESO">4ESO A</option>
-                        <option value="4ESO">4ESO B</option>
-                        <option value="4ESO">4ESO C</option>
-                        <option value="4ESO">4ESO D</option>
+                        <option value="4ESO-A">4ESO A</option>
+                        <option value="4ESO-B">4ESO B</option>
+                        <option value="4ESO-C">4ESO C</option>
+                        <option value="4ESO-D">4ESO D</option>
 
-                        <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA">BATXILLERATO DE CIENCIAS I TECNOLOGIA 1r</option>
-                        <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA">BATXILLERATO DE CIENCIAS I TECNOLOGIA 2n</option>
+                        <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA-1">BATXILLERATO DE CIENCIAS I TECNOLOGIA 1r</option>
+                        <option value="BATXILLERATO_CIENCIAS_TECNOLOGIA-2">BATXILLERATO DE CIENCIAS I TECNOLOGIA 2n</option>
 
-                        <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES">BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 1r</option>
-                        <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES">BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 2n</option>
+                        <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES-1">BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 1r</option>
+                        <option value="BATXILLERATO_HUMANIDAD_CIENCIAS_SOCIALES"-2>BATXILLERATO DE HUMANIDAD I CIENCIAS SOCIALES 2n</option>
 
-                        <option value="DAW">DAW 1r</option>
-                        <option value="DAW">DAW 2n</option>
+                        <option value="DAW-1">DAW 1r</option>
+                        <option value="DAW-2">DAW 2n</option>
 
-                        <option value="ASIX">ASIX 1r</option>
-                        <option value="ASIX">ASIX 2n</option>
+                        <option value="ASIX-1">ASIX 1r</option>
+                        <option value="ASIX-2">ASIX 2n</option>
 
-                        <option value="SMIX">SMIX 1r</option>
-                        <option value="SMIX">SMIX 2n</option>
+                        <option value="SMIX-1">SMIX 1r</option>
+                        <option value="SMIX-2">SMIX 2n</option>
                     </select>
                     <!--Hay que poner manualmente las asignaturas-->
                     <label for="asignaturas">Asignaturas que enseña:</label>
@@ -181,15 +205,11 @@
             </div>
             <!--Si el profesor enseña mas de un curso/clase-->
             <button type="button" id="add-curso">Añadir otro curso</button>
-            <!--Pide el correo i solo acepta el correo del dominio del isnti-->
-            <label for="profesor-email">Correo electrónico (@institutmvm.cat):</label>
-            <input type="email" id="profesor-email" name="profesor-email" pattern=".+@institutmvm\.cat" required>
             </div>
-            
             <button type="submit">Registrarse</button>
+            <!--Camvia del formulario de registro al de iniciar sesion-->
+                <p>¿Ya tienes una cuenta? <button id="switch-to-login">Iniciar Sesión</button></p>
         </form>
-        <!--Camvia del formulario de registro al de iniciar sesion-->
-        <p>¿Ya tienes una cuenta? <button id="switch-to-login">Iniciar Sesión</button></p>
     </div>
 </div>
 
