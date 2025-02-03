@@ -50,7 +50,7 @@ body {
 .nav-links {
     display: flex;
     justify-content: space-around;
-    width: 60%;
+    width: 90%;
 }
 .nav-links li {
     list-style: none;
@@ -62,7 +62,13 @@ body {
     font-weight: bold;
     font-size: 15px;
 }
-
+.nav-links a:hover {
+    color: #8f94fb;
+    text-decoration: none;
+    letter-spacing: 2px;
+    font-weight: bold;
+    font-size: 17px;
+}
 
 /*En caso de hacer mucho zoom se hace un deplegable*/
 .burger {
@@ -78,12 +84,12 @@ body {
 }
 
 /*Cambiar de menu fijo a desplegable dependiado del tamño de la pantalla*/
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 70rem) {
     .nav-links {
         width: 60%;
     }
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 80rem) {
     body {
         overflow-x: hidden;
     }

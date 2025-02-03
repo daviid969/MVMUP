@@ -1,3 +1,4 @@
+/* Inicio sesion CSS */
 /* Estilos generales */
 body {
     font-family: 'Exo', sans-serif;
@@ -128,5 +129,19 @@ button:hover {
 }
 
 .curso-ensenado input, .curso-ensenado select {
+    margin-bottom: 1rem;
+}
+
+.curso-tutor {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.curso-tutor label {
+    margin-bottom: 0.5rem;
+}
+
+.curso-tutor input, .curso-tutor select {
     margin-bottom: 1rem;
 }

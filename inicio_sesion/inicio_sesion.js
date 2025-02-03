@@ -1,12 +1,4 @@
-document.getElementById('tutor').addEventListener('change', function() {
-    const cursoTutorField = document.getElementById('curso-tutor'); 
-    if (this.value === 'no-tutor') {
-        cursoTutorField.style.display = 'none';
-    } else {
-        cursoTutorField.style.display = 'block';
-    }
-});
-
+//Inicio sesion JS
 document.getElementById('add-curso').addEventListener('click', function() {
     const container = document.getElementById('cursos-ensenados-container');
     const newCurso = document.createElement('div');
@@ -48,7 +40,6 @@ document.getElementById('add-curso').addEventListener('click', function() {
                             <option value="SMIX">SMIX 2n</option>
                         </select>
     
-        
         <label for="asignaturas">Asignaturas que enseña:</label>
         <input type="text" name="asignaturas">
     `;
