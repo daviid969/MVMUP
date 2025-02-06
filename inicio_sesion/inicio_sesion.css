@@ -2,84 +2,17 @@
 /* Estilos generales */
 body {
     background: linear-gradient(135deg, #4e54c8, #8f94fb);
-}
-
-label {
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-    color: #333;
-    font-size: 1rem;
-}
-
-input, select {
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-}
-
-input:focus, select:focus {
-    border-color: #4e54c8;
-    outline: none;
-}
-
-button {
-    padding: 1rem;
-    background-color: #4e54c8;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 1rem;
-}
-
-button:hover {
-    background-color: #8f94fb;
-}
-/* Ajustes específicos para los campos de registro */
-#alumno-fields, #profesor-fields {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-}
+  }
+  main {
+    flex: 1 0 auto;
+  }
+  footer {
+    flex-shrink: 0;
+  }
 
-#alumno-fields label, #profesor-fields label {
-    margin-bottom: 0.5rem;
-}
-
-#alumno-fields input, #profesor-fields input,
-#alumno-fields select, #profesor-fields select {
-    margin-bottom: 1rem;
-}
-
-/* Ajustes para los campos de cursos enseñados */
-.curso-ensenado {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-}
-
-.curso-ensenado label {
-    margin-bottom: 0.5rem;
-}
-
-.curso-ensenado input, .curso-ensenado select {
-    margin-bottom: 1rem;
-}
-
-
-
-/* Ajustes para espaciado uniforme */
-.mb-3 {
-    margin-bottom: 1rem !important;
-}
-
-button[type="submit"] {
-    margin-top: 1rem;
-}
 
 /* Estilo para el botón de eliminar curso */
 .remove-curso {

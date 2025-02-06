@@ -1,4 +1,4 @@
-let cursoCount = 0;
+/*let cursoCount = 0;
 
 document.getElementById('add-curso').addEventListener('click', function() {
     addCurso();
@@ -78,4 +78,4 @@ document.getElementById('role').addEventListener('change', function() {
         alumnoFields.style.display = 'none';
         profesorFields.style.display = 'block';
     }
-});
+}); */

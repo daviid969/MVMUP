@@ -3,52 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>MVMUP-Almacenamiento</title>
     <link rel="icon" href="/img/favicon-logo.ico">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- CSS -->
     <link rel="stylesheet" href="/pagina_principal/pagina_principal.css">
+    <link rel="stylesheet" href="/pagina_almacenamiento/almacenamiento.css">
 </head>
-<body >
-<!--Barra navegacion logo-->
-<nav class="navbar">
-    <div class="logo">
-        <img src="/img/logo.png" alt="Logo MVMUP">
-    </div>
-    <!--Barra navegacion-->
-    <ul class="nav-links">
-        <li><a href="/pagina_principal/pagina_principal.html">Inicio</a></li>
-        <li><a href="/quienes_somos/quines-somos.html">Sobre Nosotros</a></li>
-        <li><a href="/pagina_almacenamiento/almacenamiento.html">Almacenamiento</a></li>
-        <li><a href="/forum/forum_principal.html">Forum</a></li>
-        <li><a href="/inicio_sesion/inicio_sesion.html">Inicar sesion/Registrarse</a></li>
-    </ul>
-    <!--En caso de hacer mucho zoom se hace un deplegable-->
-    <div class="burger">
-        <div class="line1"></div>
-        <div class="line2"></div>
-        <div class="line3"></div>
-    </div>
-</nav>  
+<body class="d-flex flex-column min-vh-100">
 
-<!--Parte de abajo-->
-<footer>
-    <div class="footer-left"><!--Importar nommbre usuario de base de datos-->
-        <p>Has iniciado sesion como: </p>
+<!--Barra navegacion logo-->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <div class="container">
+
+      <a class="navbar-brand" href="/pagina_principal/pagina_principal.html">
+        <img src="/img/logo.png" alt="Logo MVMUP" class="rounded-circle" width="50" height="50">
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="/pagina_principal/pagina_principal.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="/quienes_somos/quines-somos.html">Sobre Nosotros</a></li>
+          <li class="nav-item"><a class="nav-link" href="/pagina_almacenamiento/almacenamiento.html">Almacenamiento</a></li>
+          <li class="nav-item"><a class="nav-link" href="/forum/forum_principal.html">Forum</a></li>
+          <li class="nav-item"><a class="nav-link" href="/inicio_sesion/inicio_sesion.html">Iniciar sesión/Registrarse</a></li>
+        </ul>
+      </div>
+
     </div>
-    <div class="footer-center">
+</nav>
+
+<!--Barra navegacion logo-->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/pagina_principal/pagina_principal.html">
+        <img src="/img/logo.png" alt="Logo MVMUP" class="rounded-circle" width="50" height="50">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="/pagina_principal/pagina_principal.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="/quienes_somos/quines-somos.html">Sobre Nosotros</a></li>
+          <li class="nav-item"><a class="nav-link" href="/pagina_almacenamiento/almacenamiento.html">Almacenamiento</a></li>
+          <li class="nav-item"><a class="nav-link" href="/forum/forum_principal.html">Forum</a></li>
+          <li class="nav-item"><a class="nav-link" href="/inicio_sesion/inicio_sesion.html">Iniciar sesión/Registrarse</a></li>
+        </ul>
+      </div>
+    </div>
+</nav>
+
+<main class="flex-shrink-0">
+    <div class="container mt-5 pt-5">
+        <!--Donde se mostraran los archivos guardados-->
+    </div>
+</main>
+
+<div class="upload-btn-container">
+    <button class="btn btn-primary upload-btn" data-bs-toggle="modal" data-bs-target="#uploadModal">
+        <i class="fas fa-upload"></i>
+    </button>
+</div>
+
+<!-- Modal de subida de archivos -->
+<div class="modal fade" id="uploadModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Subir Archivo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="upload.php" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="fileToUpload" class="form-label">Selecciona un archivo</label>
+                        <input type="file" name="fileToUpload" id="fileToUpload" class="form-control">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" name="submit" class="btn btn-primary">Subir</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Footer-->
+<footer class="footer mt-auto py-3 bg-dark text-white">
+    <div class="container d-flex flex-wrap justify-content-between">
+      <div class="footer-left">
+        <p>Has iniciado sesión como: </p>
+      </div>
+      <div class="footer-center text-center flex-grow-1">
         <p>&copy; IES Manuel Vazquez Montalban. Todos los derechos reservados.</p>
-    </div>
-    <div class="footer-right">
-        <p><a href="https://agora.xtec.cat/iesmvm">Modle MVM: https://agora.xtec.cat/iesmvm/</a></p>
-    </div>
-</footer>
-<footer>
-    <div class="footer-left">
-        <p></p>
-    </div>
-    <div class="footer-center">
-        <p></p>
-    </div>
-    <div class="footer-right">
-        <p></p>
+      </div>
+      <div class="footer-right text-end">
+        <p><a href="https://agora.xtec.cat/iesmvm" class="text-white text-decoration-none">Modle MVM: https://agora.xtec.cat/iesmvm/</a></p>
+      </div>
     </div>
 </footer>
+
+<!-- Bootstrap JS y Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
