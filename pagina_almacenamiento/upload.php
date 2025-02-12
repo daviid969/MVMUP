@@ -1,6 +1,6 @@
 <?php
 if(isset($_POST["submit"])) {
-  $target_dir = "home/hosting2/Descargas/";
+  $target_dir = "home/debian/Descargas/";
   $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
   if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     echo "El archivo ". basename( $_FILES["fileToUpload"]["name"]). " ha sido subido.";
