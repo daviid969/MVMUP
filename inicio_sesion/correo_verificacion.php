@@ -1,16 +1,13 @@
 <?php
 session_start();
 
-// Configurar la conexión a la base de datos
+// Conexión a la base de datos
 $servername = "192.168.1.149";
 $username = "mvmup_root";
 $password = "mvmup@KC_IP_DE";
 $dbname = "mvmup";
 
-// Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-// Comprobar conexión
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
@@ -18,7 +15,6 @@ if ($conn->connect_error) {
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
 
-    // Buscar el usuario con el token proporcionado
     $sql = "SELECT id FROM usuarios WHERE token_verificacion = ? AND cuenta_verificada = 0";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $token);
@@ -26,7 +22,6 @@ if (isset($_GET['token'])) {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // Activar la cuenta del usuario
         $row = $result->fetch_assoc();
         $user_id = $row['id'];
 
@@ -35,14 +30,14 @@ if (isset($_GET['token'])) {
         $update_stmt->bind_param("i", $user_id);
 
         if ($update_stmt->execute()) {
-            echo "Cuenta verificada correctamente. Ahora puedes iniciar sesión.";
+            echo "Cuenta verificada correctamente. Ahora puedes <a href='login.html'>iniciar sesión</a>.";
         } else {
             echo "Error al verificar la cuenta.";
         }
 
         $update_stmt->close();
     } else {
-        echo "Token inválido o la cuenta ya ha sido verificada.";
+        echo "Token inválido o cuenta ya verificada.";
     }
 
     $stmt->close();
