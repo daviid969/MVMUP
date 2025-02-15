@@ -1,54 +1,38 @@
 <?php
-// Obtener los datos del formulario
-$data = json_decode(file_get_contents('php://input'), true);
+// Parámetros de conexión a la base de datos
+$servername = "192.168.1.149"; // Cambia a tu servidor si es necesario
+$username = "mvmup_user";        // Cambia a tu usuario de la base de datos
+$password = "mvmup@KC_IP_DE";            // Cambia a tu contraseña de la base de datos
+$dbname = "mvmup";      // Cambia al nombre de tu base de datos
 
-// Verificar si los datos están completos
-if (!isset($data['username'], $data['nombre'], $data['apellidos'], $data['email'], $data['curso'], $data['password'])) {
-    echo json_encode(['success' => false, 'message' => 'Faltan datos necesarios']);
-    exit;
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Validar formato del correo electrónico
-if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-    echo json_encode(['success' => false, 'message' => 'Correo electrónico no válido']);
-    exit;
+// Verificar si se han recibido los datos del formulario
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Obtener datos del formulario
+    $new_username = mysqli_real_escape_string($conn, $_POST['new-username']);
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $surname = mysqli_real_escape_string($conn, $_POST['surname']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $curso = mysqli_real_escape_string($conn, $_POST['curso']);
+    
+    // Insertar datos en la base de datos
+    $sql = "INSERT INTO usuarios (username, name, surname, email, curso)
+            VALUES ('$new_username', '$name', '$surname', '$email', '$curso')";
+    
+    if ($conn->query($sql) === TRUE) {
+        echo "Registro exitoso.";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 }
 
-// Configuración de la base de datos
-$host = '192.168.1.149';
-$dbname = 'mvmup';
-$user = 'mvmup_user';
-$password = 'mvmup@KC_IP_DE';
-
-// Conectar a la base de datos
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
-}
-
-// Preparar los datos
-$username = $data['username'];
-$nombre = $data['nombre'];
-$apellidos = $data['apellidos'];
-$email = $data['email'];
-$curso = $data['curso'];
-$password = password_hash($data['password'], PASSWORD_BCRYPT); // Hash de la contraseña
-
-// Insertar los datos en la base de datos
-try {
-    $stmt = $pdo->prepare("INSERT INTO usuarios (username, nombre, apellidos, email, curso, password) VALUES (:username, :nombre, :apellidos, :email, :curso, :password)");
-    $stmt->execute([
-        ':username' => $username,
-        ':nombre' => $nombre,
-        ':apellidos' => $apellidos,
-        ':email' => $email,
-        ':curso' => $curso,
-        ':password' => $password
-    ]);
-
-    echo json_encode(['success' => true, 'message' => 'Registro exitoso']);
-} catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Error en el registro: ' . $e->getMessage()]);
-}
+// Cerrar la conexión
+$conn->close();
+?>
