@@ -1,5 +1,4 @@
 <?php
-session_start(); // Iniciar la sesión para acceder a los datos del usuario
 // Configurar la conexión a la base de datos
 $servername = "192.168.1.149";
 $username = "mvmup_root";  // Cambiar si usas otro usuario
@@ -35,9 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_start();
             $_SESSION['username'] = $user['username'];
             $_SESSION['email'] = $user['email'];
-            $_SESSION['nombre'] = $user['nombre'];  // Guardar nombre en la sesión
-            $_SESSION['apellidos'] = $user['apellidos'];  // Guardar apellidos en la sesión
-            header("Location: /pagina_principal/pagina_principal.php");  // Redirigir a la página principal PHP
+            header("Location: /pagina_principal/pagina_principal.html");
             exit();
         } else {
             echo "Contraseña incorrecta.";
