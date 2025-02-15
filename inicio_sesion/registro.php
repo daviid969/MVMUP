@@ -6,7 +6,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 var_dump($data); // Muestra los datos en la respuesta del servidor
 
 // Configuración de la base de datos
-$host = 'localhost';
+$host = '192.168.1.149';
 $dbname = 'mvmup';
 $user = 'mvmup_user';
 $password = 'mvmup@KC_IP_DE';
