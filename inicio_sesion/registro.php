@@ -33,14 +33,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssssss", $username, $nombre, $apellidos, $email, $curso, $password, $token_verificacion);
 
     if ($stmt->execute()) {
-        // Enviar correo de verificación al correo proporcionado por el usuario
+        // Enviar correo de verificación usando Postfix
         $asunto = "Verifica tu cuenta en MVMUP";
         $mensaje = "Hola $nombre,\n\n";
         $mensaje .= "Por favor, verifica tu cuenta haciendo clic en el siguiente enlace:\n";
         $mensaje .= "http://192.168.1.149/correo_verificacion.php?token=$token_verificacion\n\n";
         $mensaje .= "Gracias por registrarte en MVMUP.";
 
-        $headers = "From: no-reply@tudominio.com"; // Cambia esto por tu dirección de correo
+        $headers = "From: no-reply@tudominio.com\r\n";
+        $headers .= "Reply-To: no-reply@tudominio.com\r\n";
+        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
         if (mail($email, $asunto, $mensaje, $headers)) {
             echo "Registro exitoso. Por favor, revisa tu correo ($email) para verificar tu cuenta.";

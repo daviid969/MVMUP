@@ -1,14 +1,6 @@
 <?php
 session_start();
 
-// Incluir PHPMailer manualmente
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
 // Configurar la conexión a la base de datos
 $servername = "192.168.1.149";
 $username = "mvmup_root";
@@ -23,61 +15,40 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['new-username'];
-    $nombre = $_POST['name'];
-    $apellidos = $_POST['surname'];
-    $email = $_POST['email'];
-    $curso = $_POST['curso'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Encriptar la contraseña
+if (isset($_GET['token'])) {
+    $token = $_GET['token'];
 
-    // Generar un token único
-    $token_verificacion = bin2hex(random_bytes(32)); // Token de 64 caracteres
-
-    // Insertar el usuario en la base de datos
-    $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password, token_verificacion, cuenta_verificada)
-            VALUES (?, ?, ?, ?, ?, ?, ?, 0)";
+    // Buscar el usuario con el token proporcionado
+    $sql = "SELECT id FROM usuarios WHERE token_verificacion = ? AND cuenta_verificada = 0";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssss", $username, $nombre, $apellidos, $email, $curso, $password, $token_verificacion);
+    $stmt->bind_param("s", $token);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($stmt->execute()) {
-        // Configurar PHPMailer
-        $mail = new PHPMailer(true);
+    if ($result->num_rows > 0) {
+        // Activar la cuenta del usuario
+        $row = $result->fetch_assoc();
+        $user_id = $row['id'];
 
-        try {
-            // Configurar el servidor SMTP
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com'; // Servidor SMTP de Gmail
-            $mail->SMTPAuth = true;
-            $mail->Username = 'tucorreo@gmail.com'; // Tu correo de Gmail
-            $mail->Password = 'tucontraseña'; // Tu contraseña de Gmail
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Habilitar encriptación TLS
-            $mail->Port = 587; // Puerto SMTP de Gmail
+        $update_sql = "UPDATE usuarios SET cuenta_verificada = 1, token_verificacion = NULL WHERE id = ?";
+        $update_stmt = $conn->prepare($update_sql);
+        $update_stmt->bind_param("i", $user_id);
 
-            // Configurar el remitente y el destinatario
-            $mail->setFrom('no-reply@tudominio.com', 'MVMUP');
-            $mail->addAddress($email, $nombre);
-
-            // Contenido del correo
-            $mail->isHTML(true);
-            $mail->Subject = 'Verifica tu cuenta en MVMUP';
-            $mail->Body = "Hola $nombre,<br><br>
-                           Por favor, verifica tu cuenta haciendo clic en el siguiente enlace:<br>
-                           <a href='http://192.168.1.149/correo_verificacion.php?token=$token_verificacion'>
-                           Verificar cuenta</a><br><br>
-                           Gracias por registrarte en MVMUP.";
-
-            // Enviar el correo
-            $mail->send();
-            echo "Registro exitoso. Por favor, revisa tu correo ($email) para verificar tu cuenta.";
-        } catch (Exception $e) {
-            echo "Error al enviar el correo de verificación: {$mail->ErrorInfo}";
+        if ($update_stmt->execute()) {
+            echo "Cuenta verificada correctamente. Ahora puedes iniciar sesión.";
+        } else {
+            echo "Error al verificar la cuenta.";
         }
+
+        $update_stmt->close();
     } else {
-        echo "Error al registrar el usuario: " . $stmt->error;
+        echo "Token inválido o la cuenta ya ha sido verificada.";
     }
 
     $stmt->close();
-    $conn->close();
+} else {
+    echo "Token no proporcionado.";
 }
+
+$conn->close();
 ?>
