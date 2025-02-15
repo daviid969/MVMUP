@@ -2,8 +2,17 @@
 // Obtener los datos del formulario
 $data = json_decode(file_get_contents('php://input'), true);
 
-// Verificar los datos recibidos
-var_dump($data); // Muestra los datos en la respuesta del servidor
+// Verificar si los datos están completos
+if (!isset($data['username'], $data['nombre'], $data['apellidos'], $data['email'], $data['curso'], $data['password'])) {
+    echo json_encode(['success' => false, 'message' => 'Faltan datos necesarios']);
+    exit;
+}
+
+// Validar formato del correo electrónico
+if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(['success' => false, 'message' => 'Correo electrónico no válido']);
+    exit;
+}
 
 // Configuración de la base de datos
 $host = '192.168.1.149';
@@ -19,9 +28,7 @@ try {
     die("Error de conexión: " . $e->getMessage());
 }
 
-// Obtener los datos del formulario
-$data = json_decode(file_get_contents('php://input'), true);
-
+// Preparar los datos
 $username = $data['username'];
 $nombre = $data['nombre'];
 $apellidos = $data['apellidos'];
