@@ -3,7 +3,7 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Conectar con la base de datos
-    $conn = new mysqli('localhost', 'usuario', 'contraseña', 'base_de_datos');
+    
     if ($conn->connect_error) {
         die("Conexión fallida: " . $conn->connect_error);
     }
