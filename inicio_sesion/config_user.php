@@ -51,14 +51,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssss", $new_nombre, $new_apellidos, $new_email, $new_password_hashed, $userEmail);
 
     if ($stmt->execute()) {
-        // Actualización exitosa
-        $_SESSION['email'] = $new_email;  // Actualizar sesión con el nuevo correo
+        // Actualización exitosa, actualizar la sesión con los nuevos datos
+        $_SESSION['nombre'] = $new_nombre;
+        $_SESSION['apellidos'] = $new_apellidos;
+        $_SESSION['email'] = $new_email;  // Actualiza el email en la sesión
         echo "Datos actualizados con éxito!";
     } else {
         echo "Error al actualizar los datos.";
     }
 }
-
 $stmt->close();
 $conn->close();
 ?>

@@ -34,6 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_start();
             $_SESSION['username'] = $user['username'];
             $_SESSION['email'] = $user['email'];
+            $_SESSION['nombre'] = $user['nombre'];  // Guarda también el nombre
+            $_SESSION['apellidos'] = $user['apellidos'];  // Guarda también los apellidos
             header("Location: /pagina_principal/pagina_principal.html");
             exit();
         } else {
