@@ -3,7 +3,7 @@
 $host = 'localhost';
 $dbname = 'mvmup';
 $user = 'mvmup_user';
-$password = 'tu_contraseña_segura';
+$password = 'mvmup@KC_IP_DE';
 
 // Conectar a la base de datos
 try {
