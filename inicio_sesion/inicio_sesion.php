@@ -2,9 +2,9 @@
 session_start();
 
 // Conectar a la base de datos
-$servername = "localhost"; // o la IP de tu servidor de base de datos
-$username = "root";        // o tu nombre de usuario de la base de datos
-$password = "";            // o tu contraseña de la base de datos
+$servername = "192.168.1.149"; // o la IP de tu servidor de base de datos
+$username = "mvmup_root";        // o tu nombre de usuario de la base de datos
+$password = "mvmup@KC_IP_DE";            // o tu contraseña de la base de datos
 $dbname = "mvmup";         // nombre de la base de datos
 
 $conn = new mysqli($servername, $username, $password, $dbname);
