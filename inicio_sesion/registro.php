@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $apellidos = $_POST['surname'];
     $email = $_POST['email'];
     $curso = $_POST['curso'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Encriptar la contraseña
+    $password = $_POST['password'];
 
     // Preparar la consulta SQL para insertar los datos
     $stmt = $conn->prepare("INSERT INTO usuarios (username, nombre, apellidos, email, curso, password) VALUES (?, ?, ?, ?, ?, ?)");
