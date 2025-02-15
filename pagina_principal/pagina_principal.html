@@ -15,7 +15,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="/pagina_principal/pagina_principal.html">
+      <a class="navbar-brand" href="/pagina_principal/pagina_principal.php">
         <img src="/img/logo.png" alt="Logo MVMUP" class="rounded-circle" width="50" height="50">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,12 +27,15 @@
           <li class="nav-item"><a class="nav-link" href="/sobre_nosotros/quines-somos.html">Sobre Nosotros</a></li>
           <li class="nav-item"><a class="nav-link" href="/pagina_almacenamiento/almacenamiento.html">Almacenamiento</a></li>
           <li class="nav-item"><a class="nav-link" href="/forum/forum_principal.html">Forum</a></li>
-          <li class="nav-item"><a class="nav-link" href="/inicio_sesion/inicio_sesion.html">Iniciar sesión/Registrarse</a></li>
+          <li class="nav-item" id="auth-link">
+            <!-- Este enlace se actualizará dinámicamente con JavaScript -->
+            <a class="nav-link" href="/inicio_sesion/inicio_sesion.html">Iniciar sesión/Registrarse</a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
-
+  </nav>
   <!-- Animación e inicio de contenido -->
   <div class="container-fluid p-0">
     <div class="context">
@@ -73,19 +76,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <!-- JS -->
   <script src="/pagina_principal/pagina_principal.js"></script>
-  <script>
-    // Verificar si el usuario ha iniciado sesión y mostrar su nombre
-    document.addEventListener("DOMContentLoaded", function() {
-      fetch('/check_session.php') // Crear un archivo PHP para verificar la sesión
-        .then(response => response.json())
-        .then(data => {
-          if (data.loggedIn) {
-            document.getElementById('username').textContent = data.username;
-          } else {
-            document.getElementById('username').textContent = 'Invitado';
-          }
-        });
-    });
-  </script>
+  <script src="/check_sesion.js"></script>
 </body>
 </html>
