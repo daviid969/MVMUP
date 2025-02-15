@@ -77,15 +77,6 @@
     <div class="container d-flex flex-wrap justify-content-between">
 
       <div class="footer-left">
-        <p>
-          <?php 
-          if (isset($_SESSION['nombre']) && isset($_SESSION['apellidos'])) {
-              echo "Usuario: " . htmlspecialchars($_SESSION['nombre']) . " " . htmlspecialchars($_SESSION['apellidos']);
-          } else {
-              echo "No hay usuario conectado.";
-          }
-          ?>
-      </p>
       </div>
 
       <div class="footer-center text-center flex-grow-1">
