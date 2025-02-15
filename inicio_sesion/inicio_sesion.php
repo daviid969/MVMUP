@@ -21,9 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        echo "Correo electrónico recibido: $email<br>";
-        echo "Contraseña recibida: $password<br>";
-
         // Consultar si el correo electrónico existe en la base de datos
         $sql = "SELECT * FROM usuarios WHERE email = ?";
         $stmt = $conn->prepare($sql);
@@ -35,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
 
-            // Verificar si la contraseña es correcta
+            // Verificar si la contraseña es correcta utilizando password_verify
             if (password_verify($password, $user['password'])) {
                 // Iniciar sesión
                 $_SESSION['user_id'] = $user['id'];
