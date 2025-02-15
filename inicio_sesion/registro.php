@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $asunto = "Verifica tu cuenta en MVMUP";
         $mensaje = "Hola $nombre,\n\n";
         $mensaje .= "Por favor, verifica tu cuenta haciendo clic en el siguiente enlace:\n";
-        $mensaje .= "http://tudominio.com/verificar_cuenta.php?token=$token_verificacion\n\n";
+        $mensaje .= "http://192.168.149/correo_verificacion.php?token=$token_verificacion\n\n";
         $mensaje .= "Gracias por registrarte en MVMUP.";
 
         $headers = "From: no-reply@tudominio.com"; // Cambia esto por tu dirección de correo
