@@ -5,34 +5,40 @@ $username = "mvmup_user";        // Cambia a tu usuario de la base de datos
 $password = "mvmup@KC_IP_DE";            // Cambia a tu contraseña de la base de datos
 $dbname = "mvmup";      // Cambia al nombre de tu base de datos
 
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
+try {
+    // Crear conexión PDO para MariaDB
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    // Configurar el modo de error de PDO para excepciones
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Verificar la conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
+    // Verificar si se han recibido los datos del formulario
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $new_username = $_POST['new-username'];
+        $name = $_POST['name'];
+        $surname = $_POST['surname'];
+        $email = $_POST['email'];
+        $curso = $_POST['curso'];
 
-// Verificar si se han recibido los datos del formulario
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener datos del formulario
-    $new_username = mysqli_real_escape_string($conn, $_POST['new-username']);
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $surname = mysqli_real_escape_string($conn, $_POST['surname']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $curso = mysqli_real_escape_string($conn, $_POST['curso']);
-    
-    // Insertar datos en la base de datos
-    $sql = "INSERT INTO usuarios (username, name, surname, email, curso)
-            VALUES ('$new_username', '$name', '$surname', '$email', '$curso')";
-    
-    if ($conn->query($sql) === TRUE) {
+        // Preparar la consulta SQL para insertar los datos en la base de datos
+        $stmt = $conn->prepare("INSERT INTO usuarios (username, name, surname, email, curso)
+                                VALUES (:username, :name, :surname, :email, :curso)");
+
+        // Vincular los parámetros con los valores del formulario
+        $stmt->bindParam(':username', $new_username);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':surname', $surname);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':curso', $curso);
+
+        // Ejecutar la consulta
+        $stmt->execute();
+
         echo "Registro exitoso.";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
     }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
 }
 
 // Cerrar la conexión
-$conn->close();
+$conn = null;
 ?>
