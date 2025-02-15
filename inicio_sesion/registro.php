@@ -1,8 +1,8 @@
 <?php
 // Configurar la conexión a la base de datos
 $servername = "192.168.1.149";
-$username = "root";  // Cambiar si usas otro usuario
-$password = "";      // Cambiar si tienes contraseña en tu base de datos
+$username = "mvmup_root";  // Cambiar si usas otro usuario
+$password = "mvmup@KC_IP_DE";      // Cambiar si tienes contraseña en tu base de datos
 $dbname = "mvmup";
 
 // Crear conexión
