@@ -25,12 +25,13 @@ if (isset($_GET['token'])) {
         $row = $result->fetch_assoc();
         $user_id = $row['id'];
 
+        // Verificar la cuenta y eliminar el token
         $update_sql = "UPDATE usuarios SET cuenta_verificada = 1, token_verificacion = NULL WHERE id = ?";
         $update_stmt = $conn->prepare($update_sql);
         $update_stmt->bind_param("i", $user_id);
 
         if ($update_stmt->execute()) {
-            echo "Cuenta verificada correctamente. Ahora puedes <a href='login.html'>iniciar sesión</a>.";
+            echo "Cuenta verificada correctamente. <a href='login.html'>Inicia sesión</a>.";
         } else {
             echo "Error al verificar la cuenta.";
         }
