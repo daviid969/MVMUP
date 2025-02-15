@@ -1,4 +1,10 @@
 <?php
+// Obtener los datos del formulario
+$data = json_decode(file_get_contents('php://input'), true);
+
+// Verificar los datos recibidos
+var_dump($data); // Muestra los datos en la respuesta del servidor
+
 // Configuración de la base de datos
 $host = 'localhost';
 $dbname = 'mvmup';
