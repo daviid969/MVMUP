@@ -16,34 +16,42 @@ if ($conn->connect_error) {
 
 // Comprobar si los datos del formulario fueron enviados
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    // Verificar si se han recibido los datos del formulario
+    if (isset($_POST['email']) && isset($_POST['password'])) {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-    // Consultar si el correo electrónico existe en la base de datos
-    $sql = "SELECT * FROM usuarios WHERE email = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
+        echo "Correo electrónico recibido: $email<br>";
+        echo "Contraseña recibida: $password<br>";
 
-    // Verificar si existe el usuario
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
+        // Consultar si el correo electrónico existe en la base de datos
+        $sql = "SELECT * FROM usuarios WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        // Verificar si la contraseña es correcta
-        if (password_verify($password, $user['password'])) {
-            // Iniciar sesión
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
+        // Verificar si existe el usuario
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
 
-            // Redirigir al usuario a la página principal o dashboard
-            header("Location: /pagina_principal/pagina_principal.html");
-            exit();
+            // Verificar si la contraseña es correcta
+            if (password_verify($password, $user['password'])) {
+                // Iniciar sesión
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+
+                // Redirigir al usuario a la página principal o dashboard
+                header("Location: /pagina_principal/pagina_principal.html");
+                exit();
+            } else {
+                echo "Contraseña incorrecta.";
+            }
         } else {
-            echo "Contraseña incorrecta.";
+            echo "El correo electrónico no está registrado.";
         }
     } else {
-        echo "El correo electrónico no está registrado.";
+        echo "No se enviaron los datos del formulario.";
     }
 }
 
