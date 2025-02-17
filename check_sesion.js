@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
       if (data.loggedIn) {
         // Si el usuario ha iniciado sesión, actualizar el navbar
         const authLink = document.getElementById('auth-link');
-        authLink.innerHTML = '<a class="nav-link" href="/configuracion/configuracion.html">Configuración</a>';
+        authLink.innerHTML = '<a class="nav-link" href="/configuracion/index.html">Configuración</a>';
 
         // Mostrar el nombre del usuario en el footer
         document.getElementById('username').textContent = data.username;

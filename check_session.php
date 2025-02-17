@@ -4,16 +4,16 @@ session_start();
 $response = [
     'loggedIn' => false,
     'username' => '',
-    'redirect' => false // Nuevo campo para indicar si se debe redirigir
+    'redirect' => false 
 ];
 
 if (isset($_SESSION['user_id'])) {
     $response['loggedIn'] = true;
     $response['username'] = $_SESSION['username'];
 } else {
-    $response['redirect'] = true; // Indicar que se debe redirigir
+    $response['redirect'] = true; 
 }
 
-header('Content-Type: application/json'); // Especificar que la respuesta es JSON
+header('Content-Type: application/json'); 
 echo json_encode($response);
 ?>
