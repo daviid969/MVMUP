@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('username').textContent = data.username;
       } else {
         // Si no ha iniciado sesión, redirigir al login
-        window.location.href = '/inicio_sesion/inicio_sesion.html';
+        window.location.href = '/inicio_sesion/index.html';
       }
     })
     .catch(error => {
