@@ -21,14 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $curso = $_POST['curso'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    // Generar un token único
-    $token_verificacion = bin2hex(random_bytes(32));
 
     // Insertar usuario en la base de datos
-    $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password, token_verificacion, cuenta_verificada)
-            VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
+    $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password)
+            VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssss", $username, $nombre, $apellidos, $email, $curso, $password, $token_verificacion);
+    $stmt->bind_param("sssssss", $username, $nombre, $apellidos, $email, $curso, $password);
 
     } else {
         echo "Error al registrar el usuario: " . $stmt->error;
