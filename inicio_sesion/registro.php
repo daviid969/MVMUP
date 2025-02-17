@@ -10,7 +10,7 @@ $dbname = "mvmup";
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
+    die(json_encode(["success" => false, "message" => "Conexión fallida: " . $conn->connect_error]));
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -26,15 +26,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
-        die("Error en la preparación de la consulta: " . $conn->error);
+        echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conn->error]);
+        exit;
     }
 
     $stmt->bind_param("ssssss", $username, $nombre, $apellidos, $email, $curso, $password);
 
     if ($stmt->execute()) {
-        echo "Usuario registrado correctamente.";
+        echo json_encode(["success" => true, "message" => "Usuario registrado correctamente."]);
     } else {
-        echo "Error al registrar el usuario: " . $stmt->error;
+        echo json_encode(["success" => false, "message" => "Error al registrar el usuario: " . $stmt->error]);
     }
 
     $stmt->close();
