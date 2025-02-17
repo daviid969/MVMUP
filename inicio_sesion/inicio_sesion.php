@@ -35,8 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['username'] = $row['username'];
             header('Location: /pagina_principal/pagina_principal.html');
             //exit();
-            } else {
-                echo "Por favor, verifica tu cuenta antes de iniciar sesión.";
+            //} else {
+                //echo "Por favor, verifica tu cuenta antes de iniciar sesión.";
             }
         } else {
             echo "Contraseña incorrecta.";
