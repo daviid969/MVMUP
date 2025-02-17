@@ -2,7 +2,7 @@
 session_start();
 
 // Configuración de la base de datos
-$servername = "192.168.1.149";
+$servername = "192.168.1.210";
 $username = "mvmup_root";
 $password = "mvmup@KC_IP_DE";
 $dbname = "mvmup";
@@ -29,12 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Verificar la contraseña
         if (password_verify($password, $row['password'])) {
-            if ($row['cuenta_verificada'] == 1) {
+            //if ($row['cuenta_verificada'] == 1) {
                 // Iniciar sesión
-                $_SESSION['user_id'] = $row['id'];
-                $_SESSION['username'] = $row['username'];
-                header('Location: /pagina_principal/pagina_principal.html');
-                exit();
+            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['username'] = $row['username'];
+            header('Location: /pagina_principal/pagina_principal.html');
+            //exit();
             } else {
                 echo "Por favor, verifica tu cuenta antes de iniciar sesión.";
             }
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $stmt->close();
-}
+//}
 
 $conn->close();
 ?>
