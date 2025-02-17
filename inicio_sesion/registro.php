@@ -1,9 +1,5 @@
 <?php
 session_start();
-require 'vendor/autoload.php'; // Incluir PHPMailer
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 
 // Configuración de la base de datos
 $servername = "192.168.1.210";
