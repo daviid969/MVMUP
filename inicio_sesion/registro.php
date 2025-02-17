@@ -21,17 +21,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $curso = $_POST['curso'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-
     // Insertar usuario en la base de datos
     $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password)
             VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssss", $username, $nombre, $apellidos, $email, $curso, $password);
+    if ($stmt === false) {
+        die("Error en la preparación de la consulta: " . $conn->error);
+    }
 
+    $stmt->bind_param("ssssss", $username, $nombre, $apellidos, $email, $curso, $password);
+
+    if ($stmt->execute()) {
+        echo "Usuario registrado correctamente.";
     } else {
         echo "Error al registrar el usuario: " . $stmt->error;
     }
 
     $stmt->close();
     $conn->close();
+}
 ?>
