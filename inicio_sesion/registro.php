@@ -1,5 +1,6 @@
 <?php
 session_start();
+define('USER_UPLOAD_PATH', '/home');
 
 // Configuración de la base de datos
 $servername = "192.168.1.210";
