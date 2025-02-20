@@ -95,7 +95,7 @@
               logoutMessage.innerHTML = `<div class="alert alert-success">${data}</div>`;
               // Redirigir al usuario después de cerrar sesión
               setTimeout(() => {
-                window.location.href = '/inicio_sesion/index.html';
+                window.location.href = '/index.html';
               }, 2000); // Redirigir después de 2 segundos
             })
             .catch(error => {
