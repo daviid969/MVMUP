@@ -1,6 +1,6 @@
 <?php
 session_start();
-define('USER_UPLOAD_PATH', '/home');
+
 
 // Configuración de la base de datos
 $servername = "192.168.1.210";
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    $stmt->bind_param("ssssss", $username, $nombre, $apellidos, $email, $curso, $password);
+    $stmt->bind_param("ssssss", $urd);
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Usuario registrado correctamente."]);
