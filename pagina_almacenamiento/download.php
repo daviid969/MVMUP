@@ -1,7 +1,7 @@
 <?php
 if (isset($_GET['file'])) {
     $file = basename($_GET['file']);
-    $filepath = "/mvmup_stor" . $file;
+    $filepath = "/mvmup_stor/" . $file;
 
     if (file_exists($filepath)) {
         header('Content-Description: File Transfer');
