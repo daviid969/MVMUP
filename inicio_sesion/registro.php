@@ -39,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode(["success" => false, "message" => "Error al registrar el usuario: " . $stmt->error]);
     }
 
-
     $stmt->close();
     $conn->close();
 }
