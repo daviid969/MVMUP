@@ -38,10 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo json_encode(["success" => false, "message" => "Error al registrar el usuario: " . $stmt->error]);
     }
-    $sql="select * from usuarios where id ='".$_GET["id"]."' ";
-    $usuario = $_GET["id"];
-    $nombre_carpeta = "/mvmup_stor/".$usuario."";
-    @mkdir($nombre_carpeta, 0700);
 
 
     $stmt->close();
