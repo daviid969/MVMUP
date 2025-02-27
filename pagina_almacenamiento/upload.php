@@ -1,11 +1,7 @@
 <?php
-$sql="select * from usuarios where id ='".$_GET["id"]."' ";
-$usuario = $_GET["id"];
-$nombre_carpeta = "/mvmup_stor/".$usuario."";
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['fileToUpload'])) {
-     
-    $target_file = $nombre_carpeta . basename($_FILES["fileToUpload"]["name"]);
+    $target_dir = "/mvmup_stor/"; 
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 

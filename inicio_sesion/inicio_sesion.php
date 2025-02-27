@@ -33,7 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_id'] = $row['id'];
         $_SESSION['username'] = $row['username'];
         header('Location: /index.html');
-
         } else {
             echo "Contraseña incorrecta.";
         }

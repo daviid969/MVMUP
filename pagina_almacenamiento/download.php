@@ -1,11 +1,7 @@
 <?php
-$sql="select * from usuarios where id ='".$_GET["id"]."' ";
-$usuario = $_GET["id"];
-$nombre_carpeta = "/mvmup_stor/".$usuario."";
-
 if (isset($_GET['file'])) {
     $file = basename($_GET['file']);
-    $filepath = "/mvmup_stor/".$usuario."" . $file;
+    $filepath = "/mvmup_stor/" . $file;
 
     if (file_exists($filepath)) {
         header('Content-Description: File Transfer');
