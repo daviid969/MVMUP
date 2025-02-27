@@ -3,9 +3,6 @@ $sql="select * from usuarios where id ='".$_GET["id"]."' ";
 $usuario = $_GET["id"];
 $nombre_carpeta = "/mvmup_stor/".$usuario."";
 
-if(!is_dir($nombre_carpeta)){
-@mkdir($nombre_carpeta, 0700);
-}
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['fileToUpload'])) {
      
     $target_file = $nombre_carpeta . basename($_FILES["fileToUpload"]["name"]);
