@@ -33,11 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_id'] = $row['id'];
         $_SESSION['username'] = $row['username'];
         header('Location: /index.html');
-        $usuario = $row["id"];
-        $nombre_carpeta = "/mvmup_stor/".$usuario."";
-            if(!is_dir($nombre_carpeta)){
-            @mkdir($nombre_carpeta, 0700);
-            }
+
         } else {
             echo "Contraseña incorrecta.";
         }
