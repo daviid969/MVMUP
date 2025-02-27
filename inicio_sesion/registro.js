@@ -1,10 +1,12 @@
 document.getElementById('register-form').addEventListener('submit', function (e) {
     e.preventDefault(); // Evita el envío tradicional del formulario
-
+ 
+ 
     const formData = new FormData(this); // Obtiene los datos del formulario
     const messageDiv = document.getElementById('message'); // Contenedor del mensaje
-
-    fetch('/inicio_sesion/registro.php', {
+ 
+ 
+    fetch('registro.php', {
         method: 'POST',
         body: formData
     })
@@ -19,4 +21,4 @@ document.getElementById('register-form').addEventListener('submit', function (e)
     .catch(error => {
         messageDiv.innerHTML = `<div class="alert alert-danger">Error en la conexión con el servidor.</div>`;
     });
-});
+ }); 
