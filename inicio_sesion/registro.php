@@ -7,10 +7,6 @@ require_once "conexion.php";
 
 
 // Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-   die(json_encode(["success" => false, "message" => "Conexión fallida: " . $conn->connect_error]));
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $username = $_POST['new-username'];
