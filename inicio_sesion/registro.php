@@ -13,7 +13,7 @@ require_once "../conexion.php";
 // Crear conexión
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    var_dump($_POST); die;
+    //var_dump($_POST); die;
    $username = $_POST['new-username'];
    $nombre = $_POST['name'];
    $apellidos = $_POST['surname'];
