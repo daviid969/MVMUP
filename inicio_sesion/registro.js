@@ -18,4 +18,7 @@ document.getElementById('register-form').addEventListener('submit', function (e)
             messageDiv.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
         }
     })
+    .catch(error => {
+        messageDiv.innerHTML = `<div class="alert alert-danger">Error en la conexión con el servidor.</div>`;
+    });
  }); 

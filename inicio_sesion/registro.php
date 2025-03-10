@@ -3,7 +3,7 @@ session_start();
 
 // Configuración de la base de datos
 require_once "/conexion.php";
-
+echo "hola"; die;
 
 // Crear conexión
 
