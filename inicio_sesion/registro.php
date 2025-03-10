@@ -1,15 +1,8 @@
 <?php
 session_start();
 
-
-
-
-
-
-
-
 // Configuración de la base de datos
-//require_once "conexion.php";
+require_once "/conexion.php";
 
 
 // Crear conexión
