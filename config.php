@@ -1,5 +1,5 @@
 <?php
-$servername = "192.168.1.95";
+$servername = "localhost";
 $username = "mvmup_root";
 $password = "mvmup@KCIPDE";
 $dbname = "mvmup";
