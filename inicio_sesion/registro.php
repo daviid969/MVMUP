@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 session_start();
 
 // Configuración de la base de datos
-require_once "/conexion.php";
+require_once "../conexion.php";
 
 
 // Crear conexión
