@@ -1,9 +1,18 @@
 <?php
 session_start();
 
-
 // Configuración de la base de datos
-require_once "conexion.php";
+$servername = "192.168.1.95";
+$username = "mvmup_root";
+$password = "mvmup@KCIPDE";
+$dbname = "mvmup";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+   die("Conexión fallida: " . $conn->connect_error);
+}
+// Configuración de la base de datos
+//require_once "conexion.php";
 
 
 // Crear conexión
@@ -40,3 +49,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $conn->close();
 }
 ?>
+
+
