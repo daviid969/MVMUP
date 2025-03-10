@@ -1,4 +1,5 @@
 <?php
+echo "socoorro"; die;
 require_once('config.php');
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
