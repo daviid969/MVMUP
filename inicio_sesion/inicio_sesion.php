@@ -17,7 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
    // Buscar usuario en la base de datos
-   $sql = "SELECT id, username, password FROM usuarios WHERE email = ?";
+   $sql = "SELECT id, username, password FROM usuarios WHERE email =$email";
+
    $stmt = $conn->prepare($sql);
    $stmt->execute();
    $result = $stmt->get_result();
