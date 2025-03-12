@@ -1,10 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-
-ini_set('display_startup_errors', 1);
-
-error_reporting(E_ALL);
-session_start();
 
 // Configuración de la base de datos
 require_once "../conexion.php";
@@ -13,7 +7,6 @@ require_once "../conexion.php";
 // Crear conexión
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //var_dump($_POST); die;
    $username = $_POST['new-username'];
    $nombre = $_POST['name'];
    $apellidos = $_POST['surname'];
@@ -29,9 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conn->error]);
        exit;
    }
-
-
-   //$stmt->bind_param("ssssss", $urd);
 
 
    if ($stmt->execute()) {
