@@ -1,9 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-
-ini_set('display_startup_errors', 1);
-
-error_reporting(E_ALL);
 session_start();
 
 
@@ -17,9 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
    // Buscar usuario en la base de datos
-   $sql = "SELECT id, username, password FROM usuarios WHERE email =$email";
-
+   $sql = "SELECT id, username, password FROM usuarios WHERE email = ?";
    $stmt = $conn->prepare($sql);
+   $stmt->bind_param('s',$email);
    $stmt->execute();
    $result = $stmt->get_result();
 
@@ -43,7 +38,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    $stmt->close();
 }
-
-
 $conn->close();
 ?>
