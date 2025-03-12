@@ -3,14 +3,7 @@ session_start();
 
 
 // Configuración de la base de datos
-require_once "conexion.php";
-
-
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-   die("Conexión fallida: " . $conn->connect_error);
-}
+require_once "../conexion.php";
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -21,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    // Buscar usuario en la base de datos
    $sql = "SELECT id, username, password FROM usuarios WHERE email = ?";
    $stmt = $conn->prepare($sql);
-   $stmt->bind_param("s", $email);
    $stmt->execute();
    $result = $stmt->get_result();
 
