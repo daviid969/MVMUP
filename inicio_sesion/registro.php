@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    if ($stmt->execute()) {
        echo json_encode(["success" => true, "message" => "Usuario registrado correctamente."]);
+       header('Location: ./index.html');
    } else {
        echo json_encode(["success" => false, "message" => "Error al registrar el usuario: " . $stmt->error]);
    }
@@ -37,7 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    $stmt->close();
    $conn->close();
+   
 }
+
 ?>
 
 
