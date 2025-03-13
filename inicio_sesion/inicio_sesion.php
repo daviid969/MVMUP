@@ -27,7 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
            // Iniciar sesión
        $_SESSION['user_id'] = $row['id'];
        $_SESSION['username'] = $row['username'];
-       $_SESSION['email'] = $row['email'];
+       $_SESSION['email'] = $email;
+    
        header('Location: /index.html');
        } else {
            echo "Contraseña incorrecta.";
