@@ -1,9 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['email'])) {
-    http_response_code(403);
-    exit('Acceso no autorizado');
-}
+
 
 $email = $_SESSION['email'];
 if (isset($_GET['file'])) {
