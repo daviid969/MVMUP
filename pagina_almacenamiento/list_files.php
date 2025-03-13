@@ -1,7 +1,6 @@
 <?php
-require_once "../conexion.php";
-require_once "../check_session.php";
-$sql = "SELECT email password FROM usuarios WHERE id = ?";
+
+$sesion_email=$_SESSION[email];
 
 $directory = "/mvmup_stor/$sesion_email";
 $files = array_diff(scandir($directory), array('.', '..'));
