@@ -10,6 +10,7 @@ $response = [
 if (isset($_SESSION['user_id'])) {
     $response['loggedIn'] = true;
     $response['username'] = $_SESSION['username'];
+    
 } else {
     $response['redirect'] = true; 
 }

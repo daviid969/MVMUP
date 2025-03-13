@@ -26,8 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        if (password_verify($password, $row['password'])) {
            // Iniciar sesión
        $_SESSION['user_id'] = $row['id'];
-       $_SESSION['username'] = $row['username'];
-       $sesion_email['email'] = $row['email'];
+       $_SESSION['username'] = $row['email'];
        header('Location: /index.html');
        } else {
            echo "Contraseña incorrecta.";
