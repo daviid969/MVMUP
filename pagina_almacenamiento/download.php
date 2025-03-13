@@ -1,5 +1,5 @@
 <?php
-require_once "../inicio_sesion/inicio_sesion.php";
+$sesion_email=$_SESSION[email];
 if (isset($_GET['file'])) {
     $file = basename($_GET['file']);
     $filepath = "/mvmup_stor/$sesion_email" . $file;
