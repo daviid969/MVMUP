@@ -1,9 +1,19 @@
 <?php
 session_start();
+if(!isset($_SESSION['email'])) {
+    http_response_code(403);
+    exit('Acceso no autorizado');
+}
+
 $email = $_SESSION['email'];
 if (isset($_GET['file'])) {
     $file = basename($_GET['file']);
-    $filepath = "/mvmup_stor/$email" . $file;
+    
+    if (strpos($file, 'shared/') === 0) {
+        $filepath = "/mvmup_stor/" . $file;
+    } else {
+        $filepath = "/mvmup_stor/$email/" . $file;
+    }
 
     if (file_exists($filepath)) {
         header('Content-Description: File Transfer');
