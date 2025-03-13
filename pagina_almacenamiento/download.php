@@ -1,8 +1,9 @@
 <?php
-
+session_start();
+$email = $_SESSION['email'];
 if (isset($_GET['file'])) {
     $file = basename($_GET['file']);
-    $filepath = "/mvmup_stor/" . $file;
+    $filepath = "/mvmup_stor/$email" . $file;
 
     if (file_exists($filepath)) {
         header('Content-Description: File Transfer');

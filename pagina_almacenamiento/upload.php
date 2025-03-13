@@ -1,8 +1,9 @@
 <?php
-
+session_start();
+$email = $_SESSION['email'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['fileToUpload'])) {
-    $target_dir = "/mvmup_stor/"; 
+    $target_dir = "/mvmup_stor/$email"; 
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
