@@ -1,6 +1,2 @@
-git add .
-
-git commit -m "fecha actual"
-
-git pushgit 
+git add . && git commit -m "13/03/2025" && git push 
 
