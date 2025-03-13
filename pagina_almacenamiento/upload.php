@@ -1,5 +1,6 @@
 <?php
-require_once "/inicio_sesion/inicio_sesion.php";
+require_once "../inicio_sesion/inicio_sesion.php";
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['fileToUpload'])) {
     $target_dir = "/mvmup_stor/$email"; 
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
