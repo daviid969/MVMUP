@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
            // Iniciar sesión
        $_SESSION['user_id'] = $row['id'];
        $_SESSION['username'] = $row['username'];
-       $_SESSION['email'] = $_POST['email'];
+       $_SESSION['email'] = $row['email'];
     
        header('Location: /index.html');
        } else {
