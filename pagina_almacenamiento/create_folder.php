@@ -1,9 +1,5 @@
 <?php
 session_start();
-if(!isset($_SESSION['email'])) {
-    http_response_code(403);
-    exit(json_encode(['error' => 'Acceso no autorizado']));
-}
 
 $email = $_SESSION['email'];
 $data = json_decode(file_get_contents('php://input'), true);

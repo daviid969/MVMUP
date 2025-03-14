@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 $email = $_SESSION['email'];
 if (isset($_GET['file'])) {
     $file = basename($_GET['file']);
