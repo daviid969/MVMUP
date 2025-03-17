@@ -1,5 +1,4 @@
-/* Inicio sesion CSS */
-/* Estilos generales */
+
 body {
     background: linear-gradient(135deg, #4e54c8, #8f94fb);
     min-height: 100vh;
@@ -15,7 +14,6 @@ body {
   }
 
 
-/* Estilo para el botón de eliminar curso */
 .remove-curso {
     background-color: #dc3545;
     color: white;

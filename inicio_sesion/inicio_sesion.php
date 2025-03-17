@@ -2,7 +2,7 @@
 session_start();
 
 
-// Configuración de la base de datos
+
 require_once "../conexion.php";
 
 
@@ -22,9 +22,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        $row = $result->fetch_assoc();
 
 
-       // Verificar la contraseña
+       // Verificar contraseña
        if (password_verify($password, $row['password'])) {
-           // Iniciar sesión
+           // Iniciar sesion
        $_SESSION['user_id'] = $row['id'];
        $_SESSION['username'] = $row['username'];
        $_SESSION['email'] = $email;

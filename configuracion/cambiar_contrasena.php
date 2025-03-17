@@ -1,15 +1,8 @@
 <?php
 session_start();
 
-// Configurar la conexión a la base de datos
-require_once "conexion.php";
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
 
-// Comprobar conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
+require_once "../conexion.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $current_password = $_POST['current-password'];

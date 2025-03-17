@@ -2,8 +2,8 @@ document.getElementById('register-form').addEventListener('submit', function (e)
     
  
  
-    const formData = new FormData(this); // Obtiene los datos del formulario
-    const messageDiv = document.getElementById('message'); // Contenedor del mensaje
+    const formData = new FormData(this); 
+    const messageDiv = document.getElementById('message'); 
  
  
     fetch('registro.php', {

@@ -1,4 +1,4 @@
-    // JavaScript para manejar los formularios con AJAX
+
     document.addEventListener("DOMContentLoaded", function() {
         // Cambiar contraseña
         const changePasswordForm = document.getElementById('change-password-form');
@@ -6,7 +6,7 @@
   
         if (changePasswordForm) {
           changePasswordForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Evitar el envío tradicional del formulario
+            event.preventDefault(); 
   
             const formData = new FormData(changePasswordForm);
   
@@ -14,13 +14,13 @@
               method: 'POST',
               body: formData
             })
-            .then(response => response.text()) // Obtener la respuesta del servidor
+            .then(response => response.text()) // Respuesta servidor
             .then(data => {
-              // Mostrar el mensaje de respuesta
+              // Mostrar mensaje respuesta
               passwordMessage.innerHTML = `<div class="alert alert-success">${data}</div>`;
             })
             .catch(error => {
-              // Mostrar un mensaje de error si algo falla
+              // Mostrar un mensaje error
               passwordMessage.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
             });
           });
@@ -32,7 +32,7 @@
   
         if (changeEmailForm) {
           changeEmailForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Evitar el envío tradicional del formulario
+            event.preventDefault(); 
   
             const formData = new FormData(changeEmailForm);
   
@@ -40,13 +40,12 @@
               method: 'POST',
               body: formData
             })
-            .then(response => response.text()) // Obtener la respuesta del servidor
+            .then(response => response.text()) 
             .then(data => {
-              // Mostrar el mensaje de respuesta
               emailMessage.innerHTML = `<div class="alert alert-success">${data}</div>`;
             })
             .catch(error => {
-              // Mostrar un mensaje de error si algo falla
+              
               emailMessage.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
             });
           });
@@ -58,7 +57,7 @@
   
         if (changeUsernameForm) {
           changeUsernameForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Evitar el envío tradicional del formulario
+            event.preventDefault(); 
   
             const formData = new FormData(changeUsernameForm);
   
@@ -66,13 +65,13 @@
               method: 'POST',
               body: formData
             })
-            .then(response => response.text()) // Obtener la respuesta del servidor
+            .then(response => response.text()) 
             .then(data => {
-              // Mostrar el mensaje de respuesta
+              
               usernameMessage.innerHTML = `<div class="alert alert-success">${data}</div>`;
             })
             .catch(error => {
-              // Mostrar un mensaje de error si algo falla
+              
               usernameMessage.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
             });
           });
@@ -84,22 +83,22 @@
   
         if (logoutForm) {
           logoutForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Evitar el envío tradicional del formulario
+            event.preventDefault(); 
   
             fetch('/configuracion/cerrar_sesion.php', {
               method: 'POST'
             })
-            .then(response => response.text()) // Obtener la respuesta del servidor
+            .then(response => response.text()) 
             .then(data => {
-              // Mostrar el mensaje de respuesta
+             
               logoutMessage.innerHTML = `<div class="alert alert-success">${data}</div>`;
-              // Redirigir al usuario después de cerrar sesión
+       
               setTimeout(() => {
                 window.location.href = '/index.html';
               }, 2000); // Redirigir después de 2 segundos
             })
             .catch(error => {
-              // Mostrar un mensaje de error si algo falla
+              
               logoutMessage.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
             });
           });

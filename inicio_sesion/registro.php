@@ -1,11 +1,8 @@
 <?php
 session_start();
 
-// Configuración de la base de datos
+
 require_once "../conexion.php";
-
-
-// Crear conexión
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $username = $_POST['new-username'];
@@ -23,10 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conn->error]);
        exit;
    }
-
-
-   //$stmt->bind_param("ssssss", $urd);
-
 
    if ($stmt->execute()) {
        echo json_encode(["success" => true, "message" => "Usuario registrado correctamente."]);

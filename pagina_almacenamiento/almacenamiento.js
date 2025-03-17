@@ -7,7 +7,7 @@ function loadFiles() {
         .then(response => response.json())
         .then(files => {
             const fileList = document.getElementById('fileList');
-            fileList.innerHTML = ''; // Limpiar la lista actual
+            fileList.innerHTML = ''; 
             files.forEach(file => {
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
@@ -41,7 +41,7 @@ function createFolder() {
     .then(response => response.json())
     .then(data => {
         if(data.success) {
-            loadFiles(); // Recargar la lista de archivos
+            loadFiles(); 
             alert('Carpeta creada con éxito');
         } else {
             alert(data.error || 'Error al crear la carpeta');
@@ -59,7 +59,7 @@ function deleteFile(filename) {
         .then(response => response.json())
         .then(data => {
             if(data.success) {
-                loadFiles(); // Recargar la lista de archivos
+                loadFiles(); 
                 alert('Archivo eliminado con éxito');
             } else {
                 alert(data.error || 'Error al eliminar el archivo');
