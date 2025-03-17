@@ -16,7 +16,7 @@ if(isset($data['file'], $data['recipient'])) {
     if(!copy($source, $dest)) {
         echo json_encode(['message' => 'Error al compartir']);
     } else {
-        echo json_encode(['message' => 'Archivo compartido con éxito']);
+        echo json_encode(['message' => 'Archivo compartido con exito']);
     }
 }
 ?>

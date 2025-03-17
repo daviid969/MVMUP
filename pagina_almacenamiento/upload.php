@@ -11,23 +11,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['fileToUpload'])) {
 
     // Verifica si el archivo ya existe
     if (file_exists($target_file)) {
-        echo "Lo siento, el archivo ya existe.";
+        echo "El archivo ya existe.";
         $uploadOk = 0;
     }
     
     // Verifica el tamaño del archivo
     if ($_FILES["fileToUpload"]["size"] > 50 * 1024 * 1024) {
-        echo "Lo siento, tu archivo excede el límite de 50MB.";
+        echo "Tu archivo supera el limite de 50MB.";
         $uploadOk = 0;
     }
     
     if ($uploadOk == 0) {
-        echo "Lo siento, tu archivo no fue subido.";
+        echo "Tu archivo no fue subido.";
     } else {
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
             echo "El archivo ". basename( $_FILES["fileToUpload"]["name"]). " ha sido subido.";
         } else {
-            echo "Lo siento, hubo un error al subir tu archivo.";
+            echo "Hubo un error al subir tu archivo.";
         }
     }
 }

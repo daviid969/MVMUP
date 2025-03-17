@@ -16,7 +16,5 @@ if(isset($data['folder'])) {
     } else {
         echo json_encode(['error' => 'La carpeta ya existe']);
     }
-} else {
-    echo json_encode(['error' => 'Nombre de carpeta no proporcionado']);
 }
 ?>
