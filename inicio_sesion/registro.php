@@ -23,8 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    if ($stmt->execute()) {
        echo json_encode(["success" => true, "message" => "Usuario registrado correctamente."]);
-       mkdir("/mvmup_stor/$email", 0777); 
        header('Location: ./index.html');
+       mkdir("/mvmup_stor/$id", 0777); 
    } else {
        echo json_encode(["success" => false, "message" => "Error al registrar el usuario: " . $stmt->error]);
    }
