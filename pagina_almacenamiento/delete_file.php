@@ -1,10 +1,10 @@
 <?php
 session_start();
-$email = $_SESSION['email'];
+$id = $_SESSION['id'];
 $data = json_decode(file_get_contents('php://input'), true);
 
 if(isset($data['file'])) {
-    $file = "/mvmup_stor/$email/" . basename($data['file']);
+    $file = "/mvmup_stor/$id/" . basename($data['file']);
     
     if(file_exists($file)) {
         is_dir($file) ? rmdir($file) : unlink($file);
