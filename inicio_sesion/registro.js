@@ -1,11 +1,6 @@
 document.getElementById('register-form').addEventListener('submit', function (e) {
-    
- 
- 
     const formData = new FormData(this); 
     const messageDiv = document.getElementById('message'); 
- 
- 
     fetch('registro.php', {
         method: 'POST',
         body: formData
@@ -18,4 +13,4 @@ document.getElementById('register-form').addEventListener('submit', function (e)
             messageDiv.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
         }
     })
- }); 
+}); 

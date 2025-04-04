@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Obtener el ID del usuario actual
-    $user_id = $_SESSION['user_id'];
+    $id = $_SESSION['id'];
 
     // Obtener la contraseña actual del usuario
     $sql = "SELECT password FROM usuarios WHERE id = $user_id";
