@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $curso = $_POST['curso'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $directory = FALSE;
+    $directory = 0;
 
     // Insertar usuario en la base de datos
     $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password, directory)
