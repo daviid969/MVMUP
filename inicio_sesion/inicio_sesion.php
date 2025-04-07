@@ -12,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Buscar usuario en la base de datos
     $sql = "SELECT id, username, directory, password FROM usuarios WHERE email = $email)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('s');
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -26,11 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['username'] = $row['username'];
             $_SESSION['id'] = $row['id'];
 
-            if ($row['directory'] == 1){
+            if ($row['directory'] === 1){
                 header('Location: /index.html');
             } else {
                 mkdir /mvmup/$row['id'];
-                "INSERT INTO usuarios (directory) VALUES ('1')";
+                "INSERT INTO usuarios (directory) 
+                VALUES ('1')";
                 echo json_encode(["success" => true, "message" => "Sesion iniciada correctamente"]);
                 header('Location: /index.html');
             }
