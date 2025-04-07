@@ -26,10 +26,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['username'] = $row['username'];
             $_SESSION['id'] = $row['id'];
 
-            if ($row['directory'] == TRUE){
+            if ($row['directory'] == 1){
                 header('Location: /index.html');
             } else {
                 mkdir /mvmup/$row['id'];
+                "INSERT INTO usuarios (directory) VALUES ('1')";
                 echo json_encode(["success" => true, "message" => "Sesion iniciada correctamente"]);
                 sleep (2000);
                 header('Location: /index.html');
