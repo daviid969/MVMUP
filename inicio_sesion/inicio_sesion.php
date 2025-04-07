@@ -32,7 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 mkdir /mvmup/$row['id'];
                 "INSERT INTO usuarios (directory) VALUES ('1')";
                 echo json_encode(["success" => true, "message" => "Sesion iniciada correctamente"]);
-                sleep (2000);
                 header('Location: /index.html');
             }
 

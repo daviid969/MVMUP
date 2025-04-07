@@ -23,7 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Usuario registrado correctamente."]);
-        sleep (200);
         header('Location: ./index.html');
             
     } else {
