@@ -1,8 +1,6 @@
 <?php
 session_start();
-
 $id = $_SESSION['id'];
-
 $directory = "/mvmup_stor/$id";
 $files = array_diff(scandir($directory), array('.', '..'));
 
