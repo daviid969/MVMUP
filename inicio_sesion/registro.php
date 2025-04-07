@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 require_once "../conexion.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -11,11 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $curso = $_POST['curso'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $directory = 0;
+    //$directory = 0;
 
     // Insertar usuario en la base de datos
-    $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password, directory)
-            VALUES ('$username', '$nombre', '$apellidos', '$email', '$curso', '$password', $directory )";
+    $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password)
+            VALUES ('$username', '$nombre', '$apellidos', '$email', '$curso', '$password')";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conn->error]);
