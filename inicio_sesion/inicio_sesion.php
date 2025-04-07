@@ -10,9 +10,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // Buscar usuario en la base de datos
-    $sql = "SELECT id, username, directory, password FROM usuarios WHERE email = ?";
+    $sql = "SELECT id, username, directory, password FROM usuarios WHERE email = $email)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('s',$email);
+    $stmt->bind_param('s');
     $stmt->execute();
     $result = $stmt->get_result();
 
