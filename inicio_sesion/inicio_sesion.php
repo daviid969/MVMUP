@@ -36,7 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 
                 mkdir /mvmup/$_SESSION['id'];
-                "UPDATE usuarios SET directory = '1' WHERE id = $id";
+                $update_sql = "UPDATE usuarios SET directory = 1 WHERE id = $id";
+                if ($conn->query($update_sql) === TRUE) {
+                    echo "Correo actualizado correctamente.";
+                }
                 phpinfo();
                 echo json_encode(["success" => true, "message" => "Sesion iniciada correctamente"]);
                 header('Location: /index.html');
