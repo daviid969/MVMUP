@@ -21,11 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password, directory)
             VALUES ('$username', '$nombre', '$apellidos', '$email', '$curso', '$password',2)";
     $stmt = $conn->prepare($sql);
-    phpinfo();
+    
     if ($stmt === false) {
         echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conn->error]);
         exit;
     }
+    phpinfo();
     
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Usuario registrado correctamente."]);
