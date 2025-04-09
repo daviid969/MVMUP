@@ -7,7 +7,7 @@ require_once "../conexion.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
-
+    phpinfo();
 
     // Buscar usuario en la base de datos
     $sql = "SELECT id, username, directory, password FROM usuarios WHERE email = $email)";
