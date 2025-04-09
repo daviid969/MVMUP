@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
             if ($directory == 1){
                 header('Location: /index.html');
+                echo json_encode(['message' => 'Archivo no encontrado']);
             } else {
                 
                 mkdir("/mvmup_stor/$id", 0777);

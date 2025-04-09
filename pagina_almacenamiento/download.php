@@ -5,7 +5,7 @@ $id = $_SESSION['id'];
 if (isset($_GET['file'])) {
     $file = basename($_GET['file']);
     
-    if (strpos($file, 'shared/') === 0) {
+    if (strpos($file, 'compartido/') === 0) {
         $filepath = "/mvmup_stor/" . $file;
     } else {
         $filepath = "/mvmup_stor/$id/" . $file;
