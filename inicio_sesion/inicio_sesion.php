@@ -13,8 +13,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "SELECT id, username, directory, password, FROM usuarios WHERE email = $email)";
     
     $stmt = $conn->prepare($sql);
-    $stmt->execute();
     phpinfo();
+    $stmt->execute();
+    
     $result = $stmt->get_result();
     
     if ($result->num_rows > 0) {
