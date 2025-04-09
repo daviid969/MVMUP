@@ -30,19 +30,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             $_SESSION['directory'] = $row['directory'];
             $directory = $row['directory'];
-            $id = "si";
-            
+            $id = $row['id'];
+        
             if ($directory == 1){
                 header('Location: /index.html');
             } else {
                 
-                mkdir /mvmup/$id;
-                phpinfo();
+                mkdir("/mvmup_stor/$id", 0777);
+                
                 $update_sql = "UPDATE usuarios SET directory = 1 WHERE id = $id";
                 if ($conn->query($update_sql) === TRUE) {
                     echo "Correo actualizado correctamente.";
                 }
-                
+                phpinfo();
                 echo json_encode(["success" => true, "message" => "Sesion iniciada correctamente"]);
                 header('Location: /index.html');
             }
