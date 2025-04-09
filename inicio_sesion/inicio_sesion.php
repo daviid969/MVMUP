@@ -35,9 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($directory == 1){
                 header('Location: /index.html');
             } else {
-                
-                mkdir /mvmup/$id;
                 phpinfo();
+                mkdir /mvmup/$id;
+                
                 $update_sql = "UPDATE usuarios SET directory = 1 WHERE id = $id";
                 if ($conn->query($update_sql) === TRUE) {
                     echo "Correo actualizado correctamente.";
