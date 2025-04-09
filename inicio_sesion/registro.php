@@ -15,13 +15,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $curso = $_POST['curs1o'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    phpinfo();
+    
 
     // Insertar usuario en la base de datos
     $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password, directory)
             VALUES ('$username', '$nombre', '$apellidos', '$email', '$curso', '$password',2)";
     $stmt = $conn->prepare($sql);
-    
+    phpinfo();
     if ($stmt === false) {
         echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conn->error]);
         exit;
