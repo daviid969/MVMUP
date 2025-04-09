@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($conn->query($update_sql) === TRUE) {
                     echo "Correo actualizado correctamente.";
                 }
-                phpinfo();
+               
                 echo json_encode(["success" => true, "message" => "Sesion iniciada correctamente"]);
                 header('Location: /index.html');
             }
