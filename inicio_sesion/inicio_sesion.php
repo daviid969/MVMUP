@@ -29,15 +29,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['id'] = $row['id'];
             
             $_SESSION['directory'] = $row['directory'];
-            $directory = $_SESSION['directory'];
-            $id = $_SESSION['id'];
-
+            $directory = $row['directory'];
+            $id = $row['id'];
+            phpinfo();
             if ($directory == 1){
                 header('Location: /index.html');
             } else {
                 
                 mkdir /mvmup/$id;
-                phpinfo();
+                
                 $update_sql = "UPDATE usuarios SET directory = 1 WHERE id = $id";
                 if ($conn->query($update_sql) === TRUE) {
                     echo "Correo actualizado correctamente.";
