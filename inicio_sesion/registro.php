@@ -26,13 +26,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conn->error]);
         exit;
     }
-    phpinfo();
+    
     
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Usuario registrado correctamente."]);
         header('Location: ./index.html');
-            
-    } else {
+        phpinfo();   
+    } 
+    
+    else {
         echo json_encode(["success" => false, "message" => "Error al registrar el usuario: " . $stmt->error]);
     }
 
