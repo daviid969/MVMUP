@@ -3,7 +3,7 @@ session_start();
 
 require_once "../conexion.php";
 
-
+phpinfo();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
