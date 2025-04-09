@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header('Location: /index.html');
             } else {
                 mkdir /mvmup/$_SESSION['id'];
-                phpinfo();
+                
                 "INSERT INTO usuarios (directory) VALUES (1)";
                 echo json_encode(["success" => true, "message" => "Sesion iniciada correctamente"]);
                 header('Location: /index.html');
