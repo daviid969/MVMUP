@@ -7,17 +7,15 @@ require_once "../conexion.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    
+
 
     // Buscar usuario en la base de datos
-    $sql = "SELECT id, username, directory, password, FROM usuarios WHERE email = $email)";
-    
+    $sql = "SELECT id, username, directory, password FROM usuarios WHERE email = $email";
     $stmt = $conn->prepare($sql);
-    phpinfo();
     $stmt->execute();
-    
     $result = $stmt->get_result();
     
+
     if ($result->num_rows > 0) {
        $row = $result->fetch_assoc();
 
