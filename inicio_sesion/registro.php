@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insertar usuario en la base de datos
     $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password, directory)
-            VALUES ('$username', '$nombre', '$apellidos', '$email', '$curso', '$password','2')";
+            VALUES ('$username', '$nombre', '$apellidos', '$email', '$curso', '$password',2)";
     $stmt = $conn->prepare($sql);
     
     if ($stmt === false) {
