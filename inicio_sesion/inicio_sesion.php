@@ -26,8 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
            // Iniciar sesion
             $_SESSION['username'] = $row['username'];
             $_SESSION['id'] = $row['id'];
+            $_SESSION['directory'] = $row['directory'];
 
-            if ($row['directory'] === 1){
+            if ($_SESSION['directory'] == 1){
                 header('Location: /index.html');
             } else {
                 mkdir /mvmup/$row['id'];
