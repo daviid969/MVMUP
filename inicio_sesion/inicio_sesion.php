@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['directory'] = $row['directory'];
             $directory = $row['directory'];
             $id = $row['id'];
-            phpinfo();
+            
             if ($directory == 1){
                 header('Location: /index.html');
             } else {
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($conn->query($update_sql) === TRUE) {
                     echo "Correo actualizado correctamente.";
                 }
-                
+                phpinfo();
                 echo json_encode(["success" => true, "message" => "Sesion iniciada correctamente"]);
                 header('Location: /index.html');
             }
