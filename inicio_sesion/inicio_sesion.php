@@ -29,15 +29,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['id'] = $row['id'];
             
             $_SESSION['directory'] = $row['directory'];
-            
+            $id = $_SESSION['id'];
 
             if ($_SESSION['directory'] == 1){
                 header('Location: /index.html');
             } else {
                 
                 mkdir /mvmup/$_SESSION['id'];
-                
-                "INSERT INTO usuarios (directory) VALUES (1)";
+                "UPDATE usuarios SET directory = '1' WHERE id = $id";
                 phpinfo();
                 echo json_encode(["success" => true, "message" => "Sesion iniciada correctamente"]);
                 header('Location: /index.html');
