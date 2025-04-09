@@ -29,9 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['id'] = $row['id'];
             
             $_SESSION['directory'] = $row['directory'];
+            $directory = $_SESSION['directory'];
             $id = $_SESSION['id'];
 
-            if ($_SESSION['directory'] == 1){
+            if ($directory == 1){
                 header('Location: /index.html');
             } else {
                 
