@@ -25,20 +25,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        if (password_verify($password, $row['password'])) {
            // Iniciar sesion
             $_SESSION['username'] = $row['username'];
-            phpinfo();
+            
             $_SESSION['id'] = $row['id'];
+            
             $_SESSION['directory'] = $row['directory'];
+            
 
             if ($_SESSION['directory'] == 1){
                 header('Location: /index.html');
             } else {
-                mkdir /mvmup/$row['id'];
-                "INSERT INTO usuarios (directory) 
-                VALUES ('1')";
+                mkdir /mvmup/$_SESSION['id'];
+                phpinfo();
+                "INSERT INTO usuarios (directory) VALUES (1)";
                 echo json_encode(["success" => true, "message" => "Sesion iniciada correctamente"]);
                 header('Location: /index.html');
             }
-
+phpinfo();
        } else {
            echo "Contraseña incorrecta.";
        }
