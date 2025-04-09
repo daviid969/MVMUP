@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        if (password_verify($password, $row['password'])) {
            // Iniciar sesion
             $_SESSION['username'] = $row['username'];
+            phpinfo();
             $_SESSION['id'] = $row['id'];
             $_SESSION['directory'] = $row['directory'];
 
