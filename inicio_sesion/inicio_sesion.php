@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             $_SESSION['directory'] = $row['directory'];
             $directory = $row['directory'];
-            $id = $row['id'];
+            $id = 29;
             
             if ($directory == 1){
                 header('Location: /index.html');
