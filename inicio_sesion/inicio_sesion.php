@@ -34,10 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($_SESSION['directory'] == 1){
                 header('Location: /index.html');
             } else {
-                phpinfo();
+                
                 mkdir /mvmup/$_SESSION['id'];
                 
                 "INSERT INTO usuarios (directory) VALUES (1)";
+                phpinfo();
                 echo json_encode(["success" => true, "message" => "Sesion iniciada correctamente"]);
                 header('Location: /index.html');
             }
