@@ -1,4 +1,9 @@
+ 
+
+
 <?php
+phpinfo();
+/*
 session_start();
 
 require_once "../conexion.php";
@@ -8,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = $_POST['name'];
     $apellidos = $_POST['surname'];
     $email = $_POST['email'];
-    $curso = $_POST['curso'];
+    $curso = $_POST['curs1o'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     
 
@@ -35,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
    
 }
-
+*/
 ?>
-
 
