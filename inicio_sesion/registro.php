@@ -2,8 +2,8 @@
 
 
 <?php
-phpinfo();
-/*
+
+
 session_start();
 
 require_once "../conexion.php";
@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $curso = $_POST['curs1o'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    
+    phpinfo();
 
     // Insertar usuario en la base de datos
     $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password, directory)
@@ -40,6 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
    
 }
-*/
+
 ?>
 
