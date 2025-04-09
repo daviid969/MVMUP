@@ -7,7 +7,7 @@ $response = [
     'redirect' => false 
 ];
 
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['id'])) {
     $response['loggedIn'] = true;
     $response['username'] = $_SESSION['username'];
     
