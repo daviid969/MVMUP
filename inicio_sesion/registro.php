@@ -16,11 +16,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password, directory)
             VALUES ('$username', '$nombre', '$apellidos', '$email', '$curso', '$password','2')";
     $stmt = $conn->prepare($sql);
+    
     if ($stmt === false) {
         echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conn->error]);
         exit;
     }
-
+    $stmt->execute();
+    /*
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Usuario registrado correctamente."]);
         header('Location: ./index.html');
@@ -28,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo json_encode(["success" => false, "message" => "Error al registrar el usuario: " . $stmt->error]);
     }
-
+*/
 
     $stmt->close();
     $conn->close();
