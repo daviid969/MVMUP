@@ -10,11 +10,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 
     // Buscar usuario en la base de datos
-    $sql = "SELECT id, username, directory, password FROM usuarios WHERE email = $email)";
+    $sql = "SELECT id, username, directory, password, FROM usuarios WHERE email = $email)";
+    phpinfo();
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $result = $stmt->get_result();
-    phpinfo();
+    
     if ($result->num_rows > 0) {
        $row = $result->fetch_assoc();
 
