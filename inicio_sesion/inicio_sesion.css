@@ -12,7 +12,9 @@ main {
 footer {
   flex-shrink: 0;
 }
-
+register-form{
+  padding-top: 100vh;
+}
 .remove-curso {
   background-color: #dc3545;
   color: white;
