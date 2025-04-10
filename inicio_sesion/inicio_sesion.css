@@ -12,19 +12,7 @@ main {
 footer {
   flex-shrink: 0;
 }
-register-form{
-  padding-top: 100px;
-}
-.remove-curso {
-  background-color: #dc3545;
-  color: white;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  margin-top: 0.5rem;
-}
 
-.remove-curso:hover {
-  background-color: #c82333;
+.register-form{
+  padding-top: 100px;
 }
