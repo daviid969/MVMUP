@@ -12,22 +12,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['fileToUpload'])) {
     // Archivo existente
     if (file_exists($target_file)) {
         echo "El archivo ya existe";
+        header("Location: ./index.html");
         $uploadOk = 0;
     }
     
     // Tamaño archivo
     if ($_FILES["fileToUpload"]["size"] > 50 * 1024 * 1024) {
         echo "Tu archivo supera el limite de 50MB.";
+        header("Location: ./index.html");
         $uploadOk = 0;
     }
     
     if ($uploadOk == 0) {
         echo "Tu archivo no fue subido.";
+        header("Location: ./index.html");
     } else {
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
             echo "El archivo ". basename( $_FILES["fileToUpload"]["name"]). " ha sido subido";
+            header("Location: ./index.html");
         } else {
             echo "Hubo un error al subir tu archivo";
+            header("Location: ./index.html");
         }
     }
 }
