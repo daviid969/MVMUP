@@ -1,9 +1,4 @@
- 
-
-
 <?php
-
-
 session_start();
 
 require_once "../conexion.php";
@@ -33,8 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if ($stmt->execute()) {
         echo json_encode(["success" => true, "message" => "Usuario registrado correctamente."]);
-        header('Location: ./index.html');
-           
+        header('Location: ./index.html');    
     } 
     
     else {
