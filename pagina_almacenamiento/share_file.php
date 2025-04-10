@@ -1,11 +1,11 @@
 
 <?php
 session_start();
-$email = $_SESSION['email'];
+$id = $_SESSION['id'];
 $data = json_decode(file_get_contents('php://input'), true);
 
 if(isset($data['file'], $data['recipient'])) {
-    $source = "/mvmup_stor/$email/" . basename($data['file']);
+    $source = "/mvmup_stor/$id/" . basename($data['file']);
     $dest = "/mvmup_stor/{$data['recipient']}/shared_" . basename($data['file']);
     
     if(!file_exists($source)) {
