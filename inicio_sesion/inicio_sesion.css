@@ -12,7 +12,3 @@ main {
 footer {
   flex-shrink: 0;
 }
-
-.register-form{
-  padding-top: 100px;
-}
