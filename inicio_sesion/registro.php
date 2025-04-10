@@ -10,6 +10,9 @@ require_once "../conexion.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['new-username'];
+    if (empty($username)) {
+        $username = $_POST['name'];
+    }
     $nombre = $_POST['name'];
     $apellidos = $_POST['surname'];
     $email = $_POST['email'];
