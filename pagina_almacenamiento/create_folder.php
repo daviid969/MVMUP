@@ -8,7 +8,7 @@ if(isset($data['folder'])) {
     $folder = "/mvmup_stor/$id/" . basename($data['folder']);
     
     if(!file_exists($folder)) {
-        if(mkdir($folder, 0777, true)) {
+        if(mkdir($folder, 777, true)) {
             echo json_encode(['success' => true]);
         } else {
             echo json_encode(['error' => 'No se pudo crear la carpeta']);
