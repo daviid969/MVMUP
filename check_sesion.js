@@ -3,14 +3,14 @@ document.addEventListener("DOMContentLoaded", function() {
     .then(response => response.json()) 
     .then(data => {
       if (data.loggedIn) {
-        // Si el usuario ha iniciado sesion actualiza el navbar
+        // Si iniciado sesion actualiza navbar
         const authLink = document.getElementById('auth-link');
         authLink.innerHTML = '<a class="nav-link" href="/configuracion/index.html">Configuración</a>';
 
-        // Mostrar el nombre del usuario en el footer
+        // Mostrar nombre de usuario en footer
         document.getElementById('username').textContent = data.username;
       } else {
-        // Si no ha iniciado sesion redirigir al login
+        // Si no iniciado sesion redirigir login
         window.location.href = '/inicio_sesion/index.html';
       }
     })

@@ -4,7 +4,7 @@ $id = $_SESSION['id'];
 $directory = "/mvmup_stor/$id";
 $files = array_diff(scandir($directory), array('.', '..'));
 
-// Incluir archivos compartidos
+// Archivos compartidos
 $shared_directory = "/mvmup_stor/shared";
 $shared_files = glob("$shared_directory/{$id}_*");
 $shared_files = array_map(function($file) {

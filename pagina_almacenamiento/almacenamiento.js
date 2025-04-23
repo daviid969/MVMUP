@@ -28,7 +28,7 @@ function loadFiles() {
                 fileList.appendChild(listItem);
             });
         })
-        .catch(error => console.error('Error:', error));
+    .catch(error => console.error('Error:', error));
 }
 
 function createFolder() {
@@ -42,7 +42,7 @@ function createFolder() {
     .then(data => {
         if(data.success) {
             loadFiles(); 
-            alert('Carpeta creada con éxito');
+            alert('Carpeta creada con exito');
         } else {
             alert(data.error || 'Error al crear la carpeta');
         }
@@ -50,7 +50,7 @@ function createFolder() {
 }
 
 function deleteFile(filename) {
-    if(confirm('¿Estás seguro de que quieres eliminar este archivo?')) {
+    if(confirm('¿Estas seguro de que quieres eliminar este archivo?')) {
         fetch('/pagina_almacenamiento/delete_file.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -60,7 +60,7 @@ function deleteFile(filename) {
         .then(data => {
             if(data.success) {
                 loadFiles(); 
-                alert('Archivo eliminado con éxito');
+                alert('Archivo eliminado con exito');
             } else {
                 alert(data.error || 'Error al eliminar el archivo');
             }

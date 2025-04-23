@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $current_email = $_POST['current-email'];
     $new_email = $_POST['new-email'];
 
-    // Obtener el ID del usuario actual
+    // Obtener ID de usuario 
     $user_id = $_SESSION['user_id'];
 
     // Verificar que el correo actual sea correcto
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stored_email = $row['email'];
 
         if ($current_email === $stored_email) {
-            // Actualizar el correo en la base de datos
+            // Actualizar correo
             $update_sql = "UPDATE usuarios SET email = '$new_email' WHERE id = $user_id";
             if ($conn->query($update_sql) === TRUE) {
                 echo "Correo actualizado correctamente.";

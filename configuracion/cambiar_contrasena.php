@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 require_once "../conexion.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -9,16 +8,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_password = $_POST['new-password'];
     $confirm_new_password = $_POST['confirm-new-password'];
 
-    // Verificar que las nuevas contraseñas coincidan
+    // Verificar contraseñas coincidan
     if ($new_password !== $confirm_new_password) {
         echo "Las nuevas contraseñas no coinciden.";
         exit();
     }
 
-    // Obtener el ID del usuario actual
+    // Obtener ID de usuario
     $id = $_SESSION['id'];
 
-    // Obtener la contraseña actual del usuario
+    // Obtener contraseña actual de usuario
     $sql = "SELECT password FROM usuarios WHERE id = $user_id";
     $result = $conn->query($sql);
 
@@ -31,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Encriptar la nueva contraseña
             $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
 
-            // Actualizar la contraseña en la base de datos
+            // Actualizar la contraseña
             $update_sql = "UPDATE usuarios SET password = '$hashed_new_password' WHERE id = $user_id";
             if ($conn->query($update_sql) === TRUE) {
                 echo "Contraseña actualizada correctamente.";

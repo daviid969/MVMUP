@@ -2,9 +2,9 @@
 
 require_once('config.php');
 
-// Crear conexión
+// Crear conexion
 $conn = new mysqli($servername, $username, $password, $dbname);
-// Verificar conexión
+// Verificar conexion
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }

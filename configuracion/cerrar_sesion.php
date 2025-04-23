@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-// Destruir todas las variables de sesión
+// Borrar variable de sesion
 $_SESSION = array();
 
-// Destruir la sesión
+// Destruir sesion
 session_destroy();
 
-echo "Sesión cerrada correctamente. Redirigiendo...";
+echo "Sesion cerrada correctamente. Redirigiendo...";
 ?>

@@ -8,10 +8,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $current_username = $_POST['current-username'];
     $new_username = $_POST['new-username'];
 
-    // Obtener el ID del usuario actual
+    // Obtener ID del usuario
     $user_id = $_SESSION['user_id'];
 
-    // Verificar que el nombre de usuario actual sea correcto
+    // Verificar nombre de usuario
     $sql = "SELECT username FROM usuarios WHERE id = $user_id";
     $result = $conn->query($sql);
 
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stored_username = $row['username'];
 
         if ($current_username === $stored_username) {
-            // Actualizar el nombre de usuario en la base de datos
+            // Actualizar nombre de usuario 
             $update_sql = "UPDATE usuarios SET username = '$new_username' WHERE id = $user_id";
             if ($conn->query($update_sql) === TRUE) {
                 echo "Nombre de usuario actualizado correctamente.";

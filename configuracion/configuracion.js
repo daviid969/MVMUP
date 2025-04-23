@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
         passwordMessage.innerHTML = `<div class="alert alert-success">${data}</div>`;
       })
       .catch(error => {
-        // Mostrar un mensaje error
+        // Mensaje error
         passwordMessage.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
       });
     });
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  // Cerrar sesión
+  // Cerrar sesion
   const logoutForm = document.getElementById('logout-form');
   const logoutMessage = document.getElementById('logout-message');
 
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
   
         setTimeout(() => {
           window.location.href = '/index.html';
-        }, 2000); // Redirigir después de 2 segundos
+        }, 2000); // Redirigir 2 segundos
       })
       .catch(error => {
         
