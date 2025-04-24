@@ -60,7 +60,6 @@ function deleteFile(filename) {
         .then(data => {
             if(data.success) {
                 loadFiles(); 
-                alert('Archivo eliminado con exito');
             } else {
                 alert(data.error || 'Error al eliminar el archivo');
             }
