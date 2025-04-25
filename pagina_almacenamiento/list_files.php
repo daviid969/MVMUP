@@ -1,17 +1,26 @@
 <?php
 session_start();
 $id = $_SESSION['id'];
-$directory = "/mvmup_stor/$id";
+$base_directory = "/mvmup_stor/$id";
+$path = isset($_GET['path']) ? $_GET['path'] : '';
+$directory = realpath($base_directory . '/' . $path);
+
+if (strpos($directory, realpath($base_directory)) !== 0) {
+    echo json_encode(['error' => 'Acceso no permitido']);
+    exit;
+}
+
 $files = array_diff(scandir($directory), array('.', '..'));
+$result = [];
 
-// Archivos compartidos
-$shared_directory = "/mvmup_stor/shared";
-$shared_files = glob("$shared_directory/{$id}_*");
-$shared_files = array_map(function($file) {
-    return "shared/" . basename($file);
-}, $shared_files);
+foreach ($files as $file) {
+    $file_path = $directory . '/' . $file;
+    $result[] = [
+        'name' => $file,
+        'is_dir' => is_dir($file_path),
+        'path' => $path . '/' . $file
+    ];
+}
 
-$all_files = array_merge(array_values($files), $shared_files);
-
-echo json_encode($all_files);
+echo json_encode($result);
 ?>

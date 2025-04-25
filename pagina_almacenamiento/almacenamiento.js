@@ -1,34 +1,55 @@
+let currentPath = '';
+
 document.addEventListener('DOMContentLoaded', function() {
     loadFiles();
 });
 
-function loadFiles() {
-    fetch('/pagina_almacenamiento/list_files.php')
+function loadFiles(path = '') {
+    currentPath = path;
+    fetch(`/pagina_almacenamiento/list_files.php?path=${encodeURIComponent(path)}`)
         .then(response => response.json())
         .then(files => {
             const fileList = document.getElementById('fileList');
-            fileList.innerHTML = ''; 
+            fileList.innerHTML = '';
+
+            // Botón para volver atrás
+            if (path !== '') {
+                const backItem = document.createElement('li');
+                backItem.className = 'list-group-item';
+                backItem.innerHTML = `
+                    <button class="btn btn-link" onclick="loadFiles('${path.substring(0, path.lastIndexOf('/'))}')">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                `;
+                fileList.appendChild(backItem);
+            }
+
             files.forEach(file => {
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-                listItem.innerHTML = `
-                    ${file}
-                    <div class="btn-group">
-                        <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(file)}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-download"></i>
-                        </a>
-                        <button class="btn btn-danger btn-sm" onclick="deleteFile('${file}')">
-                            <i class="fas fa-trash"></i>
+                if (file.is_dir) {
+                    listItem.innerHTML = `
+                        <button class="btn btn-link" onclick="loadFiles('${file.path}')">
+                            <i class="fas fa-folder"></i> ${file.name}
                         </button>
-                        <button class="btn btn-info btn-sm" onclick="shareFile('${file}')">
-                            <i class="fas fa-share"></i>
-                        </button>
-                    </div>
-                `;
+                    `;
+                } else {
+                    listItem.innerHTML = `
+                        ${file.name}
+                        <div class="btn-group">
+                            <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(file.path)}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-download"></i>
+                            </a>
+                            <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                }
                 fileList.appendChild(listItem);
             });
         })
-    .catch(error => console.error('Error:', error));
+        .catch(error => console.error('Error:', error));
 }
 
 function createFolder() {
@@ -36,13 +57,13 @@ function createFolder() {
     fetch('/pagina_almacenamiento/create_folder.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({folder: folderName})
+        body: JSON.stringify({folder: currentPath + '/' + folderName})
     })
     .then(response => response.json())
     .then(data => {
-        if(data.success) {
-            loadFiles(); 
-            alert('Carpeta creada con exito');
+        if (data.success) {
+            loadFiles(currentPath);
+            alert('Carpeta creada con éxito');
         } else {
             alert(data.error || 'Error al crear la carpeta');
         }
@@ -50,7 +71,7 @@ function createFolder() {
 }
 
 function deleteFile(filename) {
-    if(confirm('¿Estas seguro de que quieres eliminar este archivo?')) {
+    if (confirm('¿Estás seguro de que quieres eliminar este archivo?')) {
         fetch('/pagina_almacenamiento/delete_file.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -58,35 +79,11 @@ function deleteFile(filename) {
         })
         .then(response => response.json())
         .then(data => {
-            if(data.success) {
-                loadFiles(); 
+            if (data.success) {
+                loadFiles(currentPath);
             } else {
                 alert(data.error || 'Error al eliminar el archivo');
             }
         });
     }
-}
-
-let currentFileToShare = '';
-
-function shareFile(filename) {
-    currentFileToShare = filename;
-    new bootstrap.Modal(document.getElementById('shareModal')).show();
-}
-
-function confirmShare() {
-    const email = document.getElementById('recipientEmail').value;
-    fetch('/pagina_almacenamiento/share_file.php', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            file: currentFileToShare,
-            recipient: email
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        new bootstrap.Modal(document.getElementById('shareModal')).hide();
-    });
 }
