@@ -44,10 +44,34 @@
   </main>
  
   <div class="upload-btn-container">
-      <button class="btn btn-primary upload-btn" data-bs-toggle="modal" data-bs-target="#uploadModal">
-          <i class="fas fa-upload"></i>
-      </button>
-  </div>
+    <button class="btn btn-primary upload-btn" data-bs-toggle="modal" data-bs-target="#uploadModal">
+        <i class="fas fa-upload"></i>
+    </button>
+    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createFolderModal">
+        <i class="fas fa-folder-plus"></i> Crear Carpeta
+    </button>
+</div>
+
+<!-- Modal para crear carpetas -->
+<div class="modal fade" id="createFolderModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Crear Carpeta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createFolderForm">
+                    <div class="mb-3">
+                        <label for="folderName" class="form-label">Nombre de la carpeta</label>
+                        <input type="text" class="form-control" id="folderName" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="createFolder()">Crear</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
   <!-- Subida archivos -->
   <div class="modal fade" id="uploadModal" tabindex="-1">
