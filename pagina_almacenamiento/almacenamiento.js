@@ -87,3 +87,52 @@ function deleteFile(filename) {
         });
     }
 }
+function loadFiles(path = '') {
+    currentPath = path;
+    document.getElementById('uploadPath').value = currentPath; // Actualizar el path en el formulario de subida
+
+    fetch(`/pagina_almacenamiento/list_files.php?path=${encodeURIComponent(path)}`)
+        .then(response => response.json())
+        .then(files => {
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+
+            // Botón para volver atrás
+            if (path !== '') {
+                const backItem = document.createElement('li');
+                backItem.className = 'list-group-item';
+                backItem.innerHTML = `
+                    <button class="btn btn-link" onclick="loadFiles('${path.substring(0, path.lastIndexOf('/'))}')">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                `;
+                fileList.appendChild(backItem);
+            }
+
+            files.forEach(file => {
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                if (file.is_dir) {
+                    listItem.innerHTML = `
+                        <button class="btn btn-link" onclick="loadFiles('${file.path}')">
+                            <i class="fas fa-folder"></i> ${file.name}
+                        </button>
+                    `;
+                } else {
+                    listItem.innerHTML = `
+                        ${file.name}
+                        <div class="btn-group">
+                            <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(file.path)}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-download"></i>
+                            </a>
+                            <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+                fileList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
