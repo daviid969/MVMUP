@@ -1,45 +1,36 @@
 <?php
-session_start();
-$id = $_SESSION['id'];
+header('Content-Type: application/json');
+
 $data = json_decode(file_get_contents('php://input'), true);
+$file = $data['file'];
 
-if (isset($data['file'])) {
-    $base_directory = "/mvmup_stor/$id";
-    $file = realpath($base_directory . '/' . $data['file']);
-
-    if (strpos($file, realpath($base_directory)) !== 0) {
-        echo json_encode(['error' => 'Acceso no permitido']);
-        exit;
-    }
-
-    if (file_exists($file)) {
-        if (is_dir($file)) {
-            // Eliminar carpeta y su contenido de forma recursiva
-            deleteFolderRecursively($file);
-            echo json_encode(['success' => true]);
-        } else {
-            // Eliminar archivo
-            if (unlink($file)) {
-                echo json_encode(['success' => true]);
-            } else {
-                echo json_encode(['error' => 'No se pudo eliminar el archivo.']);
-            }
-        }
-    } else {
-        echo json_encode(['error' => 'Archivo o carpeta no encontrado.']);
-    }
+if (!$file) {
+    echo json_encode(['success' => false, 'error' => 'No se especificó el archivo o carpeta a eliminar.']);
+    exit;
 }
 
+$fullPath = __DIR__ . '/uploads/' . $file; // Ajusta la ruta según tu estructura
+
 function deleteFolderRecursively($folder) {
-    $files = array_diff(scandir($folder), array('.', '..'));
-    foreach ($files as $file) {
-        $filePath = $folder . '/' . $file;
-        if (is_dir($filePath)) {
-            deleteFolderRecursively($filePath); // Llamada recursiva para subcarpetas
+    if (!is_dir($folder)) {
+        return unlink($folder); // Eliminar archivo
+    }
+
+    $items = array_diff(scandir($folder), ['.', '..']);
+    foreach ($items as $item) {
+        $itemPath = $folder . DIRECTORY_SEPARATOR . $item;
+        if (is_dir($itemPath)) {
+            deleteFolderRecursively($itemPath);
         } else {
-            unlink($filePath); // Eliminar archivo
+            unlink($itemPath);
         }
     }
-    rmdir($folder); // Eliminar la carpeta vacía
+    return rmdir($folder); // Eliminar la carpeta
+}
+
+if (deleteFolderRecursively($fullPath)) {
+    echo json_encode(['success' => true]);
+} else {
+    echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el archivo o carpeta.']);
 }
 ?>
