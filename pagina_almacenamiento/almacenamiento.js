@@ -153,3 +153,21 @@ function deleteFile(filename) {
         });
     }
 }
+function createFolder() {
+    const folderName = document.getElementById('folderName').value;
+    fetch('/pagina_almacenamiento/create_folder.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ folder: currentPath + '/' + folderName })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            loadFiles(currentPath);
+            alert('Carpeta creada amb èxit');
+        } else {
+            alert(data.error || 'Error al crear la carpeta');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
