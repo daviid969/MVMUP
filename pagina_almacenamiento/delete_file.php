@@ -9,7 +9,7 @@ if (!$file) {
     exit;
 }
 
-$fullPath = __DIR__ . '/uploads/' . $file; // Ajusta la ruta según tu estructura
+$fullPath = __DIR__ . '/mvmup_stor/' . $file; 
 
 function deleteFolderRecursively($folder) {
     if (!is_dir($folder)) {
