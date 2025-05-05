@@ -56,6 +56,7 @@ function loadFiles(path = '') {
         .catch(error => console.error('Error:', error));
 }
 function deleteFile(filename) {
+    
     if (confirm('¿Estás seguro de que quieres eliminar este archivo o carpeta? Todo su contenido será eliminado.')) {
         fetch('/pagina_almacenamiento/delete_file.php', {
             method: 'POST',
@@ -99,4 +100,14 @@ function createFolder() {
         }
     })
     .catch(error => console.error('Error:', error));
+}
+if (file.is_dir) {
+    listItem.innerHTML = `
+        <button class="btn btn-link" onclick="loadFiles('${file.path}')">
+            <i class="fas fa-folder"></i> ${file.name}
+        </button>
+        <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
+            <i class="fas fa-trash"></i>
+        </button>
+    `;
 }

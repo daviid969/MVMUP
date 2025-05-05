@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Borrar variable de sesion
+// Borrar variable sesion
 $_SESSION = array();
 
 // Destruir sesion

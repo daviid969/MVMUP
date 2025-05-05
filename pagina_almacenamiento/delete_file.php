@@ -28,9 +28,13 @@ function deleteFolderRecursively($folder) {
     return rmdir($folder); // Eliminar la carpeta
 }
 
-if (deleteFolderRecursively($fullPath)) {
-    echo json_encode(['success' => true]);
+if (file_exists($fullPath)) {
+    if (deleteFolderRecursively($fullPath)) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el archivo o carpeta.']);
+    }
 } else {
-    echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el archivo o carpeta.']);
+    echo json_encode(['success' => false, 'error' => 'El archivo o carpeta no existe.']);
 }
 ?>
