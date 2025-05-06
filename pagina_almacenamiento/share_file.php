@@ -7,21 +7,25 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 if (isset($data['file'], $data['recipient'])) {
     $recipientEmail = $data['recipient'];
-    $file = realpath($data['file']);
+    $file = $data['file']; // Ruta proporcionada por el cliente
 
-    // Verificar si la ruta del archivo es válida
-    if (!$file) {
-        echo json_encode(['message' => 'El archivo o carpeta especificado no es válido.']);
+    // Construir la ruta completa del archivo
+    $base_directory = "/mvmup_stor/$id";
+    $full_path = realpath($base_directory . '/' . ltrim($file, '/'));
+
+    // Verificar si la ruta es válida y está dentro del directorio del usuario
+    if (!$full_path || strpos($full_path, realpath($base_directory)) !== 0) {
+        echo json_encode(['message' => 'El archivo o carpeta especificado no es válido o no existe.']);
         exit;
     }
 
     // Verificar si el archivo pertenece al usuario o está compartido con él
     $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE (shared_with_id = ? OR owner_id = ?) AND file_path = ?");
-    $stmt->bind_param("iis", $id, $id, $file);
+    $stmt->bind_param("iis", $id, $id, $full_path);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if (strpos($file, "/mvmup_stor/$id/") === 0 || $result->num_rows > 0) {
+    if (strpos($full_path, realpath($base_directory)) === 0 || $result->num_rows > 0) {
         // Obtener el ID del destinatario a partir de su correo
         $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
         $stmt->bind_param("s", $recipientEmail);
@@ -38,7 +42,7 @@ if (isset($data['file'], $data['recipient'])) {
 
         // Registrar la compartición en la tabla `shared_files`
         $stmt = $conn->prepare("INSERT INTO shared_files (owner_id, shared_with_id, file_path) VALUES (?, ?, ?)");
-        $stmt->bind_param("iis", $id, $recipientId, $file);
+        $stmt->bind_param("iis", $id, $recipientId, $full_path);
 
         if ($stmt->execute()) {
             echo json_encode(['message' => 'Archivo o carpeta compartida con éxito']);
