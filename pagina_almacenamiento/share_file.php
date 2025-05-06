@@ -23,7 +23,13 @@ function copyFolder($source, $dest) {
     }
 
     // Escanear el contenido del directorio fuente
-    foreach (scandir($source) as $item) {
+    $items = scandir($source);
+    if ($items === false) {
+        error_log("Error al leer el directorio fuente: $source");
+        return false;
+    }
+
+    foreach ($items as $item) {
         if ($item === '.' || $item === '..') continue;
 
         $srcPath = $source . DIRECTORY_SEPARATOR . $item;
