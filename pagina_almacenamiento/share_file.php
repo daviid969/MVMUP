@@ -1,43 +1,46 @@
 <?php
 session_start();
-require_once "../conexion.php"; // Conexión a la base de datos
+require_once "../conexion.php";
 
 $id = $_SESSION['id'];
 $data = json_decode(file_get_contents('php://input'), true);
 
 if (isset($data['file'], $data['recipient'])) {
     $recipientEmail = $data['recipient'];
+    $file = realpath($data['file']);
 
-    // Obtener el ID del destinatario a partir de su correo en la tabla `usuarios`
-    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
-    $stmt->bind_param("s", $recipientEmail);
+    // Verificar si el archivo pertenece al usuario o está compartido con él
+    $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
+    $stmt->bind_param("is", $id, $file);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows === 0) {
-        echo json_encode(['message' => 'El destinatario no existe']);
-        exit;
-    }
+    if (strpos($file, "/mvmup_stor/$id/") === 0 || $result->num_rows > 0) {
+        // Obtener el ID del destinatario a partir de su correo
+        $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
+        $stmt->bind_param("s", $recipientEmail);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    $recipientRow = $result->fetch_assoc();
-    $recipientId = $recipientRow['id'];
+        if ($result->num_rows === 0) {
+            echo json_encode(['message' => 'El destinatario no existe']);
+            exit;
+        }
 
-    $filePath = "/mvmup_stor/$id/" . ltrim($data['file'], '/');
+        $recipientRow = $result->fetch_assoc();
+        $recipientId = $recipientRow['id'];
 
-    // Verificar que el archivo o carpeta existe
-    if (!file_exists($filePath)) {
-        echo json_encode(['message' => 'Archivo o carpeta no encontrada']);
-        exit;
-    }
+        // Registrar la compartición en la tabla `shared_files`
+        $stmt = $conn->prepare("INSERT INTO shared_files (owner_id, shared_with_id, file_path) VALUES (?, ?, ?)");
+        $stmt->bind_param("iis", $id, $recipientId, $file);
 
-    // Registrar la compartición en la tabla `shared_files`
-    $stmt = $conn->prepare("INSERT INTO shared_files (owner_id, shared_with_id, file_path) VALUES (?, ?, ?)");
-    $stmt->bind_param("iis", $id, $recipientId, $filePath);
-
-    if ($stmt->execute()) {
-        echo json_encode(['message' => 'Carpeta compartida con éxito']);
+        if ($stmt->execute()) {
+            echo json_encode(['message' => 'Archivo o carpeta compartida con éxito']);
+        } else {
+            echo json_encode(['message' => 'Error al compartir el archivo o carpeta']);
+        }
     } else {
-        echo json_encode(['message' => 'Error al compartir la carpeta']);
+        echo json_encode(['message' => 'No tienes permiso para compartir este archivo o carpeta']);
     }
 }
 

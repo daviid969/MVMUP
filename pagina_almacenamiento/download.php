@@ -1,29 +1,36 @@
 <?php
 session_start();
+require_once "../conexion.php";
 
 $id = $_SESSION['id'];
-if (isset($_GET['file'])) {
-    $file = basename($_GET['file']);
-    
-    if (strpos($file, 'compartido/') === 0) {
-        $filepath = "/mvmup_stor/" . $file;
-    } else {
-        $filepath = "/mvmup_stor/$id/" . $file;
-    }
 
-    if (file_exists($filepath)) {
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . basename($filepath) . '"');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length: ' . filesize($filepath));
-        readfile($filepath);
-        exit;
+if (isset($_GET['file'])) {
+    $file = realpath($_GET['file']);
+
+    // Verificar si el archivo pertenece al usuario o está compartido con él
+    $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
+    $stmt->bind_param("is", $id, $file);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if (strpos($file, "/mvmup_stor/$id/") === 0 || $result->num_rows > 0) {
+        if (file_exists($file)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file));
+            readfile($file);
+            exit;
+        } else {
+            http_response_code(404);
+            echo "Archivo no encontrado.";
+        }
     } else {
-        http_response_code(404);
-        echo "Archivo no encontrado.";
+        http_response_code(403);
+        echo "No tienes permiso para descargar este archivo.";
     }
 }
 ?>
