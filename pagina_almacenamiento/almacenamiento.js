@@ -4,8 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     loadFiles();
 });
 
-
-
 function loadFiles(path = '') {
     currentPath = path;
     document.getElementById('uploadPath').value = currentPath; // Actualizar el path en el formulario de subida
@@ -31,33 +29,40 @@ function loadFiles(path = '') {
             files.forEach(file => {
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+                const sharedBadge = file.shared ? '<span class="badge bg-info text-dark ms-2">Compartido</span>' : '';
+
                 if (file.is_dir) {
                     listItem.innerHTML = `
                         <button class="btn btn-link" onclick="loadFiles('${file.path}')">
-                            <i class="fas fa-folder"></i> ${file.name}
+                            <i class="fas fa-folder"></i> ${file.name} ${sharedBadge}
                         </button>
                         <div class="btn-group">
-                            <button class="btn btn-primary btn-sm" onclick="shareItem('${file.path}', true)">
-                                <i class="fas fa-share"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            ${!file.shared ? `
+                                <button class="btn btn-primary btn-sm" onclick="shareItem('${file.path}', true)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            ` : ''}
                         </div>
                     `;
                 } else {
                     listItem.innerHTML = `
-                        ${file.name}
+                        ${file.name} ${sharedBadge}
                         <div class="btn-group">
                             <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(file.path)}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-download"></i>
                             </a>
-                            <button class="btn btn-primary btn-sm" onclick="shareItem('${file.path}', false)">
-                                <i class="fas fa-share"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            ${!file.shared ? `
+                                <button class="btn btn-primary btn-sm" onclick="shareItem('${file.path}', false)">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            ` : ''}
                         </div>
                     `;
                 }
@@ -66,7 +71,6 @@ function loadFiles(path = '') {
         })
         .catch(error => console.error('Error:', error));
 }
-
 function shareFolder(folderPath) {
     const recipient = prompt('Introduce el email del destinatario:');
     if (!recipient) return;
