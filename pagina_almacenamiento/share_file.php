@@ -37,7 +37,7 @@ if (isset($data['file'], $data['recipient'])) {
         copyFolder($source, $dest);
     } else {
         if (!copy($source, $dest)) {
-            echo json_encode(['message' => 'Error al compartir']);
+            echo json_encode(['message' => 'Error al compartir el archivo']);
             exit;
         }
     }

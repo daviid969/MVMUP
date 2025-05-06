@@ -37,7 +37,7 @@ function loadFiles(path = '') {
                             <i class="fas fa-folder"></i> ${file.name}
                         </button>
                         <div class="btn-group">
-                            <button class="btn btn-primary btn-sm" onclick="shareFolder('${file.path}')">
+                            <button class="btn btn-primary btn-sm" onclick="shareItem('${file.path}', true)">
                                 <i class="fas fa-share"></i>
                             </button>
                             <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
@@ -52,6 +52,9 @@ function loadFiles(path = '') {
                             <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(file.path)}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-download"></i>
                             </a>
+                            <button class="btn btn-primary btn-sm" onclick="shareItem('${file.path}', false)">
+                                <i class="fas fa-share"></i>
+                            </button>
                             <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
                                 <i class="fas fa-trash"></i>
                             </button>
@@ -122,6 +125,21 @@ function createFolder() {
         } else {
             alert(data.error || 'Error al crear la carpeta');
         }
+    })
+    .catch(error => console.error('Error:', error));
+}
+function shareItem(itemPath, isFolder) {
+    const recipient = prompt('Introduce el email del destinatario:');
+    if (!recipient) return;
+
+    fetch('/pagina_almacenamiento/share_file.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ file: itemPath, recipient, isFolder })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message || 'Elemento compartido con éxito.');
     })
     .catch(error => console.error('Error:', error));
 }
