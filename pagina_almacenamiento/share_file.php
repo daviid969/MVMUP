@@ -9,6 +9,12 @@ if (isset($data['file'], $data['recipient'])) {
     $recipientEmail = $data['recipient'];
     $file = realpath($data['file']);
 
+    // Verificar si la ruta del archivo es válida
+    if (!$file) {
+        echo json_encode(['message' => 'El archivo o carpeta especificado no es válido.']);
+        exit;
+    }
+
     // Verificar si el archivo pertenece al usuario o está compartido con él
     $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE (shared_with_id = ? OR owner_id = ?) AND file_path = ?");
     $stmt->bind_param("iis", $id, $id, $file);
