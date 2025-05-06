@@ -35,9 +35,9 @@ if (isset($data['file'], $data['recipient'])) {
     $stmt->bind_param("iis", $id, $recipientId, $filePath);
 
     if ($stmt->execute()) {
-        echo json_encode(['message' => 'Archivo o carpeta compartida con éxito']);
+        echo json_encode(['message' => 'Carpeta compartida con éxito']);
     } else {
-        echo json_encode(['message' => 'Error al compartir el archivo o carpeta']);
+        echo json_encode(['message' => 'Error al compartir la carpeta']);
     }
 }
 

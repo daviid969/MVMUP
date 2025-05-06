@@ -32,20 +32,28 @@ foreach ($ownFiles as $file) {
     ];
 }
 
-// Obtener archivos compartidos con el usuario desde la tabla `shared_files`
+// Obtener carpetas compartidas con el usuario desde la tabla `shared_files`
 $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
-$sharedFiles = $stmt->get_result();
+$sharedFolders = $stmt->get_result();
 
-while ($row = $sharedFiles->fetch_assoc()) {
+while ($row = $sharedFolders->fetch_assoc()) {
     $sharedPath = $row['file_path'];
-    $result[] = [
-        'name' => basename($sharedPath),
-        'is_dir' => is_dir($sharedPath),
-        'path' => $sharedPath,
-        'shared' => true
-    ];
+
+    // Listar el contenido actual de la carpeta compartida
+    if (is_dir($sharedPath)) {
+        $sharedFiles = array_diff(scandir($sharedPath), array('.', '..'));
+        foreach ($sharedFiles as $sharedFile) {
+            $sharedFilePath = $sharedPath . '/' . $sharedFile;
+            $result[] = [
+                'name' => $sharedFile,
+                'is_dir' => is_dir($sharedFilePath),
+                'path' => $sharedFilePath,
+                'shared' => true
+            ];
+        }
+    }
 }
 
 // Devolver la lista de archivos y carpetas como JSON
