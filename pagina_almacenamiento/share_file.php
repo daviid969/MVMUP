@@ -14,21 +14,25 @@ $id = $_SESSION['id'];
 $data = json_decode(file_get_contents('php://input'), true);
 
 function copyFolder($source, $dest) {
+    // Crear el directorio de destino si no existe
     if (!is_dir($dest)) {
         mkdir($dest, 0755, true);
     }
 
+    // Escanear el contenido del directorio fuente
     foreach (scandir($source) as $item) {
         if ($item === '.' || $item === '..') continue;
 
         $srcPath = $source . DIRECTORY_SEPARATOR . $item;
         $destPath = $dest . DIRECTORY_SEPARATOR . $item;
 
+        // Si es un directorio, copiar recursivamente
         if (is_dir($srcPath)) {
             if (!copyFolder($srcPath, $destPath)) {
                 return false; // Si falla en algún punto, devuelve false
             }
         } else {
+            // Si es un archivo, copiarlo
             if (!copy($srcPath, $destPath)) {
                 return false; // Si falla la copia de un archivo, devuelve false
             }
