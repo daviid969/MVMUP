@@ -44,16 +44,18 @@
   </main>
  
   <div class="upload-btn-container">
+    <!-- Botón de crear carpeta con solo el icono -->
+    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createFolderModal">
+        <i class="fas fa-folder-plus"></i>
+    </button>
+    <!-- Botón de subir archivo -->
     <button class="btn btn-primary upload-btn" data-bs-toggle="modal" data-bs-target="#uploadModal">
         <i class="fas fa-upload"></i>
     </button>
-    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createFolderModal">
-        <i class="fas fa-folder-plus"></i> Crear Carpeta
-    </button>
-</div>
+  </div>
 
-<!-- Modal para crear carpetas -->
-<div class="modal fade" id="createFolderModal" tabindex="-1">
+  <!-- Modal para crear carpetas -->
+  <div class="modal fade" id="createFolderModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -71,7 +73,7 @@
             </div>
         </div>
     </div>
-</div>
+  </div>
 
   <!-- Subida archivos -->
   <div class="modal fade" id="uploadModal" tabindex="-1">
@@ -93,7 +95,7 @@
             </div>
         </div>
     </div>
-</div>
+  </div>
 
   <!-- Compartir -->
   <div class="modal fade" id="shareModal">

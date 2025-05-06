@@ -27,7 +27,6 @@ if (isset($data['file'], $data['recipient'])) {
     $source = realpath("/mvmup_stor/$id/" . ltrim($data['file'], '/'));
     $dest = "/mvmup_stor/{$data['recipient']}/shared_" . basename($data['file']);
 
-    // Verificar que la ruta fuente esté dentro del directorio del usuario actual
     if (strpos($source, realpath("/mvmup_stor/$id")) !== 0 || !file_exists($source)) {
         echo json_encode(['message' => 'Archivo o carpeta no encontrada o acceso no permitido']);
         exit;
