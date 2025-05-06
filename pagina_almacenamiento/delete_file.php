@@ -12,7 +12,7 @@ if (!$file) {
 }
 
 // Construir la ruta completa basada en el ID del usuario
-$base_directory = "/mvmup/$id";
+$base_directory = "/mvmup_stor/$id";
 $fullPath = realpath($base_directory . '/' . ltrim($file, '/'));
 
 function deleteFolderRecursively($folder) {
