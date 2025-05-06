@@ -4,12 +4,21 @@ require_once "../conexion.php";
 
 header('Content-Type: application/json');
 
+// Leer los datos enviados por el cliente
 $data = json_decode(file_get_contents('php://input'), true);
+
+// Verificar si se recibió el archivo
+if (!isset($data['file']) || empty($data['file'])) {
+    echo json_encode(['success' => false, 'error' => 'No se especificó el archivo o carpeta a eliminar.']);
+    exit;
+}
+
 $file = realpath($data['file']);
 $id = $_SESSION['id'];
 
+// Verificar si el archivo es válido
 if (!$file) {
-    echo json_encode(['success' => false, 'error' => 'No se especificó el archivo o carpeta a eliminar.']);
+    echo json_encode(['success' => false, 'error' => 'El archivo especificado no es válido.']);
     exit;
 }
 

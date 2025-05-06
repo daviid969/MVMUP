@@ -71,17 +71,16 @@ function loadFiles(path = '') {
         .catch(error => console.error('Error:', error));
 }
 function deleteFile(filename) {
-    
     if (confirm('¿Estás seguro de que quieres eliminar este archivo o carpeta? Todo su contenido será eliminado.')) {
         fetch('/pagina_almacenamiento/delete_file.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ file: filename })
+            body: JSON.stringify({ file: filename }) // Enviar el archivo correctamente
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                loadFiles(currentPath);
+                loadFiles(currentPath); // Recargar la lista de archivos
                 alert('Archivo o carpeta eliminados con éxito.');
             } else {
                 alert(data.error || 'Error al eliminar el archivo o carpeta.');
