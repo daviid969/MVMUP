@@ -75,7 +75,7 @@ function deleteFile(filename) {
         fetch('/pagina_almacenamiento/delete_file.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ file: filename }) // Enviar el archivo correctamente
+            body: JSON.stringify({ file: filename }) // Enviar la ruta relativa del archivo
         })
         .then(response => response.json())
         .then(data => {
