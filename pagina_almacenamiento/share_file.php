@@ -16,7 +16,10 @@ $data = json_decode(file_get_contents('php://input'), true);
 function copyFolder($source, $dest) {
     // Crear el directorio de destino si no existe
     if (!is_dir($dest)) {
-        mkdir($dest, 0755, true);
+        if (!mkdir($dest, 0755, true)) {
+            error_log("Error al crear el directorio: $dest");
+            return false;
+        }
     }
 
     // Escanear el contenido del directorio fuente
@@ -29,12 +32,14 @@ function copyFolder($source, $dest) {
         // Si es un directorio, copiar recursivamente
         if (is_dir($srcPath)) {
             if (!copyFolder($srcPath, $destPath)) {
-                return false; // Si falla en algún punto, devuelve false
+                error_log("Error al copiar la carpeta: $srcPath a $destPath");
+                return false;
             }
         } else {
             // Si es un archivo, copiarlo
             if (!copy($srcPath, $destPath)) {
-                return false; // Si falla la copia de un archivo, devuelve false
+                error_log("Error al copiar el archivo: $srcPath a $destPath");
+                return false;
             }
         }
     }
@@ -63,7 +68,10 @@ if (isset($data['file'], $data['recipient'])) {
 
     // Verificar que el directorio del destinatario existe
     if (!is_dir($destBase)) {
-        mkdir($destBase, 0755, true);
+        if (!mkdir($destBase, 0755, true)) {
+            echo json_encode(['message' => 'Error al crear el directorio del destinatario']);
+            exit;
+        }
     }
 
     $dest = $destBase . '/shared_' . basename($data['file']);
