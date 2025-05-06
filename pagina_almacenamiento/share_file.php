@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../conexion_comparticion.php"; // Conexión a la base de datos de compartición
+require_once "../conexion.php"; // Conexión a la base de datos
 
 $id = $_SESSION['id'];
 $data = json_decode(file_get_contents('php://input'), true);
@@ -8,7 +8,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 if (isset($data['file'], $data['recipient'])) {
     $recipientEmail = $data['recipient'];
 
-    // Obtener el ID del destinatario a partir de su correo
+    // Obtener el ID del destinatario a partir de su correo en la tabla `usuarios`
     $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
     $stmt->bind_param("s", $recipientEmail);
     $stmt->execute();
@@ -30,7 +30,7 @@ if (isset($data['file'], $data['recipient'])) {
         exit;
     }
 
-    // Registrar la compartición en la base de datos
+    // Registrar la compartición en la tabla `shared_files`
     $stmt = $conn->prepare("INSERT INTO shared_files (owner_id, shared_with_id, file_path) VALUES (?, ?, ?)");
     $stmt->bind_param("iis", $id, $recipientId, $filePath);
 

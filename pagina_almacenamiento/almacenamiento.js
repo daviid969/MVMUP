@@ -3,7 +3,6 @@ let currentPath = '';
 document.addEventListener('DOMContentLoaded', function() {
     loadFiles();
 });
-
 function loadFiles(path = '') {
     currentPath = path;
     document.getElementById('uploadPath').value = currentPath; // Actualizar el path en el formulario de subida
@@ -70,21 +69,6 @@ function loadFiles(path = '') {
             });
         })
         .catch(error => console.error('Error:', error));
-}
-function shareFolder(folderPath) {
-    const recipient = prompt('Introduce el email del destinatario:');
-    if (!recipient) return;
-
-    fetch('/pagina_almacenamiento/share_file.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ file: folderPath, recipient })
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message || 'Carpeta compartida con éxito.');
-    })
-    .catch(error => console.error('Error:', error));
 }
 function deleteFile(filename) {
     

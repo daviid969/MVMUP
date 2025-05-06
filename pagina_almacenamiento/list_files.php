@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../conexion_comparticion.php"; // Conexión a la base de datos de compartición
+require_once "../conexion.php"; // Conexión a la base de datos
 
 $id = $_SESSION['id'];
 $base_directory = "/mvmup_stor/$id";
@@ -12,7 +12,13 @@ if (strpos($directory, realpath($base_directory)) !== 0) {
     exit;
 }
 
-// Obtener archivos propios
+// Verificar que la carpeta del usuario exista
+if (!is_dir($base_directory)) {
+    echo json_encode(['error' => 'La carpeta del usuario no existe']);
+    exit;
+}
+
+// Obtener archivos propios del usuario
 $ownFiles = array_diff(scandir($directory), array('.', '..'));
 $result = [];
 
@@ -26,7 +32,7 @@ foreach ($ownFiles as $file) {
     ];
 }
 
-// Obtener archivos compartidos
+// Obtener archivos compartidos con el usuario desde la tabla `shared_files`
 $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
@@ -42,6 +48,7 @@ while ($row = $sharedFiles->fetch_assoc()) {
     ];
 }
 
+// Devolver la lista de archivos y carpetas como JSON
 echo json_encode($result);
 
 $conn->close();
