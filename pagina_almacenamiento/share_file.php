@@ -25,11 +25,16 @@ function copyFolder($source, $dest) {
         $destPath = $dest . DIRECTORY_SEPARATOR . $item;
 
         if (is_dir($srcPath)) {
-            copyFolder($srcPath, $destPath);
+            if (!copyFolder($srcPath, $destPath)) {
+                return false; // Si falla en algún punto, devuelve false
+            }
         } else {
-            copy($srcPath, $destPath);
+            if (!copy($srcPath, $destPath)) {
+                return false; // Si falla la copia de un archivo, devuelve false
+            }
         }
     }
+    return true; // Devuelve true si todo se copió correctamente
 }
 
 if (isset($data['file'], $data['recipient'])) {
