@@ -15,19 +15,23 @@ main {
     bottom: 20px;
     right: 20px;
     z-index: 1000;
+    display: flex; 
+    gap: 10px; 
 }
-.upload-btn {
+
+.upload-btn, .btn-secondary {
     width: 60px;
     height: 60px;
-    border-radius: 50%;
+    border-radius: 50%; 
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
-.upload-btn:hover {
-    transform: scale(1.1);
+
+.upload-btn:hover, .btn-secondary:hover {
+    transform: scale(1.1); 
 }
 
 .btn-group {
