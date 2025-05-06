@@ -14,8 +14,8 @@ if (!$file) {
 }
 
 // Verificar si el archivo pertenece al usuario o está compartido con él
-$stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
-$stmt->bind_param("is", $id, $file);
+$stmt = $conn->prepare("SELECT file_path, owner_id FROM shared_files WHERE (shared_with_id = ? OR owner_id = ?) AND file_path = ?");
+$stmt->bind_param("iis", $id, $id, $file);
 $stmt->execute();
 $result = $stmt->get_result();
 
