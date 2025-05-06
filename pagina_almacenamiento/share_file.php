@@ -14,10 +14,16 @@ $id = $_SESSION['id'];
 $data = json_decode(file_get_contents('php://input'), true);
 
 function copyFolder($source, $dest) {
+    // Verificar que el directorio fuente existe
+    if (!is_dir($source)) {
+        error_log("El directorio fuente no existe: $source");
+        return false;
+    }
+
     // Crear el directorio de destino si no existe
     if (!is_dir($dest)) {
         if (!mkdir($dest, 0755, true)) {
-            error_log("Error al crear el directorio: $dest");
+            error_log("Error al crear el directorio de destino: $dest");
             return false;
         }
     }
