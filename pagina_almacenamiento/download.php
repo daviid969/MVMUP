@@ -7,13 +7,9 @@ $id = $_SESSION['id'];
 if (isset($_GET['file'])) {
     $file = realpath($_GET['file']);
 
-    // Verificar si el archivo pertenece al usuario o está compartido con él
-    $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
-    $stmt->bind_param("is", $id, $file);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if (strpos($file, "/mvmup_stor/$id/") === 0 || $result->num_rows > 0) {
+    // Verificar si el archivo pertenece al usuario
+    if (strpos($file, "/mvmup_stor/$id/") === 0) {
+        // El archivo pertenece al usuario
         if (file_exists($file)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
@@ -27,10 +23,38 @@ if (isset($_GET['file'])) {
         } else {
             http_response_code(404);
             echo "Archivo no encontrado.";
+            exit;
         }
-    } else {
-        http_response_code(403);
-        echo "No tienes permiso para descargar este archivo.";
     }
+
+    // Verificar si el archivo está compartido con el usuario
+    $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
+    $stmt->bind_param("is", $id, $file);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // El archivo está compartido con el usuario
+        if (file_exists($file)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file));
+            readfile($file);
+            exit;
+        } else {
+            http_response_code(404);
+            echo "Archivo no encontrado.";
+            exit;
+        }
+    }
+
+    // Si no pertenece al usuario ni está compartido con él
+    http_response_code(403);
+    echo "No tienes permiso para descargar este archivo.";
+    exit;
 }
 ?>
