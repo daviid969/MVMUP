@@ -13,7 +13,7 @@ $fullPath = __DIR__ . '/mvmup_stor/' . $file;
 
 function deleteFolderRecursively($folder) {
     if (!is_dir($folder)) {
-        return unlink($folder); // Eliminar archivo
+        return unlink($folder);
     }
 
     $items = array_diff(scandir($folder), ['.', '..']);
@@ -25,7 +25,7 @@ function deleteFolderRecursively($folder) {
             unlink($itemPath);
         }
     }
-    return rmdir($folder); // Eliminar la carpeta
+    return rmdir($folder); 
 }
 
 if (file_exists($fullPath)) {

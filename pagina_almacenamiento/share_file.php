@@ -4,19 +4,44 @@ session_start();
 $id = $_SESSION['id'];
 $data = json_decode(file_get_contents('php://input'), true);
 
-if(isset($data['file'], $data['recipient'])) {
-    $source = "/mvmup_stor/$id/" . basename($data['file']);
+function copyFolder($source, $dest) {
+    if (!is_dir($dest)) {
+        mkdir($dest, 0755, true);
+    }
+
+    foreach (scandir($source) as $item) {
+        if ($item === '.' || $item === '..') continue;
+
+        $srcPath = $source . DIRECTORY_SEPARATOR . $item;
+        $destPath = $dest . DIRECTORY_SEPARATOR . $item;
+
+        if (is_dir($srcPath)) {
+            copyFolder($srcPath, $destPath);
+        } else {
+            copy($srcPath, $destPath);
+        }
+    }
+}
+
+if (isset($data['file'], $data['recipient'])) {
+    $source = realpath("/mvmup_stor/$id/" . ltrim($data['file'], '/'));
     $dest = "/mvmup_stor/{$data['recipient']}/shared_" . basename($data['file']);
-    
-    if(!file_exists($source)) {
-        echo json_encode(['message' => 'Archivo no encontrado']);
+
+    // Verificar que la ruta fuente esté dentro del directorio del usuario actual
+    if (strpos($source, realpath("/mvmup_stor/$id")) !== 0 || !file_exists($source)) {
+        echo json_encode(['message' => 'Archivo o carpeta no encontrada o acceso no permitido']);
         exit;
     }
-    
-    if(!copy($source, $dest)) {
-        echo json_encode(['message' => 'Error al compartir']);
+
+    if (is_dir($source)) {
+        copyFolder($source, $dest);
     } else {
-        echo json_encode(['message' => 'Archivo compartido con exito']);
+        if (!copy($source, $dest)) {
+            echo json_encode(['message' => 'Error al compartir']);
+            exit;
+        }
     }
+
+    echo json_encode(['message' => 'Archivo o carpeta compartida con éxito']);
 }
 ?>

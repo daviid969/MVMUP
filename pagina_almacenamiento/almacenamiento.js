@@ -36,6 +36,14 @@ function loadFiles(path = '') {
                         <button class="btn btn-link" onclick="loadFiles('${file.path}')">
                             <i class="fas fa-folder"></i> ${file.name}
                         </button>
+                        <div class="btn-group">
+                            <button class="btn btn-primary btn-sm" onclick="shareFolder('${file.path}')">
+                                <i class="fas fa-share"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     `;
                 } else {
                     listItem.innerHTML = `
@@ -54,6 +62,22 @@ function loadFiles(path = '') {
             });
         })
         .catch(error => console.error('Error:', error));
+}
+
+function shareFolder(folderPath) {
+    const recipient = prompt('Introduce el email del destinatario:');
+    if (!recipient) return;
+
+    fetch('/pagina_almacenamiento/share_file.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ file: folderPath, recipient })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message || 'Carpeta compartida con éxito.');
+    })
+    .catch(error => console.error('Error:', error));
 }
 function deleteFile(filename) {
     
@@ -100,14 +124,4 @@ function createFolder() {
         }
     })
     .catch(error => console.error('Error:', error));
-}
-if (file.is_dir) {
-    listItem.innerHTML = `
-        <button class="btn btn-link" onclick="loadFiles('${file.path}')">
-            <i class="fas fa-folder"></i> ${file.name}
-        </button>
-        <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
-            <i class="fas fa-trash"></i>
-        </button>
-    `;
 }
