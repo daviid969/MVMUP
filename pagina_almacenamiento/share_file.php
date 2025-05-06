@@ -1,5 +1,15 @@
 <?php
 session_start();
+require_once "../config.php"; // Incluir el archivo de configuración
+
+// Crear la conexión a la base de datos
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die("Error de conexión: " . $conn->connect_error);
+}
+
 $id = $_SESSION['id'];
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -23,9 +33,24 @@ function copyFolder($source, $dest) {
 }
 
 if (isset($data['file'], $data['recipient'])) {
-    $recipient = $data['recipient'];
+    $recipientEmail = $data['recipient'];
+
+    // Obtener el ID del destinatario a partir de su correo
+    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
+    $stmt->bind_param("s", $recipientEmail);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) {
+        echo json_encode(['message' => 'El destinatario no existe']);
+        exit;
+    }
+
+    $recipientRow = $result->fetch_assoc();
+    $recipientId = $recipientRow['id'];
+
     $source = realpath("/mvmup_stor/$id/" . ltrim($data['file'], '/'));
-    $destBase = "/mvmup_stor/$recipient";
+    $destBase = "/mvmup_stor/$recipientId";
 
     // Verificar que el directorio del destinatario existe
     if (!is_dir($destBase)) {
@@ -55,4 +80,7 @@ if (isset($data['file'], $data['recipient'])) {
         }
     }
 }
+
+// Cerrar la conexión
+$conn->close();
 ?>
