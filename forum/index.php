@@ -241,12 +241,20 @@ $consulta_temas = mysqli_query($conn, $sql_temas);
     <?php endwhile; ?>
 </div>
 
-<footer class="bg-dark text-white py-3 mt-auto">
-    <div class="container text-center">
+  <!--Footer-->
+  <footer class="bg-dark text-white py-3 mt-auto">
+    <div class="container d-flex flex-wrap justify-content-between">
+      <div class="footer-left">
+        <p>Has iniciado sesión como: <span id="username"></span></p>
+      </div>
+      <div class="footer-center text-center flex-grow-1">
         <p>&copy; IES Manuel Vazquez Montalban. Todos los derechos reservados.</p>
-        <p><a href="https://agora.xtec.cat/iesmvm" class="text-white text-decoration-none">Modle MVM</a></p>
+      </div>
+      <div class="footer-right text-end">
+        <p><a href="https://agora.xtec.cat/iesmvm" class="text-white text-decoration-none">Moodle MVM: https://agora.xtec.cat/iesmvm/</a></p>
+      </div>
     </div>
-</footer>
+  </footer>
 
 <script>
 function editarTema(id) {
