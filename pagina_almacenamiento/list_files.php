@@ -25,13 +25,22 @@ $result = [];
 foreach ($ownFiles as $file) {
     $file_path = $directory . '/' . $file;
 
-    // Excluir archivos que están en la tabla `shared_files`
+    // Verificar si el archivo está compartido por el usuario
     $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE file_path = ? AND owner_id = ?");
     $stmt->bind_param("si", $file_path, $id);
     $stmt->execute();
     $stmt->store_result();
 
-    if ($stmt->num_rows === 0) { // Solo incluir si no está compartido
+    if ($stmt->num_rows > 0) {
+        // Si el archivo está compartido por el usuario, incluirlo
+        $result[] = [
+            'name' => $file,
+            'is_dir' => is_dir($file_path),
+            'path' => $path . '/' . $file,
+            'shared' => true // Indicar que está compartido
+        ];
+    } else {
+        // Si no está compartido, incluirlo como archivo local
         $result[] = [
             'name' => $file,
             'is_dir' => is_dir($file_path),
