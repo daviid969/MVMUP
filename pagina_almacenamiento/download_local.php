@@ -1,19 +1,14 @@
 <?php
 session_start();
-require_once "../conexion.php";
 
 $id = $_SESSION['id'];
 
 if (isset($_GET['file'])) {
     $file = realpath($_GET['file']);
+    $base_directory = realpath("/mvmup_stor/$id");
 
-    // Verificar si el archivo está compartido con el usuario
-    $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
-    $stmt->bind_param("is", $id, $file);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0 && file_exists($file)) {
+    // Validar si el archivo está dentro del directorio base del usuario
+    if (strpos($file, $base_directory) === 0 && file_exists($file)) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . basename($file) . '"');

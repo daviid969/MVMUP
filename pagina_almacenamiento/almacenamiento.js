@@ -56,7 +56,7 @@ function loadLocalFiles() {
           listItem.innerHTML = `
             <span>${file.name}</span>
             <div>
-              <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(file.path)}" class="btn btn-sm btn-success" download>Descargar</a>
+              <a href="/pagina_almacenamiento/download_local.php?file=${encodeURIComponent(file.path)}" class="btn btn-sm btn-success" download>Descargar</a>
               <button class="btn btn-sm btn-primary" onclick="shareItem('${file.path}', false)">Compartir</button>
               <button class="btn btn-sm btn-danger" onclick="deleteFile('${file.path}')">Eliminar</button>
             </div>
