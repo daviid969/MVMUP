@@ -8,28 +8,27 @@ if (!isset($_SESSION['id'])) {
 
 $user_id = $_SESSION['id'];
 
-// Obtener las carpetas o archivos compartidos con el usuario desde la base de datos
+// Obtener las rutas de archivos y carpetas compartidos con el usuario
 $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-$folder_list = [];
+$shared_items = [];
 while ($row = $result->fetch_assoc()) {
-    $folder_path = $row['file_path'];
-    if (is_dir($folder_path)) {
-        $folder_list[] = [
-            "name" => basename($folder_path),
-            "path" => $folder_path
-        ];
-    }
+    $item_path = $row['file_path'];
+    $shared_items[] = [
+        "name" => basename($item_path),
+        "path" => $item_path,
+        "is_dir" => is_dir($item_path)
+    ];
 }
 
 header('Content-Type: application/json');
-if (empty($folder_list)) {
-    echo json_encode(["error" => "No se encontraron carpetas compartidas."]);
+if (empty($shared_items)) {
+    echo json_encode(["error" => "No se encontraron archivos o carpetas compartidos."]);
 } else {
-    echo json_encode($folder_list);
+    echo json_encode($shared_items);
 }
 
 $conn->close();

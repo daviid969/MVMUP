@@ -72,29 +72,38 @@ function loadLocalFiles() {
     });
 }
 
-// Cargar archivos compartidos
+// Cargar archivos y carpetas compartidos
 function loadSharedFiles() {
   fetch('/pagina_almacenamiento/list_shared_folders.php')
     .then(response => response.json())
-    .then(folders => {
+    .then(items => {
       const sharedFileList = document.getElementById('sharedFileList');
       sharedFileList.innerHTML = '';
 
-      if (folders.error) {
-        sharedFileList.innerHTML = `<li class="list-group-item text-danger">${folders.error}</li>`;
+      if (items.error) {
+        sharedFileList.innerHTML = `<li class="list-group-item text-danger">${items.error}</li>`;
         return;
       }
 
-      folders.forEach(folder => {
+      items.forEach(item => {
         const listItem = document.createElement('li');
         listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
 
-        listItem.innerHTML = `
-          <span>${folder.name}</span>
-          <div>
-            <a href="${folder.path}" class="btn btn-sm btn-success" target="_blank">Abrir</a>
-          </div>
-        `;
+        if (item.is_dir) {
+          listItem.innerHTML = `
+            <span class="folder-name" style="cursor: pointer;">${item.name}</span>
+            <div>
+              <a href="${item.path}" class="btn btn-sm btn-success" target="_blank">Abrir</a>
+            </div>
+          `;
+        } else {
+          listItem.innerHTML = `
+            <span>${item.name}</span>
+            <div>
+              <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(item.path)}" class="btn btn-sm btn-success" download>Descargar</a>
+            </div>
+          `;
+        }
 
         sharedFileList.appendChild(listItem);
       });
