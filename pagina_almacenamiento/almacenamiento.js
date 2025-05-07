@@ -1,4 +1,4 @@
-let currentPath = '';
+let currentPath = ''; // Ruta actual
 let showingSharedFiles = false;
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -119,6 +119,7 @@ function loadSharedFiles() {
 function enterFolder(folderPath) {
   currentPath = folderPath;
   loadLocalFiles();
+  document.getElementById('uploadPath').value = currentPath; // Actualizar ruta para subida
 }
 
 // Compartir archivo o carpeta
@@ -160,28 +161,28 @@ function deleteFile(filePath) {
 }
 
 function createFolder() {
-    const folderName = document.getElementById('folderName').value.trim();
-    if (!folderName) {
-        alert('Por favor, introduce un nombre para la carpeta.');
-        return;
-    }
+  const folderName = document.getElementById('folderName').value.trim();
+  if (!folderName) {
+    alert('Por favor, introduce un nombre para la carpeta.');
+    return;
+  }
 
-    fetch('/pagina_almacenamiento/create_folder.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ folder: currentPath + '/' + folderName })
-    })
+  fetch('/pagina_almacenamiento/create_folder.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ folder: currentPath + '/' + folderName })
+  })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
-            loadFiles(currentPath);
-            alert('Carpeta creada con éxito');
-            document.getElementById('folderName').value = ''; // Limpiar el campo
-            const modal = bootstrap.Modal.getInstance(document.getElementById('createFolderModal'));
-            modal.hide(); // Cerrar el modal
-        } else {
-            alert(data.error || 'Error al crear la carpeta');
-        }
+      if (data.success) {
+        loadLocalFiles();
+        alert('Carpeta creada con éxito');
+        document.getElementById('folderName').value = ''; // Limpiar el campo
+        const modal = bootstrap.Modal.getInstance(document.getElementById('createFolderModal'));
+        modal.hide(); // Cerrar el modal
+      } else {
+        alert(data.error || 'Error al crear la carpeta');
+      }
     })
     .catch(error => console.error('Error:', error));
 }
