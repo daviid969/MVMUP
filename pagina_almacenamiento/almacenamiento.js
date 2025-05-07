@@ -300,24 +300,18 @@ function enterSharedFolder(folderPath) {
 
 // Volver a la carpeta anterior en compartidos
 function goBackSharedFolder() {
-  if (sharedPathStack.length > 0) {
-    const currentPath = sharedPathStack.pop(); // Eliminar la ruta actual
-    const pathParts = currentPath.split('/').filter(Boolean);
-    pathParts.pop(); // Eliminar la última carpeta
-    const previousPath = pathParts.join('/');
+  if (sharedPathStack.length > 1) {
+    sharedPathStack.pop(); // Eliminar la ruta actual
+    const previousPath = sharedPathStack[sharedPathStack.length - 1];
+    enterSharedFolder(previousPath); // Volver a la carpeta anterior
+  } else {
+    sharedPathStack = []; // Reiniciar la pila si estamos en la raíz
+    loadSharedFiles(); // Cargar la lista inicial de archivos compartidos
 
-    if (previousPath) {
-      sharedPathStack.push(previousPath); // Guardar la carpeta anterior en la pila
-      enterSharedFolder(previousPath); // Cargar la carpeta anterior
-    } else {
-      sharedPathStack = []; // Reiniciar la pila si estamos en la raíz
-      loadSharedFiles(); // Cargar la lista inicial de archivos compartidos
-
-      // Ocultar el botón si estamos en la raíz
-      const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
-      if (sharedGoBackBtn) {
-        sharedGoBackBtn.style.display = 'none';
-      }
+    // Ocultar el botón si estamos en la raíz
+    const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
+    if (sharedGoBackBtn) {
+      sharedGoBackBtn.style.display = 'none';
     }
   }
 }
