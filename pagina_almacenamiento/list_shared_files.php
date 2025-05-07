@@ -17,8 +17,13 @@ $base_directory = realpath("/mvmup_stor");
 $full_path = realpath($path);
 
 // Validar que la carpeta está compartida con el usuario
-$stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
-$stmt->bind_param("is", $user_id, $full_path);
+$stmt = $conn->prepare("
+    SELECT file_path 
+    FROM shared_files 
+    WHERE shared_with_id = ? 
+    AND (? = file_path OR ? LIKE CONCAT(file_path, '/%'))
+");
+$stmt->bind_param("iss", $user_id, $full_path, $full_path);
 $stmt->execute();
 $result = $stmt->get_result();
 

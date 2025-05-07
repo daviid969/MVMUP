@@ -12,7 +12,7 @@ if (isset($_GET['file'])) {
         SELECT file_path 
         FROM shared_files 
         WHERE shared_with_id = ? 
-        AND (file_path = ? OR ? LIKE CONCAT(file_path, '/%'))
+        AND (? = file_path OR ? LIKE CONCAT(file_path, '/%'))
     ");
     $stmt->bind_param("iss", $id, $file, $file);
     $stmt->execute();
