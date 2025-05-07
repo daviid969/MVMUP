@@ -298,17 +298,17 @@ function enterSharedFolder(folderPath) {
     });
 }
 
-// Volver a la carpeta padre en compartidos
+// Volver a la carpeta anterior en compartidos
 function goBackSharedFolder() {
   if (sharedPathStack.length > 0) {
     const currentPath = sharedPathStack.pop(); // Eliminar la ruta actual
     const pathParts = currentPath.split('/').filter(Boolean);
     pathParts.pop(); // Eliminar la última carpeta
-    const parentPath = pathParts.join('/');
+    const previousPath = pathParts.join('/');
 
-    if (parentPath) {
-      sharedPathStack.push(parentPath); // Guardar la carpeta padre en la pila
-      enterSharedFolder(parentPath); // Cargar la carpeta padre
+    if (previousPath) {
+      sharedPathStack.push(previousPath); // Guardar la carpeta anterior en la pila
+      enterSharedFolder(previousPath); // Cargar la carpeta anterior
     } else {
       sharedPathStack = []; // Reiniciar la pila si estamos en la raíz
       loadSharedFiles(); // Cargar la lista inicial de archivos compartidos
