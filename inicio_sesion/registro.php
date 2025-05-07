@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     
 
-    // Insertar usuario en la base de datos
+    
     $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password, directory)
             VALUES ('$username', '$nombre', '$apellidos', '$email', '$curso', '$password',2)";
     $stmt = $conn->prepare($sql);

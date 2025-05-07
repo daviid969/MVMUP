@@ -16,7 +16,7 @@ if (empty($path)) {
 $base_directory = realpath("/mvmup_stor");
 $full_path = realpath($path);
 
-// Validar que la carpeta está compartida con el usuario
+
 $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
 $stmt->bind_param("is", $user_id, $full_path);
 $stmt->execute();
@@ -26,7 +26,7 @@ if ($result->num_rows === 0 || !$full_path || strpos($full_path, $base_directory
     die(json_encode(["error" => "No tienes permiso para acceder a esta carpeta."]));
 }
 
-// Listar el contenido de la carpeta
+
 if (is_dir($full_path)) {
     $items = array_diff(scandir($full_path), ['.', '..']);
     $files = [];

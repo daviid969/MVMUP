@@ -7,9 +7,9 @@ if (isset($_GET['file'])) {
     $base_directory = realpath("/mvmup_stor/$id");
     $file = realpath($base_directory . '/' . ltrim($_GET['file'], '/'));
 
-    // Validar si el archivo está dentro del directorio base del usuario
+    
     if ($file && strpos($file, $base_directory) === 0 && file_exists($file)) {
-        // Configurar cabeceras para la descarga
+       
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . basename($file) . '"');
@@ -18,7 +18,6 @@ if (isset($_GET['file'])) {
         header('Pragma: public');
         header('Content-Length: ' . filesize($file));
 
-        // Leer y enviar el archivo
         readfile($file);
         exit;
     } else {

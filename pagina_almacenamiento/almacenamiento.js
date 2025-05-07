@@ -1,13 +1,13 @@
-let currentPath = ''; // Ruta actual
+let currentPath = ''; 
 let showingSharedFiles = false;
-let sharedPathStack = []; // Pila para rutas de carpetas compartidas
+let sharedPathStack = []; 
 
 document.addEventListener('DOMContentLoaded', function () {
   const toggleViewBtn = document.getElementById('toggleViewBtn');
   const localFilesContainer = document.getElementById('localFilesContainer');
   const sharedFilesContainer = document.getElementById('sharedFilesContainer');
 
-  // Alternar entre vistas
+ 
   toggleViewBtn.addEventListener('click', function () {
     showingSharedFiles = !showingSharedFiles;
 
@@ -24,11 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Cargar archivos locales al inicio
+
   loadLocalFiles();
 });
 
-// Cargar archivos locales
+
 function loadLocalFiles() {
   fetch(`/pagina_almacenamiento/list_files.php?path=${encodeURIComponent(currentPath)}`)
     .then(response => response.json())
@@ -77,7 +77,7 @@ function loadLocalFiles() {
     });
 }
 
-// Cargar archivos y carpetas compartidos
+
 function loadSharedFiles() {
   fetch('/pagina_almacenamiento/list_shared_folders.php')
     .then(response => response.json())
@@ -121,29 +121,28 @@ function loadSharedFiles() {
     });
 }
 
-// Entrar a una carpeta
 function enterFolder(folderPath) {
   currentPath = folderPath;
   loadLocalFiles();
-  document.getElementById('uploadPath').value = currentPath; // Actualizar ruta para subida
+  document.getElementById('uploadPath').value = currentPath; 
 
-  // Mostrar el botón al entrar en una carpeta
+  
   const goBackBtn = document.getElementById('goBackBtn');
   if (goBackBtn) {
-    goBackBtn.style.display = 'flex'; // Asegurar que sea visible
+    goBackBtn.style.display = 'flex'; 
   }
 }
 
-// Volver a la carpeta anterior
+
 function goBack() {
   if (currentPath) {
     const pathParts = currentPath.split('/').filter(Boolean);
-    pathParts.pop(); // Eliminar la última carpeta
+    pathParts.pop(); 
     currentPath = pathParts.join('/');
     loadLocalFiles();
-    document.getElementById('uploadPath').value = currentPath; // Actualizar ruta para subida
+    document.getElementById('uploadPath').value = currentPath; 
 
-    // Ocultar el botón si estamos en la raíz
+   
     const goBackBtn = document.getElementById('goBackBtn');
     if (!currentPath && goBackBtn) {
       goBackBtn.style.display = 'none';
@@ -151,7 +150,7 @@ function goBack() {
   }
 }
 
-// Compartir archivo o carpeta
+
 function shareItem(itemPath, isFolder) {
   const recipient = prompt('Introduce el email del destinatario:');
   if (!recipient) return;
@@ -168,7 +167,7 @@ function shareItem(itemPath, isFolder) {
     .catch(error => console.error('Error al compartir el elemento:', error));
 }
 
-// Eliminar archivo o carpeta
+
 function deleteFile(filePath) {
   if (confirm('¿Estás seguro de que quieres eliminar este archivo o carpeta? Todo su contenido será eliminado.')) {
     fetch('/pagina_almacenamiento/delete_file.php', {
@@ -179,7 +178,7 @@ function deleteFile(filePath) {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          loadLocalFiles(); // Recargar la lista de archivos
+          loadLocalFiles(); 
           alert('Archivo o carpeta eliminados con éxito.');
         } else {
           alert(data.error || 'Error al eliminar el archivo o carpeta.');
@@ -206,9 +205,9 @@ function createFolder() {
       if (data.success) {
         loadLocalFiles();
         alert('Carpeta creada con éxito');
-        document.getElementById('folderName').value = ''; // Limpiar el campo
+        document.getElementById('folderName').value = '';
         const modal = bootstrap.Modal.getInstance(document.getElementById('createFolderModal'));
-        modal.hide(); // Cerrar el modal
+        modal.hide(); 
       } else {
         alert(data.error || 'Error al crear la carpeta');
       }
@@ -219,7 +218,6 @@ function createFolder() {
 document.addEventListener('DOMContentLoaded', function () {
   const sharedFolderList = document.getElementById('sharedFolderList');
 
-  // Obtener carpetas compartidas del servidor
   fetch('/pagina_almacenamiento/list_shared_folders.php')
     .then(response => response.json())
     .then(folders => {
@@ -248,9 +246,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// Entrar a una carpeta compartida
+
 function enterSharedFolder(folderPath) {
-  sharedPathStack.push(folderPath); // Guardar la ruta actual en la pila
+  sharedPathStack.push(folderPath); 
   fetch(`/pagina_almacenamiento/list_shared_files.php?path=${encodeURIComponent(folderPath)}`)
     .then(response => response.json())
     .then(files => {
@@ -286,7 +284,7 @@ function enterSharedFolder(folderPath) {
         sharedFileList.appendChild(listItem);
       });
 
-      // Mostrar el botón de volver atrás
+     
       const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
       if (sharedGoBackBtn) {
         sharedGoBackBtn.style.display = 'flex';
@@ -298,10 +296,10 @@ function enterSharedFolder(folderPath) {
     });
 }
 
-// Volver a la carpeta anterior en compartidos
+
 function goBackSharedFolder() {
   if (sharedPathStack.length > 0) {
-    sharedPathStack.pop(); // Eliminar la ruta actual
+    sharedPathStack.pop();
     const previousPath = sharedPathStack.length > 0 ? sharedPathStack[sharedPathStack.length - 1] : '';
     if (previousPath) {
       enterSharedFolder(previousPath); 
@@ -312,7 +310,7 @@ function goBackSharedFolder() {
     loadSharedFiles(); 
   }
 
-  // Ocultar el botón si estamos en la raíz
+  
   const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
   if (sharedPathStack.length === 0 && sharedGoBackBtn) {
     sharedGoBackBtn.style.display = 'none';

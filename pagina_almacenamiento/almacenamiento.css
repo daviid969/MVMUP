@@ -46,8 +46,8 @@ main {
 #goBackBtn, #sharedGoBackBtn {
     width: 50px;
     height: 50px;
-    border-radius: 10px; /* Esquinas redondeadas */
-    display: none; /* Oculto por defecto */
+    border-radius: 10px; 
+    display: none; 
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -57,5 +57,5 @@ main {
 
 #goBackBtn:hover, #sharedGoBackBtn:hover {
     background-color: #f0f0f0;
-    transform: scale(1.1); /* Efecto de zoom al pasar el cursor */
+    transform: scale(1.1); 
 }

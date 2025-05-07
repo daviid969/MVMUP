@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_password = $_POST['new-password'];
     $confirm_new_password = $_POST['confirm-new-password'];
 
-    // Verificar contraseñas coincidan
+    // Verificar contraseñas 
     if ($new_password !== $confirm_new_password) {
         echo "Las nuevas contraseñas no coinciden.";
         exit();

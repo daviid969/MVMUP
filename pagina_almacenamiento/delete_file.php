@@ -4,39 +4,39 @@ require_once "../conexion.php";
 
 header('Content-Type: application/json');
 
-// Leer los datos enviados por el cliente
+
 $data = json_decode(file_get_contents('php://input'), true);
 
-// Verificar si se recibió el archivo
+
 if (!isset($data['file']) || empty($data['file'])) {
     echo json_encode(['success' => false, 'error' => 'No se especificó el archivo o carpeta a eliminar.']);
     exit;
 }
 
-$file = $data['file']; // Ruta proporcionada por el cliente
+$file = $data['file']; 
 $id = $_SESSION['id'];
 
-// Construir la ruta completa del archivo
+
 $base_directory = "/mvmup_stor/$id";
 $full_path = realpath($base_directory . '/' . ltrim($file, '/'));
 
-// Verificar si la ruta es válida y está dentro del directorio del usuario
+
 if (!$full_path || strpos($full_path, realpath($base_directory)) !== 0) {
     echo json_encode(['success' => false, 'error' => 'El archivo especificado no es válido o no existe.']);
     exit;
 }
 
-// Verificar si el archivo pertenece al usuario o está compartido con él
+
 $stmt = $conn->prepare("SELECT file_path, owner_id FROM shared_files WHERE (shared_with_id = ? OR owner_id = ?) AND file_path = ?");
 $stmt->bind_param("iis", $id, $id, $full_path);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if (strpos($full_path, realpath($base_directory)) === 0 || $result->num_rows > 0) {
-    // Función para eliminar archivos/carpetas y limpiar la base de datos
+    
     function deleteFolderRecursively($folder, $conn, $userId) {
         if (!is_dir($folder)) {
-            // Eliminar archivo de la base de datos si está compartido
+           
             $stmt = $conn->prepare("DELETE FROM shared_files WHERE file_path = ? AND (owner_id = ? OR shared_with_id = ?)");
             $stmt->bind_param("sii", $folder, $userId, $userId);
             $stmt->execute();
@@ -49,7 +49,7 @@ if (strpos($full_path, realpath($base_directory)) === 0 || $result->num_rows > 0
             if (is_dir($itemPath)) {
                 deleteFolderRecursively($itemPath, $conn, $userId);
             } else {
-                // Eliminar archivo de la base de datos si está compartido
+               
                 $stmt = $conn->prepare("DELETE FROM shared_files WHERE file_path = ? AND (owner_id = ? OR shared_with_id = ?)");
                 $stmt->bind_param("sii", $itemPath, $userId, $userId);
                 $stmt->execute();
@@ -57,7 +57,7 @@ if (strpos($full_path, realpath($base_directory)) === 0 || $result->num_rows > 0
             }
         }
 
-        // Eliminar carpeta de la base de datos si está compartida
+       
         $stmt = $conn->prepare("DELETE FROM shared_files WHERE file_path = ? AND (owner_id = ? OR shared_with_id = ?)");
         $stmt->bind_param("sii", $folder, $userId, $userId);
         $stmt->execute();

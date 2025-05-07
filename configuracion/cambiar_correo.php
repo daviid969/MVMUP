@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener ID de usuario 
     $user_id = $_SESSION['user_id'];
 
-    // Verificar que el correo actual sea correcto
+    // Verificar correo 
     $sql = "SELECT email FROM usuarios WHERE id = $user_id";
     $result = $conn->query($sql);
 

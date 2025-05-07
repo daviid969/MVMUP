@@ -7,7 +7,7 @@ $id = $_SESSION['id'];
 if (isset($_GET['file'])) {
     $file = realpath($_GET['file']);
 
-    // Verificar si el archivo o su carpeta padre está compartido con el usuario
+    
     $stmt = $conn->prepare("
         SELECT file_path 
         FROM shared_files 
@@ -19,7 +19,7 @@ if (isset($_GET['file'])) {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0 && file_exists($file)) {
-        // Configurar cabeceras para la descarga
+       
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . basename($file) . '"');
@@ -28,7 +28,7 @@ if (isset($_GET['file'])) {
         header('Pragma: public');
         header('Content-Length: ' . filesize($file));
 
-        // Leer y enviar el archivo
+        
         readfile($file);
         exit;
     } else {

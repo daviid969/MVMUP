@@ -8,7 +8,7 @@ if (!isset($_SESSION['id'])) {
 
 $user_id = $_SESSION['id'];
 
-// Obtener las rutas de archivos y carpetas compartidos con el usuario
+
 $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();

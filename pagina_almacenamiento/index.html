@@ -38,20 +38,18 @@
     <div class="container mt-5 pt-5">
       <button id="toggleViewBtn" class="btn btn-primary mb-3">Ver Archivos Compartidos</button>
 
-      <!-- Contenedor de archivos locales -->
       <div id="localFilesContainer">
         <h2>Archivos Locales</h2>
-        <!-- Botón para volver a la carpeta anterior -->
+   
         <button id="goBackBtn" class="btn btn-light mb-3" onclick="goBack()" style="display: none;">
           <i class="fas fa-arrow-left"></i>
         </button>
         <ul id="localFileList" class="list-group"></ul>
       </div>
 
-      <!-- Contenedor de archivos compartidos -->
       <div id="sharedFilesContainer" style="display: none;">
         <h2>Archivos Compartidos</h2>
-        <!-- Botón para volver a la carpeta anterior en compartidos -->
+
         <button id="sharedGoBackBtn" class="btn btn-light mb-3" onclick="goBackSharedFolder()" style="display: none;">
           <i class="fas fa-arrow-left"></i>
         </button>
@@ -61,17 +59,16 @@
   </main>
  
   <div class="upload-btn-container d-flex align-items-center">
-    <!-- Botón de crear carpeta con solo el icono -->
+
     <button class="btn btn-secondary rounded-circle me-2" data-bs-toggle="modal" data-bs-target="#createFolderModal" style="width: 60px; height: 60px;">
         <i class="fas fa-folder-plus"></i>
     </button>
-    <!-- Botón de subir archivo -->
+   
     <button class="btn btn-primary rounded-circle upload-btn" data-bs-toggle="modal" data-bs-target="#uploadModal" style="width: 60px; height: 60px;">
         <i class="fas fa-upload"></i>
     </button>
   </div>
 
-  <!-- Modal para crear carpetas -->
   <div class="modal fade" id="createFolderModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../conexion.php"; // Conexión a la base de datos
+require_once "../conexion.php"; 
 
 $id = $_SESSION['id'];
 $base_directory = "/mvmup_stor/$id";
@@ -12,35 +12,35 @@ if (strpos($directory, realpath($base_directory)) !== 0) {
     exit;
 }
 
-// Verificar que la carpeta del usuario exista
+
 if (!is_dir($base_directory)) {
     echo json_encode(['error' => 'La carpeta del usuario no existe']);
     exit;
 }
 
-// Obtener archivos propios del usuario
+
 $ownFiles = array_diff(scandir($directory), array('.', '..'));
 $result = [];
 
 foreach ($ownFiles as $file) {
     $file_path = $directory . '/' . $file;
 
-    // Verificar si el archivo está compartido por el usuario
+  
     $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE file_path = ? AND owner_id = ?");
     $stmt->bind_param("si", $file_path, $id);
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        // Si el archivo está compartido por el usuario, incluirlo
+  
         $result[] = [
             'name' => $file,
             'is_dir' => is_dir($file_path),
             'path' => $path . '/' . $file,
-            'shared' => true // Indicar que está compartido
+            'shared' => true 
         ];
     } else {
-        // Si no está compartido, incluirlo como archivo local
+        
         $result[] = [
             'name' => $file,
             'is_dir' => is_dir($file_path),
@@ -52,7 +52,7 @@ foreach ($ownFiles as $file) {
     $stmt->close();
 }
 
-// Devolver la lista de archivos y carpetas como JSON
+
 echo json_encode($result);
 
 $conn->close();
