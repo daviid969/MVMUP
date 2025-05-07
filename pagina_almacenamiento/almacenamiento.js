@@ -95,12 +95,9 @@ function loadSharedFiles() {
 
         if (item.is_dir) {
           listItem.innerHTML = `
-            <span>
+            <span class="folder-name" style="cursor: pointer;" onclick="enterSharedFolder('${item.path}')">
               <i class="fas fa-folder text-warning me-2"></i>${item.name}
             </span>
-            <div>
-              <a href="${item.path}" class="btn btn-sm btn-success" target="_blank">Abrir</a>
-            </div>
           `;
         } else {
           listItem.innerHTML = `
@@ -249,3 +246,46 @@ document.addEventListener('DOMContentLoaded', function () {
       sharedFolderList.innerHTML = `<li class="list-group-item text-danger">Error al cargar las carpetas compartidas.</li>`;
     });
 });
+
+// Entrar a una carpeta compartida
+function enterSharedFolder(folderPath) {
+  fetch(`/pagina_almacenamiento/list_files.php?path=${encodeURIComponent(folderPath)}`)
+    .then(response => response.json())
+    .then(files => {
+      const sharedFileList = document.getElementById('sharedFileList');
+      sharedFileList.innerHTML = '';
+
+      if (files.error) {
+        sharedFileList.innerHTML = `<li class="list-group-item text-danger">${files.error}</li>`;
+        return;
+      }
+
+      files.forEach(file => {
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+        if (file.is_dir) {
+          listItem.innerHTML = `
+            <span class="folder-name" style="cursor: pointer;" onclick="enterSharedFolder('${file.path}')">
+              <i class="fas fa-folder text-warning me-2"></i>${file.name}
+            </span>
+          `;
+        } else {
+          listItem.innerHTML = `
+            <span>
+              <i class="fas fa-file text-secondary me-2"></i>${file.name}
+            </span>
+            <div>
+              <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(file.path)}" class="btn btn-sm btn-success" download>Descargar</a>
+            </div>
+          `;
+        }
+
+        sharedFileList.appendChild(listItem);
+      });
+    })
+    .catch(error => {
+      console.error('Error al listar los contenidos de la carpeta compartida:', error);
+      document.getElementById('sharedFileList').innerHTML = `<li class="list-group-item text-danger">Error al listar los contenidos de la carpeta compartida.</li>`;
+    });
+}
