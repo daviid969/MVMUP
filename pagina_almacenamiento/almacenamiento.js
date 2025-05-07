@@ -124,6 +124,9 @@ function enterFolder(folderPath) {
   currentPath = folderPath;
   loadLocalFiles();
   document.getElementById('uploadPath').value = currentPath; // Actualizar ruta para subida
+
+  // Mostrar el botón al entrar en una carpeta
+  document.getElementById('goBackBtn').style.display = 'block';
 }
 
 // Volver a la carpeta anterior
@@ -134,6 +137,11 @@ function goBack() {
     currentPath = pathParts.join('/');
     loadLocalFiles();
     document.getElementById('uploadPath').value = currentPath; // Actualizar ruta para subida
+
+    // Ocultar el botón si estamos en la raíz
+    if (!currentPath) {
+      document.getElementById('goBackBtn').style.display = 'none';
+    }
   }
 }
 

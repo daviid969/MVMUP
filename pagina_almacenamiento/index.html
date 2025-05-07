@@ -42,7 +42,9 @@
       <div id="localFilesContainer">
         <h2>Archivos Locales</h2>
         <!-- Botón para volver a la carpeta anterior -->
-        <button class="btn btn-secondary mb-3" onclick="goBack()">Volver a la Carpeta Anterior</button>
+        <button id="goBackBtn" class="btn btn-light mb-3 d-none" onclick="goBack()" style="display: none;">
+          <i class="fas fa-arrow-left"></i>
+        </button>
         <ul id="localFileList" class="list-group"></ul>
       </div>
 
