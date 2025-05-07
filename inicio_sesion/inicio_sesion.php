@@ -23,28 +23,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $id = $row['id'];
 
             $user_folder = "/mvmup_stor/$id";
-
-            if ($directory == 1) {
-                header('Location: /index.html');
-            } else {
-                // Crear carpeta del usuario si no existe
-                if (!file_exists($user_folder)) {
-                    if (!mkdir($user_folder, 0777, true)) {
-                        error_log("Error al crear la carpeta del usuario: $user_folder");
-                        echo "Error al crear la carpeta del usuario.";
-                        exit;
-                    }
+            // Crear carpeta del usuario si no existe
+            if (!file_exists($user_folder)) {
+                if (!mkdir($user_folder, 0777, true)) {
+                    error_log("Error al crear la carpeta del usuario: $user_folder");
+                    echo "Error al crear la carpeta del usuario.";
+                    exit;
                 }
-
-                // Actualizar el estado del directorio en la base de datos
-                $update_sql = "UPDATE usuarios SET directory = 1 WHERE id = ?";
-                $update_stmt = $conn->prepare($update_sql);
-                $update_stmt->bind_param('i', $id);
-                $update_stmt->execute();
-                $update_stmt->close();
-
-                header('Location: /index.html');
             }
+
+
+            header('Location: /index.html');
+            
         } else {
             echo "Contraseña incorrecta.";
         }
