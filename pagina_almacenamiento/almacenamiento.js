@@ -76,17 +76,9 @@ function loadLocalFiles() {
     });
 }
 
-let currentSharedPath = ''; // Ruta actual en archivos compartidos
-
-// Entrar a una carpeta compartida
-function enterSharedFolder(folderPath) {
-  currentSharedPath = folderPath;
-  loadSharedFiles();
-}
-
-// Modificar la función de cargar archivos compartidos
+// Cargar archivos y carpetas compartidos
 function loadSharedFiles() {
-  fetch(`/pagina_almacenamiento/list_shared_folders.php?path=${encodeURIComponent(currentSharedPath)}`)
+  fetch('/pagina_almacenamiento/list_shared_folders.php')
     .then(response => response.json())
     .then(items => {
       const sharedFileList = document.getElementById('sharedFileList');
@@ -103,9 +95,12 @@ function loadSharedFiles() {
 
         if (item.is_dir) {
           listItem.innerHTML = `
-            <span class="folder-name" style="cursor: pointer;" onclick="enterSharedFolder('${item.path}')">
+            <span>
               <i class="fas fa-folder text-warning me-2"></i>${item.name}
             </span>
+            <div>
+              <a href="${item.path}" class="btn btn-sm btn-success" target="_blank">Abrir</a>
+            </div>
           `;
         } else {
           listItem.innerHTML = `
