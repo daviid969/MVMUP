@@ -5,7 +5,7 @@ require_once "../conexion.php";
 $id = $_SESSION['id'];
 
 if (isset($_GET['file'])) {
-    $file = realpath("/mvmup_stor_shared/" . ltrim($_GET['file'], '/'));
+    $file = realpath($_GET['file']);
 
     // Verificar si el archivo está compartido con el usuario
     $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
