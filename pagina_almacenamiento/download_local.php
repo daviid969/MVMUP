@@ -4,8 +4,8 @@ session_start();
 $id = $_SESSION['id'];
 
 if (isset($_GET['file'])) {
-    $file = realpath($_GET['file']);
     $base_directory = realpath("/mvmup_stor/$id");
+    $file = realpath($base_directory . '/' . ltrim($_GET['file'], '/'));
 
     // Validar si el archivo está dentro del directorio base del usuario
     if ($file && strpos($file, $base_directory) === 0 && file_exists($file)) {
