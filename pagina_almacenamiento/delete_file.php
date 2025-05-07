@@ -33,9 +33,13 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if (strpos($full_path, realpath($base_directory)) === 0 || $result->num_rows > 0) {
-    // Función para eliminar archivos/carpetas
-    function deleteFolderRecursively($folder) {
+    // Función para eliminar archivos/carpetas y limpiar la base de datos
+    function deleteFolderRecursively($folder, $conn, $userId) {
         if (!is_dir($folder)) {
+            // Eliminar archivo de la base de datos si está compartido
+            $stmt = $conn->prepare("DELETE FROM shared_files WHERE file_path = ? AND (owner_id = ? OR shared_with_id = ?)");
+            $stmt->bind_param("sii", $folder, $userId, $userId);
+            $stmt->execute();
             return unlink($folder);
         }
 
@@ -43,15 +47,25 @@ if (strpos($full_path, realpath($base_directory)) === 0 || $result->num_rows > 0
         foreach ($items as $item) {
             $itemPath = $folder . DIRECTORY_SEPARATOR . $item;
             if (is_dir($itemPath)) {
-                deleteFolderRecursively($itemPath);
+                deleteFolderRecursively($itemPath, $conn, $userId);
             } else {
+                // Eliminar archivo de la base de datos si está compartido
+                $stmt = $conn->prepare("DELETE FROM shared_files WHERE file_path = ? AND (owner_id = ? OR shared_with_id = ?)");
+                $stmt->bind_param("sii", $itemPath, $userId, $userId);
+                $stmt->execute();
                 unlink($itemPath);
             }
         }
+
+        // Eliminar carpeta de la base de datos si está compartida
+        $stmt = $conn->prepare("DELETE FROM shared_files WHERE file_path = ? AND (owner_id = ? OR shared_with_id = ?)");
+        $stmt->bind_param("sii", $folder, $userId, $userId);
+        $stmt->execute();
+
         return rmdir($folder);
     }
 
-    if (deleteFolderRecursively($full_path)) {
+    if (deleteFolderRecursively($full_path, $conn, $id)) {
         echo json_encode(['success' => true]);
     } else {
         echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el archivo o carpeta.']);
