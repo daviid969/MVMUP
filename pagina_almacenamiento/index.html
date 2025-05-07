@@ -36,10 +36,19 @@
 
   <main class="flex-shrink-0">
     <div class="container mt-5 pt-5">
-      <h2>Archivos Disponibles</h2>
-      <ul id="fileList" class="list-group">
-          <!-- archivos  -->
-      </ul>
+      <button id="toggleViewBtn" class="btn btn-primary mb-3">Ver Archivos Compartidos</button>
+
+      <!-- Contenedor de archivos locales -->
+      <div id="localFilesContainer">
+        <h2>Archivos Locales</h2>
+        <ul id="localFileList" class="list-group"></ul>
+      </div>
+
+      <!-- Contenedor de archivos compartidos -->
+      <div id="sharedFilesContainer" style="display: none;">
+        <h2>Archivos Compartidos</h2>
+        <ul id="sharedFileList" class="list-group"></ul>
+      </div>
     </div>
   </main>
  

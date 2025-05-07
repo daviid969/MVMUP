@@ -1,16 +1,10 @@
 let currentPath = '';
+let showingSharedFiles = false;
 
-document.addEventListener('DOMContentLoaded', function() {
-    loadFiles();
-});
 document.addEventListener('DOMContentLoaded', function () {
   const toggleViewBtn = document.getElementById('toggleViewBtn');
   const localFilesContainer = document.getElementById('localFilesContainer');
   const sharedFilesContainer = document.getElementById('sharedFilesContainer');
-  const localFileList = document.getElementById('localFileList');
-  const sharedFileList = document.getElementById('sharedFileList');
-
-  let showingSharedFiles = false;
 
   // Alternar entre vistas
   toggleViewBtn.addEventListener('click', function () {
@@ -28,6 +22,10 @@ document.addEventListener('DOMContentLoaded', function () {
       loadLocalFiles();
     }
   });
+
+  // Cargar archivos locales al inicio
+  loadLocalFiles();
+});
 
 // Cargar archivos locales
 function loadLocalFiles() {
@@ -47,7 +45,6 @@ function loadLocalFiles() {
         listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
 
         if (file.is_dir) {
-          // Carpeta
           listItem.innerHTML = `
             <span class="folder-name" style="cursor: pointer;" onclick="enterFolder('${file.path}')">${file.name}</span>
             <div>
@@ -56,7 +53,6 @@ function loadLocalFiles() {
             </div>
           `;
         } else {
-          // Archivo
           listItem.innerHTML = `
             <span>${file.name}</span>
             <div>
@@ -73,6 +69,40 @@ function loadLocalFiles() {
     .catch(error => {
       console.error('Error al cargar los archivos locales:', error);
       document.getElementById('localFileList').innerHTML = `<li class="list-group-item text-danger">Error al cargar los archivos locales.</li>`;
+    });
+}
+
+// Cargar archivos compartidos
+function loadSharedFiles() {
+  fetch('/pagina_almacenamiento/list_shared_folders.php')
+    .then(response => response.json())
+    .then(folders => {
+      const sharedFileList = document.getElementById('sharedFileList');
+      sharedFileList.innerHTML = '';
+
+      if (folders.error) {
+        sharedFileList.innerHTML = `<li class="list-group-item text-danger">${folders.error}</li>`;
+        return;
+      }
+
+      folders.forEach(folder => {
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+        listItem.innerHTML = `
+          <span>${folder.name}</span>
+          <div>
+            <a href="${folder.path}" class="btn btn-sm btn-success" target="_blank">Abrir</a>
+          </div>
+        `;
+
+        sharedFileList.appendChild(listItem);
+      });
+    })
+    .catch(error => {
+      console.error('Error al cargar los archivos compartidos:', error);
+      const sharedFileList = document.getElementById('sharedFileList');
+      sharedFileList.innerHTML = `<li class="list-group-item text-danger">Error al cargar los archivos compartidos.</li>`;
     });
 }
 
@@ -119,49 +149,6 @@ function deleteFile(filePath) {
       .catch(error => console.error('Error al eliminar el archivo o carpeta:', error));
   }
 }
-
-// Cargar archivos compartidos
-function loadSharedFiles() {
-  fetch('/pagina_almacenamiento/list_shared_folders.php')
-    .then(response => response.json())
-    .then(folders => {
-      const sharedFileList = document.getElementById('sharedFileList');
-      sharedFileList.innerHTML = '';
-
-      if (folders.error) {
-        sharedFileList.innerHTML = `<li class="list-group-item text-danger">${folders.error}</li>`;
-        return;
-      }
-
-      if (folders.length === 0) {
-        sharedFileList.innerHTML = `<li class="list-group-item text-warning">No hay carpetas compartidas disponibles.</li>`;
-        return;
-      }
-
-      folders.forEach(folder => {
-        const listItem = document.createElement('li');
-        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-
-        listItem.innerHTML = `
-          <span>${folder.name}</span>
-          <div>
-            <a href="${folder.path}" class="btn btn-sm btn-success" target="_blank">Abrir</a>
-          </div>
-        `;
-
-        sharedFileList.appendChild(listItem);
-      });
-    })
-    .catch(error => {
-      console.error('Error al cargar los archivos compartidos:', error);
-      const sharedFileList = document.getElementById('sharedFileList');
-      sharedFileList.innerHTML = `<li class="list-group-item text-danger">Error al cargar los archivos compartidos.</li>`;
-    });
-}
-
-// Cargar archivos locales al inicio
-loadLocalFiles();
-});
 
 function createFolder() {
     const folderName = document.getElementById('folderName').value.trim();
