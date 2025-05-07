@@ -16,8 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 
     
-    $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password, directory)
-            VALUES ('$username', '$nombre', '$apellidos', '$email', '$curso', '$password',2)";
+    $sql = "INSERT INTO usuarios (username, nombre, apellidos, email, curso, password, directory, activo)
+            VALUES ('$username', '$nombre', '$apellidos', '$email', '$curso', '$password',2,1)";
     $stmt = $conn->prepare($sql);
     
     if ($stmt === false) {
