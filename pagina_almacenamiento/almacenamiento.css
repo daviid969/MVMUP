@@ -43,7 +43,7 @@ main {
     align-items: center;
 }
 
-#goBackBtn {
+#goBackBtn, #sharedGoBackBtn {
     width: 50px;
     height: 50px;
     border-radius: 10px; /* Esquinas redondeadas */
@@ -55,7 +55,7 @@ main {
     border: 1px solid #ddd;
 }
 
-#goBackBtn:hover {
+#goBackBtn:hover, #sharedGoBackBtn:hover {
     background-color: #f0f0f0;
     transform: scale(1.1); /* Efecto de zoom al pasar el cursor */
 }
