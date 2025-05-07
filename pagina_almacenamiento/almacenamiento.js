@@ -3,92 +3,166 @@ let currentPath = '';
 document.addEventListener('DOMContentLoaded', function() {
     loadFiles();
 });
-function loadFiles(path = '') {
-    currentPath = path;
-    document.getElementById('uploadPath').value = currentPath; // Actualizar el path en el formulario de subida
+document.addEventListener('DOMContentLoaded', function () {
+  const toggleViewBtn = document.getElementById('toggleViewBtn');
+  const localFilesContainer = document.getElementById('localFilesContainer');
+  const sharedFilesContainer = document.getElementById('sharedFilesContainer');
+  const localFileList = document.getElementById('localFileList');
+  const sharedFileList = document.getElementById('sharedFileList');
 
-    fetch(`/pagina_almacenamiento/list_files.php?path=${encodeURIComponent(path)}`)
-        .then(response => response.json())
-        .then(files => {
-            const fileList = document.getElementById('fileList');
-            fileList.innerHTML = '';
+  let showingSharedFiles = false;
 
-            // Botón para volver atrás
-            if (path !== '') {
-                const backItem = document.createElement('li');
-                backItem.className = 'list-group-item';
-                backItem.innerHTML = `
-                    <button class="btn btn-link" onclick="loadFiles('${path.substring(0, path.lastIndexOf('/'))}')">
-                        <i class="fas fa-arrow-left"></i> Volver
-                    </button>
-                `;
-                fileList.appendChild(backItem);
-            }
+  // Alternar entre vistas
+  toggleViewBtn.addEventListener('click', function () {
+    showingSharedFiles = !showingSharedFiles;
 
-            files.forEach(file => {
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-
-                const sharedBadge = file.shared ? '<span class="badge bg-info text-dark ms-2">Compartido</span>' : '';
-
-                if (file.is_dir) {
-                    listItem.innerHTML = `
-                        <button class="btn btn-link" onclick="loadFiles('${file.path}')">
-                            <i class="fas fa-folder"></i> ${file.name} ${sharedBadge}
-                        </button>
-                        <div class="btn-group">
-                            ${!file.shared ? `
-                                <button class="btn btn-primary btn-sm" onclick="shareItem('${file.path}', true)">
-                                    <i class="fas fa-share"></i>
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            ` : ''}
-                        </div>
-                    `;
-                } else {
-                    listItem.innerHTML = `
-                        ${file.name} ${sharedBadge}
-                        <div class="btn-group">
-                            <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(file.path)}" class="btn btn-primary btn-sm">
-                                <i class="fas fa-download"></i>
-                            </a>
-                            ${!file.shared ? `
-                                <button class="btn btn-primary btn-sm" onclick="shareItem('${file.path}', false)">
-                                    <i class="fas fa-share"></i>
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteFile('${file.path}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            ` : ''}
-                        </div>
-                    `;
-                }
-                fileList.appendChild(listItem);
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
-function deleteFile(filename) {
-    if (confirm('¿Estás seguro de que quieres eliminar este archivo o carpeta? Todo su contenido será eliminado.')) {
-        fetch('/pagina_almacenamiento/delete_file.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ file: filename }) // Enviar la ruta relativa del archivo
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                loadFiles(currentPath); // Recargar la lista de archivos
-                alert('Archivo o carpeta eliminados con éxito.');
-            } else {
-                alert(data.error || 'Error al eliminar el archivo o carpeta.');
-            }
-        })
-        .catch(error => console.error('Error:', error));
+    if (showingSharedFiles) {
+      localFilesContainer.style.display = 'none';
+      sharedFilesContainer.style.display = 'block';
+      toggleViewBtn.textContent = 'Ver Archivos Locales';
+      loadSharedFiles();
+    } else {
+      sharedFilesContainer.style.display = 'none';
+      localFilesContainer.style.display = 'block';
+      toggleViewBtn.textContent = 'Ver Archivos Compartidos';
+      loadLocalFiles();
     }
+  });
+
+// Cargar archivos locales
+function loadLocalFiles() {
+  fetch(`/pagina_almacenamiento/list_files.php?path=${encodeURIComponent(currentPath)}`)
+    .then(response => response.json())
+    .then(files => {
+      const localFileList = document.getElementById('localFileList');
+      localFileList.innerHTML = '';
+
+      if (files.error) {
+        localFileList.innerHTML = `<li class="list-group-item text-danger">${files.error}</li>`;
+        return;
+      }
+
+      files.forEach(file => {
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+        if (file.is_dir) {
+          // Carpeta
+          listItem.innerHTML = `
+            <span class="folder-name" style="cursor: pointer;" onclick="enterFolder('${file.path}')">${file.name}</span>
+            <div>
+              <button class="btn btn-sm btn-primary" onclick="shareItem('${file.path}', true)">Compartir</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteFile('${file.path}')">Eliminar</button>
+            </div>
+          `;
+        } else {
+          // Archivo
+          listItem.innerHTML = `
+            <span>${file.name}</span>
+            <div>
+              <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(file.path)}" class="btn btn-sm btn-success" download>Descargar</a>
+              <button class="btn btn-sm btn-primary" onclick="shareItem('${file.path}', false)">Compartir</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteFile('${file.path}')">Eliminar</button>
+            </div>
+          `;
+        }
+
+        localFileList.appendChild(listItem);
+      });
+    })
+    .catch(error => {
+      console.error('Error al cargar los archivos locales:', error);
+      document.getElementById('localFileList').innerHTML = `<li class="list-group-item text-danger">Error al cargar los archivos locales.</li>`;
+    });
 }
+
+// Entrar a una carpeta
+function enterFolder(folderPath) {
+  currentPath = folderPath;
+  loadLocalFiles();
+}
+
+// Compartir archivo o carpeta
+function shareItem(itemPath, isFolder) {
+  const recipient = prompt('Introduce el email del destinatario:');
+  if (!recipient) return;
+
+  fetch('/pagina_almacenamiento/share_file.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ file: itemPath, recipient, isFolder })
+  })
+    .then(response => response.json())
+    .then(data => {
+      alert(data.message || 'Elemento compartido con éxito.');
+    })
+    .catch(error => console.error('Error al compartir el elemento:', error));
+}
+
+// Eliminar archivo o carpeta
+function deleteFile(filePath) {
+  if (confirm('¿Estás seguro de que quieres eliminar este archivo o carpeta? Todo su contenido será eliminado.')) {
+    fetch('/pagina_almacenamiento/delete_file.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ file: filePath })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          loadLocalFiles(); // Recargar la lista de archivos
+          alert('Archivo o carpeta eliminados con éxito.');
+        } else {
+          alert(data.error || 'Error al eliminar el archivo o carpeta.');
+        }
+      })
+      .catch(error => console.error('Error al eliminar el archivo o carpeta:', error));
+  }
+}
+
+// Cargar archivos compartidos
+function loadSharedFiles() {
+  fetch('/pagina_almacenamiento/list_shared_folders.php')
+    .then(response => response.json())
+    .then(folders => {
+      const sharedFileList = document.getElementById('sharedFileList');
+      sharedFileList.innerHTML = '';
+
+      if (folders.error) {
+        sharedFileList.innerHTML = `<li class="list-group-item text-danger">${folders.error}</li>`;
+        return;
+      }
+
+      if (folders.length === 0) {
+        sharedFileList.innerHTML = `<li class="list-group-item text-warning">No hay carpetas compartidas disponibles.</li>`;
+        return;
+      }
+
+      folders.forEach(folder => {
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+        listItem.innerHTML = `
+          <span>${folder.name}</span>
+          <div>
+            <a href="${folder.path}" class="btn btn-sm btn-success" target="_blank">Abrir</a>
+          </div>
+        `;
+
+        sharedFileList.appendChild(listItem);
+      });
+    })
+    .catch(error => {
+      console.error('Error al cargar los archivos compartidos:', error);
+      const sharedFileList = document.getElementById('sharedFileList');
+      sharedFileList.innerHTML = `<li class="list-group-item text-danger">Error al cargar los archivos compartidos.</li>`;
+    });
+}
+
+// Cargar archivos locales al inicio
+loadLocalFiles();
+});
+
 function createFolder() {
     const folderName = document.getElementById('folderName').value.trim();
     if (!folderName) {
@@ -115,18 +189,35 @@ function createFolder() {
     })
     .catch(error => console.error('Error:', error));
 }
-function shareItem(itemPath, isFolder) {
-    const recipient = prompt('Introduce el email del destinatario:');
-    if (!recipient) return;
 
-    fetch('/pagina_almacenamiento/share_file.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ file: itemPath, recipient, isFolder })
-    })
+document.addEventListener('DOMContentLoaded', function () {
+  const sharedFolderList = document.getElementById('sharedFolderList');
+
+  // Obtener carpetas compartidas del servidor
+  fetch('/pagina_almacenamiento/list_shared_folders.php')
     .then(response => response.json())
-    .then(data => {
-        alert(data.message || 'Elemento compartido con éxito.');
+    .then(folders => {
+      if (folders.error) {
+        sharedFolderList.innerHTML = `<li class="list-group-item text-danger">${folders.error}</li>`;
+        return;
+      }
+
+      if (folders.length === 0) {
+        sharedFolderList.innerHTML = `<li class="list-group-item text-warning">No hay carpetas compartidas disponibles.</li>`;
+        return;
+      }
+
+      folders.forEach(folder => {
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item';
+        listItem.innerHTML = `
+          <a href="${folder.path}" target="_blank">${folder.name}</a>
+        `;
+        sharedFolderList.appendChild(listItem);
+      });
     })
-    .catch(error => console.error('Error:', error));
-}
+    .catch(error => {
+      console.error('Error al cargar las carpetas compartidas:', error);
+      sharedFolderList.innerHTML = `<li class="list-group-item text-danger">Error al cargar las carpetas compartidas.</li>`;
+    });
+});
