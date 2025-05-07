@@ -126,6 +126,17 @@ function enterFolder(folderPath) {
   document.getElementById('uploadPath').value = currentPath; // Actualizar ruta para subida
 }
 
+// Volver a la carpeta anterior
+function goBack() {
+  if (currentPath) {
+    const pathParts = currentPath.split('/').filter(Boolean);
+    pathParts.pop(); // Eliminar la última carpeta
+    currentPath = pathParts.join('/');
+    loadLocalFiles();
+    document.getElementById('uploadPath').value = currentPath; // Actualizar ruta para subida
+  }
+}
+
 // Compartir archivo o carpeta
 function shareItem(itemPath, isFolder) {
   const recipient = prompt('Introduce el email del destinatario:');
