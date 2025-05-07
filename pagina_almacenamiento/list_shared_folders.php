@@ -7,38 +7,28 @@ if (!isset($_SESSION['id'])) {
 }
 
 $user_id = $_SESSION['id'];
-$base_directory = "/mvmup_stor"; // Directorio base para usuarios
-$path = isset($_GET['path']) ? $_GET['path'] : '';
-$directory = realpath($base_directory . '/' . $path);
 
-// Validar acceso
-$stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path LIKE CONCAT(?, '%')");
-$stmt->bind_param("is", $user_id, $directory);
+// Obtener las rutas de archivos y carpetas compartidos con el usuario
+$stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ?");
+$stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-if ($result->num_rows === 0 || !$directory || strpos($directory, realpath($base_directory)) !== 0) {
-    echo json_encode(['error' => 'Acceso no permitido']);
-    exit;
+$shared_items = [];
+while ($row = $result->fetch_assoc()) {
+    $item_path = $row['file_path'];
+    $shared_items[] = [
+        "name" => basename($item_path),
+        "path" => $item_path,
+        "is_dir" => is_dir($item_path)
+    ];
 }
 
-// Obtener contenido de la carpeta compartida
-if (is_dir($directory)) {
-    $items = array_diff(scandir($directory), ['.', '..']);
-    $result = [];
-
-    foreach ($items as $item) {
-        $item_path = $directory . '/' . $item;
-        $result[] = [
-            'name' => $item,
-            'is_dir' => is_dir($item_path),
-            'path' => $path . '/' . $item
-        ];
-    }
-
-    echo json_encode($result);
+header('Content-Type: application/json');
+if (empty($shared_items)) {
+    echo json_encode(["error" => "No se encontraron archivos o carpetas compartidos."]);
 } else {
-    echo json_encode(['error' => 'La carpeta no existe o no es válida.']);
+    echo json_encode($shared_items);
 }
 
 $conn->close();
