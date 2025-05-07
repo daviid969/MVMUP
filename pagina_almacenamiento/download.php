@@ -6,6 +6,14 @@ $id = $_SESSION['id'];
 
 if (isset($_GET['file'])) {
     $file = realpath($_GET['file']);
+    $base_directory = realpath("/mvmup_stor");
+
+    // Validar que el archivo está dentro del directorio base
+    if (!$file || strpos($file, $base_directory) !== 0) {
+        http_response_code(403);
+        echo "Acceso no permitido.";
+        exit;
+    }
 
     // Verificar si el archivo está compartido con el usuario
     $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
@@ -31,5 +39,9 @@ if (isset($_GET['file'])) {
         echo "No tienes permiso para descargar este archivo.";
         exit;
     }
+} else {
+    http_response_code(400);
+    echo "Archivo no especificado.";
+    exit;
 }
 ?>
