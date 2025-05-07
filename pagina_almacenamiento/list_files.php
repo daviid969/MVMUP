@@ -24,36 +24,23 @@ $result = [];
 
 foreach ($ownFiles as $file) {
     $file_path = $directory . '/' . $file;
-    $result[] = [
-        'name' => $file,
-        'is_dir' => is_dir($file_path),
-        'path' => $path . '/' . $file,
-        'shared' => false
-    ];
-}
 
-// Obtener carpetas compartidas con el usuario desde la tabla `shared_files`
-$stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$sharedFolders = $stmt->get_result();
+    // Excluir archivos que están en la tabla `shared_files`
+    $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE file_path = ? AND owner_id = ?");
+    $stmt->bind_param("si", $file_path, $id);
+    $stmt->execute();
+    $stmt->store_result();
 
-while ($row = $sharedFolders->fetch_assoc()) {
-    $sharedPath = $row['file_path'];
-
-    // Listar el contenido actual de la carpeta compartida
-    if (is_dir($sharedPath)) {
-        $sharedFiles = array_diff(scandir($sharedPath), array('.', '..'));
-        foreach ($sharedFiles as $sharedFile) {
-            $sharedFilePath = $sharedPath . '/' . $sharedFile;
-            $result[] = [
-                'name' => $sharedFile,
-                'is_dir' => is_dir($sharedFilePath),
-                'path' => $sharedFilePath,
-                'shared' => true
-            ];
-        }
+    if ($stmt->num_rows === 0) { // Solo incluir si no está compartido
+        $result[] = [
+            'name' => $file,
+            'is_dir' => is_dir($file_path),
+            'path' => $path . '/' . $file,
+            'shared' => false
+        ];
     }
+
+    $stmt->close();
 }
 
 // Devolver la lista de archivos y carpetas como JSON
