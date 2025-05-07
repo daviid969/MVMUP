@@ -14,6 +14,7 @@ if (isset($_GET['file'])) {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0 && file_exists($file)) {
+        // Configurar cabeceras para la descarga
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . basename($file) . '"');
@@ -21,6 +22,8 @@ if (isset($_GET['file'])) {
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
         header('Content-Length: ' . filesize($file));
+
+        // Leer y enviar el archivo
         readfile($file);
         exit;
     } else {
