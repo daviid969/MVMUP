@@ -7,9 +7,14 @@ $id = $_SESSION['id'];
 if (isset($_GET['file'])) {
     $file = realpath($_GET['file']);
 
-    // Verificar si el archivo está compartido con el usuario
-    $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
-    $stmt->bind_param("is", $id, $file);
+    // Verificar si el archivo o su carpeta padre está compartido con el usuario
+    $stmt = $conn->prepare("
+        SELECT file_path 
+        FROM shared_files 
+        WHERE shared_with_id = ? 
+        AND (file_path = ? OR ? LIKE CONCAT(file_path, '/%'))
+    ");
+    $stmt->bind_param("iss", $id, $file, $file);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -31,5 +36,9 @@ if (isset($_GET['file'])) {
         echo "No tienes permiso para descargar este archivo.";
         exit;
     }
+} else {
+    http_response_code(400);
+    echo "Archivo no especificado.";
+    exit;
 }
 ?>
