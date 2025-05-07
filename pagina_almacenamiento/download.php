@@ -6,6 +6,7 @@ $id = $_SESSION['id'];
 
 if (isset($_GET['file'])) {
     $file = realpath($_GET['file']);
+    $base_directory = "/mvmup_stor/$id";
 
     // Verificar si el archivo pertenece al usuario o está compartido con él
     $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE (shared_with_id = ? OR owner_id = ?) AND file_path = ?");
@@ -13,7 +14,7 @@ if (isset($_GET['file'])) {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if (strpos($file, "/mvmup_stor/$id/") === 0 || $result->num_rows > 0) {
+    if ((strpos($file, realpath($base_directory)) === 0 && file_exists($file)) || $result->num_rows > 0) {
         if (file_exists($file)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
