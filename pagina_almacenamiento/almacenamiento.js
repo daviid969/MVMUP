@@ -95,14 +95,18 @@ function loadSharedFiles() {
 
         if (item.is_dir) {
           listItem.innerHTML = `
-            <span class="folder-name" style="cursor: pointer;">${item.name}</span>
+            <span>
+              <i class="fas fa-folder text-warning me-2"></i>${item.name}
+            </span>
             <div>
               <a href="${item.path}" class="btn btn-sm btn-success" target="_blank">Abrir</a>
             </div>
           `;
         } else {
           listItem.innerHTML = `
-            <span>${item.name}</span>
+            <span>
+              <i class="fas fa-file text-secondary me-2"></i>${item.name}
+            </span>
             <div>
               <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(item.path)}" class="btn btn-sm btn-success" download>Descargar</a>
             </div>
