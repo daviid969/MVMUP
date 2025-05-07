@@ -6,7 +6,6 @@ $id = $_SESSION['id'];
 
 if (isset($_GET['file'])) {
     $file = realpath($_GET['file']);
-    $base_directory = realpath("/mvmup_stor");
 
     // Verificar si el archivo está compartido con el usuario
     $stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
@@ -14,8 +13,7 @@ if (isset($_GET['file'])) {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows > 0 && $file && strpos($file, $base_directory) === 0 && file_exists($file)) {
-        // Configurar cabeceras para la descarga
+    if ($result->num_rows > 0 && file_exists($file)) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . basename($file) . '"');
@@ -23,8 +21,6 @@ if (isset($_GET['file'])) {
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
         header('Content-Length: ' . filesize($file));
-
-        // Leer y enviar el archivo
         readfile($file);
         exit;
     } else {
@@ -32,9 +28,5 @@ if (isset($_GET['file'])) {
         echo "No tienes permiso para descargar este archivo.";
         exit;
     }
-} else {
-    http_response_code(400);
-    echo "Archivo no especificado.";
-    exit;
 }
 ?>
