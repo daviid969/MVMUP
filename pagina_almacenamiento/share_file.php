@@ -41,8 +41,9 @@ if (isset($data['file'], $data['recipient'])) {
         $recipientId = $recipientRow['id'];
 
         // Registrar la compartición en la tabla `shared_files`
-        $stmt = $conn->prepare("INSERT INTO shared_files (owner_id, shared_with_id, file_path) VALUES (?, ?, ?)");
-        $stmt->bind_param("iis", $id, $recipientId, $full_path);
+        $stmt = $conn->prepare("INSERT INTO shared_files (owner_id, shared_with_id, file_path, recursive) VALUES (?, ?, ?, ?)");
+        $recursive = $isFolder ? 1 : 0; // Marcar como recursivo si es una carpeta
+        $stmt->bind_param("iisi", $id, $recipientId, $full_path, $recursive);
 
         if ($stmt->execute()) {
             echo json_encode(['message' => 'Archivo o carpeta compartida con éxito']);
