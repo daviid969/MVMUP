@@ -46,7 +46,9 @@ function loadLocalFiles() {
 
         if (file.is_dir) {
           listItem.innerHTML = `
-            <span class="folder-name" style="cursor: pointer;" onclick="enterFolder('${file.path}')">${file.name}</span>
+            <span class="folder-name" style="cursor: pointer;" onclick="enterFolder('${file.path}')">
+              <i class="fas fa-folder text-warning me-2"></i>${file.name}
+            </span>
             <div>
               <button class="btn btn-sm btn-primary" onclick="shareItem('${file.path}', true)">Compartir</button>
               <button class="btn btn-sm btn-danger" onclick="deleteFile('${file.path}')">Eliminar</button>
@@ -54,7 +56,9 @@ function loadLocalFiles() {
           `;
         } else {
           listItem.innerHTML = `
-            <span>${file.name}</span>
+            <span>
+              <i class="fas fa-file text-secondary me-2"></i>${file.name}
+            </span>
             <div>
               <a href="/pagina_almacenamiento/download_local.php?file=${encodeURIComponent(file.path)}" class="btn btn-sm btn-success" download="${file.name}">Descargar</a>
               <button class="btn btn-sm btn-primary" onclick="shareItem('${file.path}', false)">Compartir</button>
