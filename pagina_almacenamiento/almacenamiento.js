@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Entrar a una carpeta compartida
 function enterSharedFolder(folderPath) {
-  fetch(`/pagina_almacenamiento/list_files.php?path=${encodeURIComponent(folderPath)}`)
+  fetch(`/pagina_almacenamiento/list_shared_files.php?path=${encodeURIComponent(folderPath)}`)
     .then(response => response.json())
     .then(files => {
       const sharedFileList = document.getElementById('sharedFileList');
