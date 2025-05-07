@@ -7,12 +7,20 @@ if (!isset($_SESSION['id'])) {
 }
 
 $user_id = $_SESSION['id'];
+$base_directory = "/mvmup_stor"; // Directorio base para usuarios
+$path = isset($_GET['path']) ? $_GET['path'] : '';
+$directory = realpath($base_directory . '/' . $path);
 
 // Obtener las rutas de archivos y carpetas compartidos con el usuario
-$stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ?");
-$stmt->bind_param("i", $user_id);
+$stmt = $conn->prepare("SELECT file_path FROM shared_files WHERE shared_with_id = ? AND file_path LIKE CONCAT(?, '%')");
+$stmt->bind_param("is", $user_id, $directory);
 $stmt->execute();
 $result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    echo json_encode(["error" => "No se encontraron archivos o carpetas compartidos."]);
+    exit;
+}
 
 $shared_items = [];
 while ($row = $result->fetch_assoc()) {
@@ -25,11 +33,7 @@ while ($row = $result->fetch_assoc()) {
 }
 
 header('Content-Type: application/json');
-if (empty($shared_items)) {
-    echo json_encode(["error" => "No se encontraron archivos o carpetas compartidos."]);
-} else {
-    echo json_encode($shared_items);
-}
+echo json_encode($shared_items);
 
 $conn->close();
 ?>
