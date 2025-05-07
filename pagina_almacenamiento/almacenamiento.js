@@ -134,6 +134,12 @@ function enterFolder(folderPath) {
   }
 }
 
+// Entrar a una carpeta compartida
+function enterSharedFolder(folderPath) {
+  currentSharedPath = folderPath;
+  loadSharedFiles();
+}
+
 // Volver a la carpeta anterior
 function goBack() {
   if (currentPath) {
@@ -148,22 +154,6 @@ function goBack() {
     if (!currentPath && goBackBtn) {
       goBackBtn.style.display = 'none';
     }
-  }
-}
-
-// Entrar a una carpeta compartida
-function enterSharedFolder(folderPath) {
-  currentSharedPath = folderPath;
-  loadSharedFiles();
-}
-
-// Volver a la carpeta anterior en compartidos
-function goBackShared() {
-  if (currentSharedPath) {
-    const pathParts = currentSharedPath.split('/').filter(Boolean);
-    pathParts.pop(); // Eliminar la última carpeta
-    currentSharedPath = pathParts.join('/');
-    loadSharedFiles();
   }
 }
 
