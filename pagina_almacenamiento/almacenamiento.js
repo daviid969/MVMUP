@@ -304,19 +304,17 @@ function goBackSharedFolder() {
     sharedPathStack.pop(); // Eliminar la ruta actual
     const previousPath = sharedPathStack.length > 0 ? sharedPathStack[sharedPathStack.length - 1] : '';
     if (previousPath) {
-      enterSharedFolder(previousPath); // Volver a la carpeta anterior
+      enterSharedFolder(previousPath); 
     } else {
-      loadSharedFiles(); // Cargar la lista inicial de archivos compartidos
+      loadSharedFiles(); 
     }
   } else {
-    loadSharedFiles(); // Cargar la lista inicial de archivos compartidos
+    loadSharedFiles(); 
   }
 
-  // Mostrar u ocultar el botón según el estado de la pila
+  // Ocultar el botón si estamos en la raíz
   const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
   if (sharedPathStack.length === 0 && sharedGoBackBtn) {
     sharedGoBackBtn.style.display = 'none';
-  } else if (sharedGoBackBtn) {
-    sharedGoBackBtn.style.display = 'flex';
   }
 }
