@@ -1,5 +1,6 @@
 let currentPath = ''; // Ruta actual
 let showingSharedFiles = false;
+let sharedPathStack = []; // Pila para rutas de carpetas compartidas
 
 document.addEventListener('DOMContentLoaded', function () {
   const toggleViewBtn = document.getElementById('toggleViewBtn');
@@ -249,6 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Entrar a una carpeta compartida
 function enterSharedFolder(folderPath) {
+  sharedPathStack.push(folderPath); // Guardar la ruta actual en la pila
   fetch(`/pagina_almacenamiento/list_shared_files.php?path=${encodeURIComponent(folderPath)}`)
     .then(response => response.json())
     .then(files => {
@@ -283,9 +285,33 @@ function enterSharedFolder(folderPath) {
 
         sharedFileList.appendChild(listItem);
       });
+
+      // Mostrar el botón de volver atrás
+      const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
+      if (sharedGoBackBtn) {
+        sharedGoBackBtn.style.display = 'flex';
+      }
     })
     .catch(error => {
       console.error('Error al listar los contenidos de la carpeta compartida:', error);
       document.getElementById('sharedFileList').innerHTML = `<li class="list-group-item text-danger">Error al listar los contenidos de la carpeta compartida.</li>`;
     });
+}
+
+// Volver a la carpeta anterior en compartidos
+function goBackSharedFolder() {
+  if (sharedPathStack.length > 1) {
+    sharedPathStack.pop(); // Eliminar la ruta actual
+    const previousPath = sharedPathStack[sharedPathStack.length - 1];
+    enterSharedFolder(previousPath); // Volver a la carpeta anterior
+  } else {
+    sharedPathStack = []; // Reiniciar la pila si estamos en la raíz
+    loadSharedFiles(); // Cargar la lista inicial de archivos compartidos
+
+    // Ocultar el botón si estamos en la raíz
+    const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
+    if (sharedGoBackBtn) {
+      sharedGoBackBtn.style.display = 'none';
+    }
+  }
 }
