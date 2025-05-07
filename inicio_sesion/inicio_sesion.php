@@ -24,17 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $user_folder = "/mvmup_stor/$id";
 
-            // Crear carpeta del usuario si no existe
             if (!file_exists($user_folder)) {
                 if (!mkdir($user_folder, 0777, true)) {
-                    error_log("Error al crear la carpeta del usuario: $user_folder");
-                    echo "Error al crear la carpeta del usuario. Verifica los permisos del sistema de archivos.";
                     exit;
-                } else {
-                    error_log("Carpeta creada correctamente: $user_folder");
-                }
-            } else {
-                error_log("La carpeta ya existe: $user_folder");
+                } 
             }
 
             header('Location: /index.html');
