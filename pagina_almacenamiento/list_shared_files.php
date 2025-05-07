@@ -35,7 +35,7 @@ if (is_dir($full_path)) {
         $item_path = $full_path . DIRECTORY_SEPARATOR . $item;
         $files[] = [
             "name" => $item,
-            "path" => $item_path,
+            "path" => realpath($item_path), // Asegurar rutas absolutas
             "is_dir" => is_dir($item_path)
         ];
     }

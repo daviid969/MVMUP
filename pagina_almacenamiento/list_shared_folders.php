@@ -19,7 +19,7 @@ while ($row = $result->fetch_assoc()) {
     $item_path = $row['file_path'];
     $shared_items[] = [
         "name" => basename($item_path),
-        "path" => $item_path,
+        "path" => realpath($item_path), // Asegurar rutas absolutas
         "is_dir" => is_dir($item_path)
     ];
 }
