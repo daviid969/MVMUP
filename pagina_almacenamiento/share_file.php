@@ -41,7 +41,13 @@ if (isset($data['file'], $data['recipient'])) {
         $recipientId = $recipientRow['id'];
 
         // Registrar la compartición en la tabla `shared_files`
-        $stmt = $conn->prepare("INSERT INTO shared_files (owner_id, shared_with_id, file_path) VALUES (?, ?, ?)");
+        if (is_dir($full_path)) {
+            // Registrar la carpeta como compartida
+            $stmt = $conn->prepare("INSERT INTO shared_files (owner_id, shared_with_id, file_path, is_folder) VALUES (?, ?, ?, 1)");
+        } else {
+            // Registrar el archivo como compartido
+            $stmt = $conn->prepare("INSERT INTO shared_files (owner_id, shared_with_id, file_path, is_folder) VALUES (?, ?, ?, 0)");
+        }
         $stmt->bind_param("iis", $id, $recipientId, $full_path);
 
         if ($stmt->execute()) {

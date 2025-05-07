@@ -24,6 +24,26 @@ while ($row = $result->fetch_assoc()) {
     ];
 }
 
+if (isset($_GET['folder_path'])) {
+    $folder_path = realpath($_GET['folder_path']);
+    if (strpos($folder_path, realpath("/mvmup_stor")) === 0 && is_dir($folder_path)) {
+        $items = array_diff(scandir($folder_path), ['.', '..']);
+        $result = [];
+        foreach ($items as $item) {
+            $item_path = $folder_path . DIRECTORY_SEPARATOR . $item;
+            $result[] = [
+                "name" => $item,
+                "path" => $item_path,
+                "is_dir" => is_dir($item_path)
+            ];
+        }
+        echo json_encode($result);
+        exit;
+    }
+    echo json_encode(["error" => "Acceso no permitido o carpeta no válida."]);
+    exit;
+}
+
 header('Content-Type: application/json');
 if (empty($shared_items)) {
     echo json_encode(["error" => "No se encontraron archivos o carpetas compartidos."]);
