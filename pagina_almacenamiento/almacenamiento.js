@@ -312,9 +312,11 @@ function goBackSharedFolder() {
     loadSharedFiles(); // Cargar la lista inicial de archivos compartidos
   }
 
-  // Ocultar el botón si estamos en la raíz
+  // Mostrar u ocultar el botón según el estado de la pila
   const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
   if (sharedPathStack.length === 0 && sharedGoBackBtn) {
     sharedGoBackBtn.style.display = 'none';
+  } else if (sharedGoBackBtn) {
+    sharedGoBackBtn.style.display = 'flex';
   }
 }
