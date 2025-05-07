@@ -161,7 +161,7 @@ $consulta_temas = mysqli_query($conn, $sql_temas);
 </nav>
 
 <div class="container mt-5 pt-5">
-    <h1 class="text-center mb-4">Bienvenido al Foro</h1>
+    <h1 class="text-center mb-4">Bienvenido al Forum</h1>
 
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
