@@ -1,5 +1,6 @@
 let currentPath = ''; // Ruta actual
 let showingSharedFiles = false;
+let sharedCurrentPath = ''; // Ruta actual para archivos compartidos
 
 document.addEventListener('DOMContentLoaded', function () {
   const toggleViewBtn = document.getElementById('toggleViewBtn');
@@ -78,34 +79,34 @@ function loadLocalFiles() {
 
 // Cargar archivos y carpetas compartidos
 function loadSharedFiles() {
-  fetch('/pagina_almacenamiento/list_shared_folders.php')
+  fetch(`/pagina_almacenamiento/list_shared_files.php?path=${encodeURIComponent(sharedCurrentPath)}`)
     .then(response => response.json())
-    .then(items => {
+    .then(files => {
       const sharedFileList = document.getElementById('sharedFileList');
       sharedFileList.innerHTML = '';
 
-      if (items.error) {
-        sharedFileList.innerHTML = `<li class="list-group-item text-danger">${items.error}</li>`;
+      if (files.error) {
+        sharedFileList.innerHTML = `<li class="list-group-item text-danger">${files.error}</li>`;
         return;
       }
 
-      items.forEach(item => {
+      files.forEach(file => {
         const listItem = document.createElement('li');
         listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
 
-        if (item.is_dir) {
+        if (file.is_dir) {
           listItem.innerHTML = `
-            <span class="folder-name" style="cursor: pointer;" onclick="enterSharedFolder('${item.path}')">
-              <i class="fas fa-folder text-warning me-2"></i>${item.name}
+            <span class="folder-name" style="cursor: pointer;" onclick="enterSharedFolder('${file.path}')">
+              <i class="fas fa-folder text-warning me-2"></i>${file.name}
             </span>
           `;
         } else {
           listItem.innerHTML = `
             <span>
-              <i class="fas fa-file text-secondary me-2"></i>${item.name}
+              <i class="fas fa-file text-secondary me-2"></i>${file.name}
             </span>
             <div>
-              <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(item.path)}" class="btn btn-sm btn-success" download>Descargar</a>
+              <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(file.path)}" class="btn btn-sm btn-success" download>Descargar</a>
             </div>
           `;
         }
@@ -114,9 +115,8 @@ function loadSharedFiles() {
       });
     })
     .catch(error => {
-      console.error('Error al cargar los archivos compartidos:', error);
-      const sharedFileList = document.getElementById('sharedFileList');
-      sharedFileList.innerHTML = `<li class="list-group-item text-danger">Error al cargar los archivos compartidos.</li>`;
+      console.error('Error al listar los contenidos de la carpeta compartida:', error);
+      document.getElementById('sharedFileList').innerHTML = `<li class="list-group-item text-danger">Error al listar los contenidos de la carpeta compartida.</li>`;
     });
 }
 
@@ -249,43 +249,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Entrar a una carpeta compartida
 function enterSharedFolder(folderPath) {
-  fetch(`/pagina_almacenamiento/list_shared_files.php?path=${encodeURIComponent(folderPath)}`)
-    .then(response => response.json())
-    .then(files => {
-      const sharedFileList = document.getElementById('sharedFileList');
-      sharedFileList.innerHTML = '';
+  sharedCurrentPath = folderPath;
+  loadSharedFiles();
+  document.getElementById('sharedGoBackBtn').style.display = 'flex'; // Mostrar botón de retroceso
+}
 
-      if (files.error) {
-        sharedFileList.innerHTML = `<li class="list-group-item text-danger">${files.error}</li>`;
-        return;
-      }
+// Volver a la carpeta anterior en archivos compartidos
+function sharedGoBack() {
+  if (sharedCurrentPath) {
+    const pathParts = sharedCurrentPath.split('/').filter(Boolean);
+    pathParts.pop(); // Eliminar la última carpeta
+    sharedCurrentPath = pathParts.join('/');
+    loadSharedFiles();
 
-      files.forEach(file => {
-        const listItem = document.createElement('li');
-        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-
-        if (file.is_dir) {
-          listItem.innerHTML = `
-            <span class="folder-name" style="cursor: pointer;" onclick="enterSharedFolder('${file.path}')">
-              <i class="fas fa-folder text-warning me-2"></i>${file.name}
-            </span>
-          `;
-        } else {
-          listItem.innerHTML = `
-            <span>
-              <i class="fas fa-file text-secondary me-2"></i>${file.name}
-            </span>
-            <div>
-              <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(file.path)}" class="btn btn-sm btn-success" download>Descargar</a>
-            </div>
-          `;
-        }
-
-        sharedFileList.appendChild(listItem);
-      });
-    })
-    .catch(error => {
-      console.error('Error al listar los contenidos de la carpeta compartida:', error);
-      document.getElementById('sharedFileList').innerHTML = `<li class="list-group-item text-danger">Error al listar los contenidos de la carpeta compartida.</li>`;
-    });
+    // Ocultar el botón si estamos en la raíz
+    if (!sharedCurrentPath) {
+      document.getElementById('sharedGoBackBtn').style.display = 'none';
+    }
+  }
 }
