@@ -77,8 +77,8 @@ function loadLocalFiles() {
 }
 
 // Cargar archivos y carpetas compartidos
-function loadSharedFiles() {
-  fetch('/pagina_almacenamiento/list_shared_folders.php')
+function loadSharedFiles(folderPath = '') {
+  fetch(`/pagina_almacenamiento/list_shared_folders.php?path=${encodeURIComponent(folderPath)}`)
     .then(response => response.json())
     .then(items => {
       const sharedFileList = document.getElementById('sharedFileList');
@@ -95,14 +95,15 @@ function loadSharedFiles() {
 
         if (item.is_dir) {
           listItem.innerHTML = `
-            <span class="folder-name" style="cursor: pointer;">${item.name}</span>
-            <div>
-              <a href="${item.path}" class="btn btn-sm btn-success" target="_blank">Abrir</a>
-            </div>
+            <span class="folder-name" style="cursor: pointer;" onclick="loadSharedFiles('${item.path}')">
+              <i class="fas fa-folder text-warning me-2"></i>${item.name}
+            </span>
           `;
         } else {
           listItem.innerHTML = `
-            <span>${item.name}</span>
+            <span>
+              <i class="fas fa-file text-secondary me-2"></i>${item.name}
+            </span>
             <div>
               <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(item.path)}" class="btn btn-sm btn-success" download>Descargar</a>
             </div>
