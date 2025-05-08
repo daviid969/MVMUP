@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 session_start();
 require_once('../conexion.php');
 
-// Verificar si el usuario está logueado
+// Verificar usuario estar logueado
 if (!isset($_SESSION['id'])) {
     header('Location: /inicio_sesion/index.html');
     exit;
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publicar_tema'])) {
     }
 }
 
-// Editar un tema
+// Editar tema
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_tema'])) {
     $id_tema = $_POST['id_tema'];
     $titulo = mysqli_real_escape_string($conn, $_POST['titulo']);
@@ -260,7 +260,7 @@ $consulta_temas = mysqli_query($conn, $sql_temas);
 function editarTema(id) {
     document.getElementById('tema-titulo-' + id).style.display = 'none';
     document.getElementById('tema-contenido-' + id).style.display = 'none';
-    document.getElementById('input-titulo-' + id).style.display = 'block';
+    document.getElementById('input-tiulo-' + id).style.display = 'block';
     document.getElementById('input-contenido-' + id).style.display = 'block';
     document.getElementById('guardar-tema-' + id).style.display = 'inline-block';
 }
