@@ -32,11 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['fileToUpload'])) {
 
     // Subir el archivo
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        header("Location: /pagina_almacenamiento/index.html?upload=success");
-        exit;
+        echo "El archivo " . basename($_FILES["fileToUpload"]["name"]) . " ha sido subido con éxito.";
     } else {
-        header("Location: /pagina_almacenamiento/index.html?upload=error");
-        exit;
+        echo "Hubo un error al subir tu archivo.";
     }
 }
 ?>

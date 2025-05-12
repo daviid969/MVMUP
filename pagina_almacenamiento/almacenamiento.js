@@ -28,18 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
   loadLocalFiles();
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const uploadStatus = urlParams.get("upload");
-  if (uploadStatus) {
-    const notification = document.createElement("div");
-    notification.className = `notification-${uploadStatus === 'success' ? 'success' : 'error'}`;
-    notification.textContent = uploadStatus === 'success' ? 'Archivo subido con éxito.' : 'Error al subir el archivo.';
-    document.body.appendChild(notification);
-
-    setTimeout(() => notification.remove(), 3000);
-  }
-});
 
 function loadLocalFiles() {
   fetch(`/pagina_almacenamiento/list_files.php?path=${encodeURIComponent(currentPath)}`)
