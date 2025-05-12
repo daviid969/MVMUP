@@ -19,7 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['username'] = $row['username'];
             $_SESSION['id'] = $row['id'];
             $_SESSION['directory'] = $row['directory'];
-            echo "<div class='alert alert-success'>Inicio de sesión exitoso. Redirigiendo...</div>";
             $directory = $row['directory'];
             $id = $row['id'];
 
@@ -33,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             header('Location: /index.html');
         } else {
-            echo "<div class='alert alert-danger'>Contraseña incorrecta.</div>";
+            echo "Contraseña incorrecta.";
         }
     } else {
         echo "Usuario no encontrado.";

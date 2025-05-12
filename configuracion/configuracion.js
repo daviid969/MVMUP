@@ -1,92 +1,89 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function() {
+  function showPopup(message, isSuccess) {
+    const popup = document.createElement('div');
+    popup.className = `popup-message ${isSuccess ? 'success' : 'error'}`;
+    popup.textContent = message;
+    document.body.appendChild(popup);
+    setTimeout(() => popup.remove(), 3000);
+  }
+
   // Cambiar contraseña
   const changePasswordForm = document.getElementById('change-password-form');
-  const passwordMessage = document.getElementById('password-message');
   if (changePasswordForm) {
     changePasswordForm.addEventListener('submit', function(event) {
-      event.preventDefault(); 
+      event.preventDefault();
       const formData = new FormData(changePasswordForm);
       fetch('/configuracion/cambiar_contrasena.php', {
-      method: 'POST',
-      body: formData
+        method: 'POST',
+        body: formData
       })
-      .then(response => response.text()) // Respuesta servidor
+      .then(response => response.text())
       .then(data => {
-        // Mostrar mensaje respuesta
-        passwordMessage.innerHTML = `<div class="alert alert-success">${data}</div>`;
+        showPopup(data, true);
       })
       .catch(error => {
-        // Mensaje error
-        passwordMessage.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+        showPopup(`Error: ${error.message}`, false);
       });
     });
   }
-  
+
   // Cambiar correo
   const changeEmailForm = document.getElementById('change-email-form');
-  const emailMessage = document.getElementById('email-message');
   if (changeEmailForm) {
     changeEmailForm.addEventListener('submit', function(event) {
-    event.preventDefault(); 
-    const formData = new FormData(changeEmailForm);
-    fetch('/configuracion/cambiar_correo.php', {
-      method: 'POST',
-      body: formData
+      event.preventDefault();
+      const formData = new FormData(changeEmailForm);
+      fetch('/configuracion/cambiar_correo.php', {
+        method: 'POST',
+        body: formData
       })
-      .then(response => response.text()) 
+      .then(response => response.text())
       .then(data => {
-        emailMessage.innerHTML = `<div class='alert alert-success'>Correo actualizado correctamente.</div>`;
+        showPopup(data, true);
       })
       .catch(error => {
-        emailMessage.innerHTML = `<div class='alert alert-danger'>Error al actualizar el correo: ${error.message}</div>`;
+        showPopup(`Error: ${error.message}`, false);
       });
     });
   }
-  
+
   // Cambiar nombre de usuario
   const changeUsernameForm = document.getElementById('change-username-form');
-  const usernameMessage = document.getElementById('username-message');
   if (changeUsernameForm) {
     changeUsernameForm.addEventListener('submit', function(event) {
-      event.preventDefault(); 
+      event.preventDefault();
       const formData = new FormData(changeUsernameForm);
       fetch('/configuracion/cambiar_username.php', {
         method: 'POST',
         body: formData
       })
-      .then(response => response.text()) 
+      .then(response => response.text())
       .then(data => {
-        usernameMessage.innerHTML = `<div class='alert alert-success'>Nombre de usuario actualizado correctamente.</div>`;
+        showPopup(data, true);
       })
       .catch(error => {
-        usernameMessage.innerHTML = `<div class='alert alert-danger'>Error al actualizar el nombre de usuario: ${error.message}</div>`;
+        showPopup(`Error: ${error.message}`, false);
       });
     });
   }
 
-  // Cerrar sesion
+  // Cerrar sesión
   const logoutForm = document.getElementById('logout-form');
-  const logoutMessage = document.getElementById('logout-message');
-
   if (logoutForm) {
     logoutForm.addEventListener('submit', function(event) {
-      event.preventDefault(); 
-
+      event.preventDefault();
       fetch('/configuracion/cerrar_sesion.php', {
         method: 'POST'
       })
-      .then(response => response.text()) 
+      .then(response => response.text())
       .then(data => {
-        
-        logoutMessage.innerHTML = `<div class="alert alert-success">${data}</div>`;
-  
+        showPopup(data, true);
         setTimeout(() => {
           window.location.href = '/index.html';
-        }, 2000); // Redirigir 2 segundos
+        }, 2000);
       })
       .catch(error => {
-        
-        logoutMessage.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+        showPopup(`Error: ${error.message}`, false);
       });
     });
   }

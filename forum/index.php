@@ -28,9 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publicar_tema'])) {
     $contenido = mysqli_real_escape_string($conn, $_POST['contenido']);
     $query = "INSERT INTO temas (titulo, contenido, id_usuario, fecha) VALUES ('$titulo', '$contenido', '$user_id', NOW())";
     if (mysqli_query($conn, $query)) {
-        echo "<div class='alert alert-success'>Tema publicado con éxito.</div>";
+        header('Location: index.php');
+        exit();
     } else {
-        echo "<div class='alert alert-danger'>Error al publicar el tema: " . mysqli_error($conn) . "</div>";
+        echo "Error al publicar el tema: " . mysqli_error($conn);
     }
 }
 
@@ -56,9 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['publicar_comentario'])
     $contenido = mysqli_real_escape_string($conn, $_POST['contenido_comentario']);
     $query = "INSERT INTO comentarios (contenido, id_usuario, id_tema, fecha) VALUES ('$contenido', '$user_id', '$id_tema', NOW())";
     if (mysqli_query($conn, $query)) {
-        echo "<div class='alert alert-success'>Comentario publicado con éxito.</div>";
-    } else {
-        echo "<div class='alert alert-danger'>Error al publicar el comentario: " . mysqli_error($conn) . "</div>";
+        header("Location: index.php#tema-$id_tema"); // Redirigir para evitar reenvío de formulario
+        exit();
     }
 }
 
