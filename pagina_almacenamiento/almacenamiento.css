@@ -59,3 +59,24 @@ main {
     background-color: #f0f0f0;
     transform: scale(1.1); 
 }
+
+/* Notificaciones */
+.notification-success, .notification-error {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 14px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.notification-success {
+    background-color: #28a745;
+}
+
+.notification-error {
+    background-color: #dc3545;
+}
