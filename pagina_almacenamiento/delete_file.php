@@ -9,7 +9,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 
 if (!isset($data['file']) || empty($data['file'])) {
-    echo json_encode(['success' => false, 'error' => 'No se especificó el archivo o carpeta a eliminar.']);
+    echo json_encode(['success' => false, 'message' => 'No se especificó el archivo o carpeta a eliminar.']);
     exit;
 }
 
@@ -66,9 +66,9 @@ if (strpos($full_path, realpath($base_directory)) === 0 || $result->num_rows > 0
     }
 
     if (deleteFolderRecursively($full_path, $conn, $id)) {
-        echo json_encode(['success' => true]);
+        echo json_encode(['success' => true, 'message' => 'Archivo o carpeta eliminada con éxito.']);
     } else {
-        echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el archivo o carpeta.']);
+        echo json_encode(['success' => false, 'message' => 'No se pudo eliminar el archivo o carpeta.']);
     }
 } else {
     echo json_encode(['success' => false, 'error' => 'No tienes permiso para eliminar este archivo o carpeta.']);

@@ -4,13 +4,14 @@ session_start();
 $id = $_SESSION['id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['fileToUpload'])) {
+    header('Content-Type: application/json');
     $base_directory = "/mvmup_stor/$id";
     $path = isset($_POST['path']) ? $_POST['path'] : '';
     $target_dir = realpath($base_directory) . '/' . trim($path, '/');
     
     // Verificar que la ruta sea válida
     if (strpos($target_dir, realpath($base_directory)) !== 0) {
-        echo "Acceso no permitido";
+        echo json_encode(['success' => false, 'message' => 'Acceso no permitido']);
         exit;
     }
 
@@ -20,21 +21,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['fileToUpload'])) {
 
     // Verificar si el archivo ya existe
     if (file_exists($target_file)) {
-        echo "El archivo ya existe";
+        echo json_encode(['success' => false, 'message' => 'El archivo ya existe.']);
         exit;
     }
 
     // Verificar el tamaño del archivo (límite: 50MB)
     if ($_FILES["fileToUpload"]["size"] > 50 * 1024 * 1024) {
-        echo "Tu archivo supera el límite de 50MB.";
+        echo json_encode(['success' => false, 'message' => 'Tu archivo supera el límite de 50MB.']);
         exit;
     }
 
     // Subir el archivo
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "El archivo " . basename($_FILES["fileToUpload"]["name"]) . " ha sido subido con éxito.";
+        echo json_encode(['success' => true, 'message' => 'El archivo ha sido subido con éxito.']);
     } else {
-        echo "Hubo un error al subir tu archivo.";
+        echo json_encode(['success' => false, 'message' => 'Hubo un error al subir tu archivo.']);
     }
 }
 ?>

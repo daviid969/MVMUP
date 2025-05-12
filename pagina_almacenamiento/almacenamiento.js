@@ -7,14 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const localFilesContainer = document.getElementById('localFilesContainer');
   const sharedFilesContainer = document.getElementById('sharedFilesContainer');
 
-  function showPopup(message, isSuccess) {
-    const popup = document.createElement('div');
-    popup.className = `popup-message ${isSuccess ? 'success' : 'error'}`;
-    popup.textContent = message;
-    document.body.appendChild(popup);
-    setTimeout(() => popup.remove(), 3000);
-  }
-
+ 
   toggleViewBtn.addEventListener('click', function () {
     showingSharedFiles = !showingSharedFiles;
 
@@ -31,8 +24,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+
   loadLocalFiles();
 });
+
 
 function loadLocalFiles() {
   fetch(`/pagina_almacenamiento/list_files.php?path=${encodeURIComponent(currentPath)}`)
@@ -42,7 +37,7 @@ function loadLocalFiles() {
       localFileList.innerHTML = '';
 
       if (files.error) {
-        showPopup(files.error, false);
+        localFileList.innerHTML = `<li class="list-group-item text-danger">${files.error}</li>`;
         return;
       }
 
@@ -77,9 +72,11 @@ function loadLocalFiles() {
       });
     })
     .catch(error => {
-      showPopup(`Error al cargar los archivos locales: ${error.message}`, false);
+      console.error('Error al cargar los archivos locales:', error);
+      document.getElementById('localFileList').innerHTML = `<li class="list-group-item text-danger">Error al cargar los archivos locales.</li>`;
     });
 }
+
 
 function loadSharedFiles() {
   fetch('/pagina_almacenamiento/list_shared_folders.php')
@@ -129,11 +126,13 @@ function enterFolder(folderPath) {
   loadLocalFiles();
   document.getElementById('uploadPath').value = currentPath; 
 
+  
   const goBackBtn = document.getElementById('goBackBtn');
   if (goBackBtn) {
     goBackBtn.style.display = 'flex'; 
   }
 }
+
 
 function goBack() {
   if (currentPath) {
@@ -143,12 +142,14 @@ function goBack() {
     loadLocalFiles();
     document.getElementById('uploadPath').value = currentPath; 
 
+   
     const goBackBtn = document.getElementById('goBackBtn');
     if (!currentPath && goBackBtn) {
       goBackBtn.style.display = 'none';
     }
   }
 }
+
 
 function shareItem(itemPath, isFolder) {
   const recipient = prompt('Introduce el email del destinatario:');
@@ -161,10 +162,11 @@ function shareItem(itemPath, isFolder) {
   })
     .then(response => response.json())
     .then(data => {
-      showPopup(data.message || 'Elemento compartido con éxito.', true);
+      alert(data.message || 'Elemento compartido con éxito.');
     })
-    .catch(error => showPopup(`Error al compartir el elemento: ${error.message}`, false));
+    .catch(error => console.error('Error al compartir el elemento:', error));
 }
+
 
 function deleteFile(filePath) {
   if (confirm('¿Estás seguro de que quieres eliminar este archivo o carpeta? Todo su contenido será eliminado.')) {
@@ -177,19 +179,19 @@ function deleteFile(filePath) {
       .then(data => {
         if (data.success) {
           loadLocalFiles(); 
-          showPopup('Archivo o carpeta eliminados con éxito.', true);
+          alert('Archivo o carpeta eliminados con éxito.');
         } else {
-          showPopup(data.error || 'Error al eliminar el archivo o carpeta.', false);
+          alert(data.error || 'Error al eliminar el archivo o carpeta.');
         }
       })
-      .catch(error => showPopup(`Error al eliminar el archivo o carpeta: ${error.message}`, false));
+      .catch(error => console.error('Error al eliminar el archivo o carpeta:', error));
   }
 }
 
 function createFolder() {
   const folderName = document.getElementById('folderName').value.trim();
   if (!folderName) {
-    showPopup('Por favor, introduce un nombre para la carpeta.', false);
+    alert('Por favor, introduce un nombre para la carpeta.');
     return;
   }
 
@@ -202,15 +204,15 @@ function createFolder() {
     .then(data => {
       if (data.success) {
         loadLocalFiles();
-        showPopup('Carpeta creada con éxito', true);
+        alert('Carpeta creada con éxito');
         document.getElementById('folderName').value = '';
         const modal = bootstrap.Modal.getInstance(document.getElementById('createFolderModal'));
         modal.hide(); 
       } else {
-        showPopup(data.error || 'Error al crear la carpeta', false);
+        alert(data.error || 'Error al crear la carpeta');
       }
     })
-    .catch(error => showPopup(`Error: ${error.message}`, false));
+    .catch(error => console.error('Error:', error));
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -243,6 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
       sharedFolderList.innerHTML = `<li class="list-group-item text-danger">Error al cargar las carpetas compartidas.</li>`;
     });
 });
+
 
 function enterSharedFolder(folderPath) {
   sharedPathStack.push(folderPath); 
@@ -281,6 +284,7 @@ function enterSharedFolder(folderPath) {
         sharedFileList.appendChild(listItem);
       });
 
+     
       const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
       if (sharedGoBackBtn) {
         sharedGoBackBtn.style.display = 'flex';
@@ -291,6 +295,7 @@ function enterSharedFolder(folderPath) {
       document.getElementById('sharedFileList').innerHTML = `<li class="list-group-item text-danger">Error al listar los contenidos de la carpeta compartida.</li>`;
     });
 }
+
 
 function goBackSharedFolder() {
   if (sharedPathStack.length > 0) {
@@ -305,6 +310,7 @@ function goBackSharedFolder() {
     loadSharedFiles(); 
   }
 
+  
   const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
   if (sharedPathStack.length === 0 && sharedGoBackBtn) {
     sharedGoBackBtn.style.display = 'none';

@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+header('Content-Type: application/json');
+
 $id = $_SESSION['id'];
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -15,12 +17,12 @@ if (isset($data['folder'])) {
 
     if (!file_exists($folder)) {
         if (mkdir($folder, 0775, true)) {
-            echo json_encode(['success' => true]);
+            echo json_encode(['success' => true, 'message' => 'Carpeta creada con éxito.']);
         } else {
-            echo json_encode(['error' => 'No se pudo crear la carpeta']);
+            echo json_encode(['success' => false, 'message' => 'No se pudo crear la carpeta.']);
         }
     } else {
-        echo json_encode(['error' => 'La carpeta ya existe']);
+        echo json_encode(['success' => false, 'message' => 'La carpeta ya existe.']);
     }
 }
 ?>

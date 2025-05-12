@@ -7,6 +7,7 @@ if (isset($_GET['file'])) {
     $base_directory = realpath("/mvmup_stor/$id");
     $file = realpath($base_directory . '/' . ltrim($_GET['file'], '/'));
 
+    header('Content-Type: application/json');
     
     if ($file && strpos($file, $base_directory) === 0 && file_exists($file)) {
        
@@ -21,8 +22,7 @@ if (isset($_GET['file'])) {
         readfile($file);
         exit;
     } else {
-        http_response_code(403);
-        echo "No tienes permiso para descargar este archivo.";
+        echo json_encode(['success' => false, 'message' => 'No tienes permiso para descargar este archivo.']);
         exit;
     }
 } else {

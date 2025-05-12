@@ -7,6 +7,7 @@ $id = $_SESSION['id'];
 if (isset($_GET['file'])) {
     $file = realpath($_GET['file']);
 
+    header('Content-Type: application/json');
     
     $stmt = $conn->prepare("
         SELECT file_path 
@@ -32,8 +33,7 @@ if (isset($_GET['file'])) {
         readfile($file);
         exit;
     } else {
-        http_response_code(403);
-        echo "No tienes permiso para descargar este archivo.";
+        echo json_encode(['success' => false, 'message' => 'No tienes permiso para descargar este archivo.']);
         exit;
     }
 } else {

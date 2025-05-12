@@ -1,24 +1,16 @@
 document.getElementById('register-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-
-    function showPopup(message, isSuccess) {
-        const popup = document.createElement('div');
-        popup.className = `popup-message ${isSuccess ? 'success' : 'error'}`;
-        popup.textContent = message;
-        document.body.appendChild(popup);
-        setTimeout(() => popup.remove(), 3000);
-    }
-
+    const formData = new FormData(this); 
+    const messageDiv = document.getElementById('message'); 
     fetch('registro.php', {
         method: 'POST',
         body: formData
     })
     .then(response => response.json())
     .then(data => {
-        showPopup(data.message, data.success);
+        if (data.success) {
+            messageDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+        } else {
+            messageDiv.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+        }
     })
-    .catch(error => {
-        showPopup(`Error: ${error.message}`, false);
-    });
-});
+}); 
