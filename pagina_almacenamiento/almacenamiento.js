@@ -41,6 +41,11 @@ function loadLocalFiles() {
         return;
       }
 
+      if (files.length === 0) {
+        localFileList.innerHTML = `<li class="list-group-item text-warning">No hay archivos disponibles en esta carpeta.</li>`;
+        return;
+      }
+
       files.forEach(file => {
         const listItem = document.createElement('li');
         listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
@@ -70,6 +75,8 @@ function loadLocalFiles() {
 
         localFileList.appendChild(listItem);
       });
+
+      alert('Archivos locales cargados con éxito.');
     })
     .catch(error => {
       console.error('Error al cargar los archivos locales:', error);
@@ -87,6 +94,11 @@ function loadSharedFiles() {
 
       if (items.error) {
         sharedFileList.innerHTML = `<li class="list-group-item text-danger">${items.error}</li>`;
+        return;
+      }
+
+      if (items.length === 0) {
+        sharedFileList.innerHTML = `<li class="list-group-item text-warning">No hay archivos compartidos disponibles.</li>`;
         return;
       }
 
@@ -113,6 +125,8 @@ function loadSharedFiles() {
 
         sharedFileList.appendChild(listItem);
       });
+
+      alert('Archivos compartidos cargados con éxito.');
     })
     .catch(error => {
       console.error('Error al cargar los archivos compartidos:', error);

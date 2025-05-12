@@ -35,10 +35,10 @@ document.addEventListener("DOMContentLoaded", function() {
       })
       .then(response => response.text()) 
       .then(data => {
-        emailMessage.innerHTML = `<div class="alert alert-success">${data}</div>`;
+        emailMessage.innerHTML = `<div class='alert alert-success'>Correo actualizado correctamente.</div>`;
       })
       .catch(error => {
-        emailMessage.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+        emailMessage.innerHTML = `<div class='alert alert-danger'>Error al actualizar el correo: ${error.message}</div>`;
       });
     });
   }
@@ -56,10 +56,10 @@ document.addEventListener("DOMContentLoaded", function() {
       })
       .then(response => response.text()) 
       .then(data => {
-        usernameMessage.innerHTML = `<div class="alert alert-success">${data}</div>`;
+        usernameMessage.innerHTML = `<div class='alert alert-success'>Nombre de usuario actualizado correctamente.</div>`;
       })
       .catch(error => {
-        usernameMessage.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+        usernameMessage.innerHTML = `<div class='alert alert-danger'>Error al actualizar el nombre de usuario: ${error.message}</div>`;
       });
     });
   }
