@@ -330,3 +330,25 @@ function goBackSharedFolder() {
     sharedGoBackBtn.style.display = 'none';
   }
 }
+
+document.getElementById('uploadForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const storageMessage = document.getElementById('storage-message');
+
+  fetch('/pagina_almacenamiento/upload.php', {
+    method: 'POST',
+    body: formData
+  })
+    .then(response => response.text())
+    .then(data => {
+      if (data.includes('ha sido subido con éxito')) {
+        storageMessage.innerHTML = `<div class='alert alert-success'>${data}</div>`;
+      } else {
+        storageMessage.innerHTML = `<div class='alert alert-danger'>${data}</div>`;
+      }
+    })
+    .catch(error => {
+      storageMessage.innerHTML = `<div class='alert alert-danger'>Error al subir el archivo: ${error.message}</div>`;
+    });
+});
