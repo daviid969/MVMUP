@@ -28,6 +28,28 @@ document.addEventListener('DOMContentLoaded', function () {
   loadLocalFiles();
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const uploadStatus = urlParams.get('upload');
+
+    if (uploadStatus) {
+        const notification = document.createElement('div');
+        notification.textContent = uploadStatus === 'success' ? 'Archivo subido correctamente' : 'Error al subir el archivo';
+        notification.style.position = 'fixed';
+        notification.style.bottom = '10px';
+        notification.style.left = '10px';
+        notification.style.backgroundColor = uploadStatus === 'success' ? '#4CAF50' : '#F44336';
+        notification.style.color = 'white';
+        notification.style.padding = '10px';
+        notification.style.borderRadius = '5px';
+        notification.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.2)';
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 5000);
+    }
+});
 
 function loadLocalFiles() {
   fetch(`/pagina_almacenamiento/list_files.php?path=${encodeURIComponent(currentPath)}`)
