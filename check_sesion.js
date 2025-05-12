@@ -1,20 +1,25 @@
 document.addEventListener("DOMContentLoaded", function() {
+  function showPopup(message, isSuccess) {
+    const popup = document.createElement('div');
+    popup.className = `popup-message ${isSuccess ? 'success' : 'error'}`;
+    popup.textContent = message;
+    document.body.appendChild(popup);
+    setTimeout(() => popup.remove(), 3000);
+  }
+
   fetch('/check_session.php') 
     .then(response => response.json()) 
     .then(data => {
       if (data.loggedIn) {
-        // Si iniciado sesion actualiza navbar
-        const authLink = document.getElementById('auth-link');
-        authLink.innerHTML = '<a class="nav-link" href="/configuracion/index.html">Configuración</a>';
-
-        // Mostrar nombre de usuario en footer
-        document.getElementById('username').textContent = data.username;
+        showPopup(`Bienvenido, ${data.username}`, true);
       } else {
-        // Si no iniciado sesion redirigir login
-        window.location.href = '/inicio_sesion/index.html';
+        showPopup('Redirigiendo al inicio de sesión...', false);
+        setTimeout(() => {
+          window.location.href = '/inicio_sesion/index.html';
+        }, 2000);
       }
     })
     .catch(error => {
-      console.error('Error al verificar la sesión:', error);
+      showPopup('Error al verificar la sesión: ' + error.message, false);
     });
 });
