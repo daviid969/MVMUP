@@ -7,50 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const localFilesContainer = document.getElementById('localFilesContainer');
   const sharedFilesContainer = document.getElementById('sharedFilesContainer');
 
-  const pathDisplay = document.createElement('div');
-  pathDisplay.id = 'pathDisplay';
-  pathDisplay.style.marginBottom = '10px';
-  pathDisplay.style.fontWeight = 'bold';
-  document.getElementById('localFilesContainer').prepend(pathDisplay);
-
-  function updatePathDisplay() {
-    const pathDisplay = document.getElementById('pathDisplay');
-    pathDisplay.textContent = `Ruta actual: /${currentPath}`;
-  }
-
-  updatePathDisplay();
-
-  function enterFolder(folderPath) {
-    currentPath = folderPath;
-    loadLocalFiles();
-    updatePathDisplay();
-    document.getElementById('uploadPath').value = currentPath;
-
-    const goBackBtn = document.getElementById('goBackBtn');
-    if (goBackBtn) {
-      goBackBtn.style.display = 'flex';
-    }
-  }
-
-  function goBack() {
-    if (currentPath) {
-      const pathParts = currentPath.split('/').filter(Boolean);
-      pathParts.pop();
-      currentPath = pathParts.join('/');
-      loadLocalFiles();
-      updatePathDisplay();
-      document.getElementById('uploadPath').value = currentPath;
-
-      const goBackBtn = document.getElementById('goBackBtn');
-      if (!currentPath && goBackBtn) {
-        goBackBtn.style.display = 'none';
-      }
-    }
-  }
-
-  window.enterFolder = enterFolder;
-  window.goBack = goBack;
-
+ 
   toggleViewBtn.addEventListener('click', function () {
     showingSharedFiles = !showingSharedFiles;
 
@@ -67,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+
   loadLocalFiles();
 });
 
@@ -75,9 +33,9 @@ function loadLocalFiles() {
   fetch(`/pagina_almacenamiento/list_files.php?path=${encodeURIComponent(currentPath)}`)
     .then(response => response.json())
     .then(files => {
+      updateBreadcrumb(currentPath);
       const localFileList = document.getElementById('localFileList');
       localFileList.innerHTML = '';
-      localFileList.innerHTML = `<li class="alert alert-success">${data}</li>`;
 
       if (files.error) {
         localFileList.innerHTML = `<li class="list-group-item text-danger">${files.error}</li>`;
@@ -152,7 +110,6 @@ function loadSharedFiles() {
               <a href="/pagina_almacenamiento/download.php?file=${encodeURIComponent(item.path)}" class="btn btn-sm btn-success" download>Descargar</a>
             </div>
           `;
-          listItem.innerHTML = `<li class="alert alert-success">${data}</li>`;
         }
 
         sharedFileList.appendChild(listItem);
@@ -164,6 +121,38 @@ function loadSharedFiles() {
       sharedFileList.innerHTML = `<li class="list-group-item text-danger">Error al cargar los archivos compartidos.</li>`;
     });
 }
+
+function enterFolder(folderPath) {
+  currentPath = folderPath;
+  loadLocalFiles();
+  document.getElementById('uploadPath').value = currentPath; 
+  updateBreadcrumb(currentPath);
+
+  
+  const goBackBtn = document.getElementById('goBackBtn');
+  if (goBackBtn) {
+    goBackBtn.style.display = 'flex'; 
+  }
+}
+
+
+function goBack() {
+  if (currentPath) {
+    const pathParts = currentPath.split('/').filter(Boolean);
+    pathParts.pop(); 
+    currentPath = pathParts.join('/');
+    loadLocalFiles();
+    document.getElementById('uploadPath').value = currentPath; 
+    updateBreadcrumb(currentPath);
+
+   
+    const goBackBtn = document.getElementById('goBackBtn');
+    if (!currentPath && goBackBtn) {
+      goBackBtn.style.display = 'none';
+    }
+  }
+}
+
 
 function shareItem(itemPath, isFolder) {
   const recipient = prompt('Introduce el email del destinatario:');
@@ -329,4 +318,29 @@ function goBackSharedFolder() {
   if (sharedPathStack.length === 0 && sharedGoBackBtn) {
     sharedGoBackBtn.style.display = 'none';
   }
+}
+
+function updateBreadcrumb(path) {
+  const breadcrumb = document.getElementById('breadcrumb');
+  breadcrumb.innerHTML = '<li class="breadcrumb-item"><a href="#" onclick="navigateToRoot()">Inicio</a></li>';
+
+  if (path) {
+    const parts = path.split('/').filter(Boolean);
+    let accumulatedPath = '';
+
+    parts.forEach((part, index) => {
+      accumulatedPath += '/' + part;
+      if (index === parts.length - 1) {
+        breadcrumb.innerHTML += `<li class="breadcrumb-item active" aria-current="page">${part}</li>`;
+      } else {
+        breadcrumb.innerHTML += `<li class="breadcrumb-item"><a href="#" onclick="enterFolder('${accumulatedPath}')">${part}</a></li>`;
+      }
+    });
+  }
+}
+
+function navigateToRoot() {
+  currentPath = '';
+  loadLocalFiles();
+  updateBreadcrumb(currentPath);
 }
