@@ -24,6 +24,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // Eliminamos el botón de volver de la sección de archivos locales
+  const goBackBtn = document.getElementById('goBackBtn');
+  if (goBackBtn) {
+    goBackBtn.remove();
+  }
+
+  // Eliminamos el botón de volver de la sección de archivos compartidos
+  const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
+  if (sharedGoBackBtn) {
+    sharedGoBackBtn.remove();
+  }
 
   loadLocalFiles();
 });
@@ -127,12 +138,6 @@ function enterFolder(folderPath) {
   loadLocalFiles();
   document.getElementById('uploadPath').value = currentPath; 
   updateBreadcrumb(currentPath);
-
-  
-  const goBackBtn = document.getElementById('goBackBtn');
-  if (goBackBtn) {
-    goBackBtn.style.display = 'flex'; 
-  }
 }
 
 
@@ -144,12 +149,6 @@ function goBack() {
     loadLocalFiles();
     document.getElementById('uploadPath').value = currentPath; 
     updateBreadcrumb(currentPath);
-
-   
-    const goBackBtn = document.getElementById('goBackBtn');
-    if (!currentPath && goBackBtn) {
-      goBackBtn.style.display = 'none';
-    }
   }
 }
 
@@ -286,12 +285,6 @@ function enterSharedFolder(folderPath) {
 
         sharedFileList.appendChild(listItem);
       });
-
-     
-      const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
-      if (sharedGoBackBtn) {
-        sharedGoBackBtn.style.display = 'flex';
-      }
     })
     .catch(error => {
       console.error('Error al listar los contenidos de la carpeta compartida:', error);
@@ -311,12 +304,6 @@ function goBackSharedFolder() {
     }
   } else {
     loadSharedFiles(); 
-  }
-
-  
-  const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
-  if (sharedPathStack.length === 0 && sharedGoBackBtn) {
-    sharedGoBackBtn.style.display = 'none';
   }
 }
 
