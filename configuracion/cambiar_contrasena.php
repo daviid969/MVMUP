@@ -14,10 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Obtener ID de usuario
+    // Obtener ID usuario
     $id = $_SESSION['id'];
 
-    // Obtener contraseña actual de usuario
+    // Obtener contraseña actual usuario
     $sql = "SELECT password FROM usuarios WHERE id = $user_id";
     $result = $conn->query($sql);
 
@@ -25,12 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
         $stored_password = $row['password'];
 
-        // Verificar la contraseña actual
+        // Verificar contraseña actual
         if (password_verify($current_password, $stored_password)) {
-            // Encriptar la nueva contraseña
+            // Encriptar contraseña
             $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
 
-            // Actualizar la contraseña
+            // Actualizar contraseña
             $update_sql = "UPDATE usuarios SET password = '$hashed_new_password' WHERE id = $user_id";
             if ($conn->query($update_sql) === TRUE) {
                 echo "Contraseña actualizada correctamente.";
