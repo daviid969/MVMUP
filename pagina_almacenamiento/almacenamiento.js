@@ -1,3 +1,4 @@
+
 let currentPath = ''; 
 let showingSharedFiles = false;
 let sharedPathStack = []; 
@@ -37,12 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
       loadLocalFiles();
     }
   });
-
-  
-  const goBackBtn = document.getElementById('goBackBtn');
-  if (goBackBtn) {
-    goBackBtn.remove();
-  }
 
 
   const sharedGoBackBtn = document.getElementById('sharedGoBackBtn');
@@ -221,7 +216,7 @@ function showDeleteConfirmModal(filePath) {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
           <div class="modal-body">
-            <p>¿Estás seguro de que quieres eliminar este archivo o carpeta? Todo su contenido será eliminado.</p>
+            <p>Estás seguro de que quieres eliminar este archivo o carpeta? Todo su contenido será eliminado.</p>
           </div>
           <div class="modal-footer">
             <button type="button" id="cancelDeleteBtn" class="btn btn-danger" style="background-color: #6c757d; border-color: #6c757d;">Cancelar</button>
@@ -270,10 +265,6 @@ function actuallyDeleteFile() {
       console.error('Error al eliminar el archivo o carpeta:', error);
       fileToDeletePath = null;
     });
-}
-
-function deleteFile(filePath) {
-  showDeleteConfirmModal(filePath);
 }
 
 function createFolder() {
@@ -449,14 +440,10 @@ function updateSharedBreadcrumb() {
   sharedBreadcrumb.innerHTML = '<li class="breadcrumb-item"><a href="#" onclick="navigateToSharedRoot()">Inicio</a></li>';
 
   if (sharedPathStack.length > 0) {
-    // Tomar la ruta absoluta actual
+    // Tomar ruta absoluta actual
     const currentSharedPath = sharedPathStack[sharedPathStack.length - 1];
-    // Dividir la ruta en partes
+    // Dividir ruta en partes
     const parts = currentSharedPath.split('/').filter(Boolean);
-
-    // Quitar las dos primeras carpetas (root y usuario)
-    // Ejemplo: /mvmup_stor/123/mi/carpeta/compartida -> ["mvmup_stor", "123", "mi", "carpeta", "compartida"]
-    // Mostramos solo ["mi", "carpeta", "compartida"]
     const visibleParts = parts.slice(2);
 
     let accumulatedPath = parts.slice(0, 2).join('/'); // /mvmup_stor/123
@@ -558,7 +545,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function removeSharedAccess(filePath) {
-  if (!confirm('¿Seguro que quieres eliminar tu acceso a este archivo o carpeta compartida?')) return;
+  if (!confirm('Seguro que quieres eliminar tu acceso a este archivo o carpeta compartida?')) return;
   fetch('/pagina_almacenamiento/remove_shared_access.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
