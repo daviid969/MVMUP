@@ -20,7 +20,7 @@ if (!$full_path) {
     exit;
 }
 
-// Eliminar solo el registro de acceso para este usuario
+// Eliminar acceso al usuario seleccionado
 $stmt = $conn->prepare("DELETE FROM shared_files WHERE shared_with_id = ? AND file_path = ?");
 $stmt->bind_param("is", $id, $full_path);
 

@@ -440,13 +440,13 @@ function updateSharedBreadcrumb() {
   sharedBreadcrumb.innerHTML = '<li class="breadcrumb-item"><a href="#" onclick="navigateToSharedRoot()">Inicio</a></li>';
 
   if (sharedPathStack.length > 0) {
-    // Tomar ruta absoluta actual
+    // Tomar ruta absoluta
     const currentSharedPath = sharedPathStack[sharedPathStack.length - 1];
     // Dividir ruta en partes
     const parts = currentSharedPath.split('/').filter(Boolean);
     const visibleParts = parts.slice(2);
 
-    let accumulatedPath = parts.slice(0, 2).join('/'); // /mvmup_stor/123
+    let accumulatedPath = parts.slice(0, 2).join('/');
 
     visibleParts.forEach((part, idx) => {
       accumulatedPath += '/' + part;
