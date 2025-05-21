@@ -260,8 +260,8 @@ $consulta_temas = mysqli_query($conn, $sql_temas);
 function editarTema(id) {
     document.getElementById('tema-titulo-' + id).style.display = 'none';
     document.getElementById('tema-contenido-' + id).style.display = 'none';
-    document.getElementById('campo-tiulo-' + id).style.display = 'block';
-    document.getElementById('campo-contenido-' + id).style.display = 'block';
+    document.getElementById('input-titulo-' + id).style.display = 'block';
+    document.getElementById('input-contenido-' + id).style.display = 'block';
     document.getElementById('guardar-tema-' + id).style.display = 'inline-block';
 }
 
